@@ -1,6 +1,6 @@
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 
-const Profile = () => {
+const Favorite = () => {
   return (
     <Box flex={1} justifyContent='center' bgColor='#F5F5F5' alignItems='center'>
       <Heading>Home</Heading>
@@ -8,4 +8,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default Favorite
