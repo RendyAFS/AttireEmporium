@@ -1,59 +1,56 @@
 
-import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-// Functional Component with props
-const Header = (props) => {
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
+import { GluestackUIProvider, Heading, Pressable, Box, Image, Text, HStack, Input, InputField } from "@gluestack-ui/themed";
+import { TouchableOpacity } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
+import React from 'react'
+
+const Header = ({ title, withBack = false }) => {
+  const trueGray900 = "#171717";
+  const navigation = useNavigation();
   return (
-    <View style={styles.header}>
-      <TouchableOpacity onPress={() => props.drawer.current.openDrawer()}>
-        <Image
-          source={require("../assets/menu.png")}
-          style={{ width: 18, height: 18 }}
-        />
-      </TouchableOpacity>
-      <View>
-        <View style={styles.iconsView}>
-          <Image
-            source={require("../assets/facebook.png")}
-            style={styles.icons}
-          />
-          <Image
-            source={require("../assets/youtube.png")}
-            style={styles.icons}
-          />
-          <Image
-            source={require("../assets/twitter.png")}
-            style={styles.icons}
-          />
-          <Image
-            source={require("../assets/search.png")}
-            style={styles.icons}
-          />
-        </View>
-      </View>
-    </View>
+    <SafeAreaView>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
+      <Box bg={"white"} p={"5"} height={60}>
+        <HStack marginTop={10}>
+          <Pressable onPress={() => navigation.navigate('Profile')}>
+            <Image marginEnd={20}
+              marginStart={10}
+              marginTop={2}
+              source={require("../assets/images/anonim.jpg")}
+              width={35}
+              height={35}
+              alt="CNN Logo"
+              rounded={30}
+            />
+          </Pressable>
+
+          <Input
+            width={"68%"}
+            variant="outline"
+            size="sm"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
+            backgroundColor="#F5F5F5"
+            marginTop={2}
+            borderWidth={0}
+          >
+            <InputField marginStart={30} placeholder="Cari Costum disini" />
+          </Input>
+          <Box position="absolute" marginLeft={70} marginTop={7}>
+            <Ionicons name="search" size={24} color="#DF9B52" />
+          </Box>
+          <Ionicons name="menu-sharp"
+            marginStart={10}
+            size={37} color="#DF9B52" />
+        </HStack>
+      </Box>
+    </SafeAreaView>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: "#AA0002",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
-  },
-  iconsView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  icons: {
-    width: 36,
-    height: 16,
-    resizeMode: "contain",
-  },
-});
 
 export default Header;
 

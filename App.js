@@ -3,12 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
-import { Ionicons, AntDesign, MaterialCommunityIcons,MaterialIcons } from "@expo/vector-icons";
-import Katalog from "./screens/Home";
-import Profile from "./screens/Profile";
-import Home from "./screens/Home";
-import Favorite from "./screens/Favorite";
-import History from "./screens/History";
+import { Ionicons,  MaterialCommunityIcons,MaterialIcons } from "@expo/vector-icons";
+import {Home, History,Favorite,Profile} from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +44,7 @@ const Tabs = () => {
         tabBarStyle: {
           height: 70,
           borderTopWidth: 1,
+          backgroundColor: "#313C47"
         },
         tabBarLabel: ({ children, color, focused }) => {
           return (
