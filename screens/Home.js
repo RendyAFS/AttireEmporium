@@ -67,14 +67,14 @@ const Home = (props) => {
   const [entries, setEntries] = useState(ENTRIES1);
   const [entries2, setEntries2] = useState(ENTRIES2);
   const carouselRef = useRef(null);
-  const fontColor = "#313C47"
+  // const fontColor = "#313C47"
   const goForward = () => {
     if (carouselRef.current) {
       carouselRef.current.snapToNext();
     }
   };
 
-  const renderItem = ({ item, index }, parallaxProps) => {
+  const renderItem = ({ item }, parallaxProps) => {
     return (
       <View style={styles.item}>
         <ParallaxImage
@@ -83,7 +83,7 @@ const Home = (props) => {
           style={styles.image}
           parallaxFactor={0.4}
           {...parallaxProps}
-          role={'image'}
+          role='img'
         />
         <Text style={styles.title} numberOfLines={2}>
           {item.title}
@@ -91,7 +91,7 @@ const Home = (props) => {
       </View>
     );
   };
-  const renderKategori = ({ item, index }, parallaxProps) => {
+  const renderKategori = ({ item }, parallaxProps) => {
     return (
       <Box width={screenWidth - 200} height={screenWidth - 200}>
         <ParallaxImage
@@ -105,7 +105,7 @@ const Home = (props) => {
           style={styles.image}
           parallaxFactor={0.2}
           {...parallaxProps}
-          role={'image'}
+          role='img'
         />
         <Text numberOfLines={2}>
           {item.title}
