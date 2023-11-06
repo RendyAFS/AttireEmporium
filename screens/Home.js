@@ -3,7 +3,7 @@ import { GluestackUIProvider, Heading, Box, Text, ScrollView, HStack } from "@gl
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
-import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+
 
 const ENTRIES1 = [
   {
