@@ -34,29 +34,24 @@ const ENTRIES1 = [
 ];
 const ENTRIES2 = [
   {
-    title: 'Bajussss',
+    title: 'Baju Game',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://s1.bukalapak.com/img/61981045003/s-463-463/data.jpeg.webp',
+    illustration: 'https://cdn.dribbble.com/users/1070235/screenshots/3972823/juggernaut_dota_2.png ',
   },
   {
-    title: 'Baju Ara Ara johanesssss',
+    title: 'Baju Perang',
     subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://imgx.parapuan.co/crop/0x0:0x0/x/photo/2023/05/13/rekomendasi-kostum-cosplayjpg-20230513023735.jpg',
+    illustration: 'https://i.pinimg.com/1200x/1f/41/0a/1f410ac36e6462007bfc5450656718ea.jpg',
   },
   {
-    title: 'White Pocket Sunset asdasd',
+    title: 'Baju Wibu',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
     illustration: 'https://ae01.alicdn.com/kf/Sa6a1a7d75991407fb655297f32e642ebS/Baju-Seragam-Cosplay-Anime-YouTuber-Vumbi-Hololive-Mayuni-Fuyuko-Pakaian-Seragam-Kostum-Cosplay-Kustom-Permainan-Pakaian.jpg',
   },
   {
-    title: 'Acrocorinth, Greece adssad',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://i.imgur.com/KZsmUi2l.jpg',
-  },
-  {
-    title: 'Baju Japir asdasd',
+    title: 'Baju Partai',
     subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.imgur.com/2nCt3Sbl.jpg',
+    illustration: 'https://asset.kompas.com/crops/U3mPvwHDHwgEp47O5qdnXpa0USg=/0x0:779x519/780x390/data/photo/2021/10/15/61698c7aece86.jpg',
   },
 ];
 
@@ -93,7 +88,7 @@ const Home = (props) => {
   };
   const renderKategori = ({ item, index }, parallaxProps) => {
     return (
-      <Box width={screenWidth - 200} height={screenWidth - 200}>
+      <Box width={screenWidth - 210} height={screenWidth - 210}>
         <ParallaxImage
           source={{ uri: item.illustration }}
           containerStyle={{
@@ -103,11 +98,11 @@ const Home = (props) => {
             borderRadius: 8,
           }}
           style={styles.image}
-          parallaxFactor={0.2}
+          parallaxFactor={0.1}
           {...parallaxProps}
           role={'image'}
         />
-        <Text numberOfLines={2}>
+        <Text textAlign='center' numberOfLines={2}>
           {item.title}
         </Text>
       </Box>
@@ -138,19 +133,20 @@ const Home = (props) => {
         />
       </Box>
       <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={50} >
-        <HStack>
-          <Heading marginStart={30} marginTop={10} color={'black'}>Categories</Heading>
+        <HStack justifyContent="center">
+          <Box flex={1} borderBottomWidth={1} borderColor='#DF9B52' />
+          <Heading flex={1} marginStart={30} marginTop={10} color={'black'}>Categories</Heading>
+          <Box flex={1} borderBottomWidth={1} borderColor='#DF9B52' />
         </HStack>
         <Carousel
-          marginTop={10}
+          marginTop={20}
           ref={carouselRef}
           sliderWidth={screenWidth}
           sliderHeight={screenWidth}
-          itemWidth={screenWidth - 200}
+          itemWidth={screenWidth - 210}
           data={entries2}
           renderItem={renderKategori}
           hasParallaxImages={true}
-          loop={true}
         />
       </Box>
     </ScrollView>
