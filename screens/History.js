@@ -13,8 +13,6 @@ import {
 import { config } from "@gluestack-ui/config";
 import {
   FlatList,
-  Modal,
-  TouchableOpacity
 } from 'react-native';
 import React, { useState } from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -122,7 +120,7 @@ const History = () => {
               isReadOnly={false}
               value={searchKeyword}
               onChangeText={handleSearchChange}
-              style={{ flex: 1 }} // Menggunakan flex untuk mengisi sisa ruang
+              style={{ flex: 1 }} 
             >
               <InputField marginStart={5} placeholder="Cari History Pemesanan" />
             </Input>

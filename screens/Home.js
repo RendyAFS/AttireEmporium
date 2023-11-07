@@ -1,31 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GluestackUIProvider, Heading, Box, Text, ScrollView, HStack } from "@gluestack-ui/themed";
+import { GluestackUIProvider, Image, FlatList, SafeAreaView, Heading, Box, Text, ScrollView, HStack, VStack } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 
+
 const ENTRIES1 = [
   {
+    id: '1',
     title: 'Baju',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
     illustration: 'https://s1.bukalapak.com/img/61981045003/s-463-463/data.jpeg.webp',
   },
   {
+    id: '2',
     title: 'Baju Ara Ara johanes',
-    subtitle: 'Lorem ipsum dolor sit amet',
+    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
     illustration: 'https://imgx.parapuan.co/crop/0x0:0x0/x/photo/2023/05/13/rekomendasi-kostum-cosplayjpg-20230513023735.jpg',
   },
   {
+    id: '3',
     title: 'White Pocket Sunset',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
     illustration: 'https://ae01.alicdn.com/kf/Sa6a1a7d75991407fb655297f32e642ebS/Baju-Seragam-Cosplay-Anime-YouTuber-Vumbi-Hololive-Mayuni-Fuyuko-Pakaian-Seragam-Kostum-Cosplay-Kustom-Permainan-Pakaian.jpg',
   },
   {
+    id: '4',
     title: 'Acrocorinth, Greece',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
     illustration: 'https://i.imgur.com/KZsmUi2l.jpg',
   },
   {
+    id: '5',
     title: 'Baju Japir',
     subtitle: 'Lorem ipsum dolor sit amet',
     illustration: 'https://i.imgur.com/2nCt3Sbl.jpg',
@@ -33,29 +39,28 @@ const ENTRIES1 = [
 ];
 const ENTRIES2 = [
   {
-    title: 'Bajussss',
+    id: '1',
+    title: 'Baju Game',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://s1.bukalapak.com/img/61981045003/s-463-463/data.jpeg.webp',
+    illustration: 'https://cdn.dribbble.com/users/1070235/screenshots/3972823/juggernaut_dota_2.png ',
   },
   {
-    title: 'Baju Ara Ara johanesssss',
+    id: '2',
+    title: 'Baju Perang',
     subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://imgx.parapuan.co/crop/0x0:0x0/x/photo/2023/05/13/rekomendasi-kostum-cosplayjpg-20230513023735.jpg',
+    illustration: 'https://steamuserimages-a.akamaihd.net/ugc/616166913242053508/B53302A3EE0104ADB6347A74F309D66E0476C3BD/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
   },
   {
-    title: 'White Pocket Sunset asdasd',
+    id: '3',
+    title: 'Baju Wibu',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
     illustration: 'https://ae01.alicdn.com/kf/Sa6a1a7d75991407fb655297f32e642ebS/Baju-Seragam-Cosplay-Anime-YouTuber-Vumbi-Hololive-Mayuni-Fuyuko-Pakaian-Seragam-Kostum-Cosplay-Kustom-Permainan-Pakaian.jpg',
   },
   {
-    title: 'Acrocorinth, Greece adssad',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://i.imgur.com/KZsmUi2l.jpg',
-  },
-  {
-    title: 'Baju Japir asdasd',
+    id: '4',
+    title: 'Baju Partai',
     subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.imgur.com/2nCt3Sbl.jpg',
+    illustration: 'https://asset.kompas.com/crops/U3mPvwHDHwgEp47O5qdnXpa0USg=/0x0:779x519/780x390/data/photo/2021/10/15/61698c7aece86.jpg',
   },
 ];
 
@@ -72,10 +77,17 @@ const Home = (props) => {
       carouselRef.current.snapToNext();
     }
   };
-
+  const Itemku = ({ item }) => (
+    <Box backgroundColor='white' width={'48%'} marginBottom={8} rounded={3} marginLeft={3} marginRight={7} overflow='hidden'>
+      <Image alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.illustration} />
+      <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
+      <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
+      <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp 400000</Text>
+    </Box>
+  );
   const renderItem = ({ item }, parallaxProps) => {
     return (
-      <View style={styles.item}>
+      <Box width={screenWidth - 50} height={screenWidth - 100}>
         <ParallaxImage
           source={{ uri: item.illustration }}
           containerStyle={styles.imageContainer}
@@ -84,15 +96,16 @@ const Home = (props) => {
           {...parallaxProps}
           role='img'
         />
-        <Text style={styles.title} numberOfLines={2}>
+        <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
+          fontWeight='bold' numberOfLines={2}>
           {item.title}
         </Text>
-      </View>
+      </Box>
     );
   };
   const renderKategori = ({ item }, parallaxProps) => {
     return (
-      <Box width={screenWidth - 200} height={screenWidth - 200}>
+      <Box width={screenWidth - 210} height={screenWidth - 210}>
         <ParallaxImage
           source={{ uri: item.illustration }}
           containerStyle={{
@@ -102,11 +115,12 @@ const Home = (props) => {
             borderRadius: 8,
           }}
           style={styles.image}
-          parallaxFactor={0.2}
+          resizeMode={'cover'}
+          parallaxFactor={0.1}
           {...parallaxProps}
           role='img'
         />
-        <Text numberOfLines={2}>
+        <Text textAlign='center' numberOfLines={2}>
           {item.title}
         </Text>
       </Box>
@@ -120,9 +134,10 @@ const Home = (props) => {
     setEntries2(ENTRIES2);
   }, []);
   return (
-    <ScrollView bgColor='#f5f5f5' >
+    <ScrollView bgColor='#f5f5f5'>
       <Header title={"Header"} />
-      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}  >
+
+      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
         <Carousel
           marginTop={10}
           ref={carouselRef}
@@ -134,35 +149,50 @@ const Home = (props) => {
           hasParallaxImages={true}
           autoplay={true}
           loop={true}
+          role='carousel'
         />
       </Box>
-      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={50} >
-        <HStack>
-          <Heading marginStart={30} marginTop={10} color={'black'}>Categories</Heading>
+
+      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
+        <HStack justifyContent="center">
+          <Heading flex={1} marginStart={30} marginTop={10} color={'#DF9B52'}>CATEGORIES</Heading>
         </HStack>
+
         <Carousel
-          marginTop={10}
+          marginTop={13}
           ref={carouselRef}
           sliderWidth={screenWidth}
           sliderHeight={screenWidth}
-          itemWidth={screenWidth - 200}
+          itemWidth={screenWidth - 210}
           data={entries2}
           renderItem={renderKategori}
           hasParallaxImages={true}
-          loop={true}
+          role='carousel'
         />
       </Box>
+      <Box bgColor='white' paddingVertical={10} rounded={5} >
+        <Heading flex={1} marginStart={30} color={'#DF9B52'}>RECOMENDATIONS</Heading>
+      </Box>
+      <Box flexDirection='row' flexWrap='wrap' justifyContent='space-between' padding={10}>
+        {ENTRIES1.map(item => (
+          <Itemku key={item.id} item={item} width='48%' marginBottom={10} />
+        ))}
+      </Box>
+      {/* <FlatList
+        data={ENTRIES1}
+        renderItem={({ item }) => <Itemku item={item} />}
+        keyExtractor={item => item.id}
+        numColumns={2}
+        contentContainerStyle={{ padding: 10 }}
+      /> */}
     </ScrollView>
+
   );
 };
 
 export default Home;
 
 const styles = StyleSheet.create({
-  item: {
-    width: screenWidth - 50,
-    height: screenWidth - 100,
-  },
   imageContainer: {
     flex: 1,
     marginBottom: Platform.select({ ios: 0, android: 1 }),
@@ -171,14 +201,6 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover',
-  },
-  title: {
-    position: 'absolute',
-    bottom: 20,
-    left: 10,
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+
   },
 });
