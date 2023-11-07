@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
-import { Ionicons,  MaterialCommunityIcons,MaterialIcons } from "@expo/vector-icons";
-import {Home, History,Favorite,Profile} from "./screens/";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Home, History, Favorite, Profile, FormPenyewaan } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,13 +69,14 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
+          <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead} />
           {/* <Stack.Screen
             name="News Detail"
             component={NewsDetail}
             options={noHead}
           /> */}
         </Stack.Navigator>
-      </NavigationContainer>
+      </NavigationContainer> 
     </GluestackUIProvider>
   );
 };
