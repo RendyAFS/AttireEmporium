@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,6 +70,7 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead} />
+          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
           {/* <Stack.Screen
             name="News Detail"
             component={NewsDetail}

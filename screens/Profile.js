@@ -10,6 +10,9 @@ const Profile = () => {
       <Pressable onPress={() => navigation.navigate('FormPenyewaan')} >
         <Text>Form Penyewaan</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('FormPengembalian')} >
+        <Text>Form Pengembalian</Text>
+      </Pressable>
 
     </Box>
   )
