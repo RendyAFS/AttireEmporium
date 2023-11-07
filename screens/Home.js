@@ -48,7 +48,7 @@ const ENTRIES2 = [
     id: '2',
     title: 'Baju Perang',
     subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.pinimg.com/1200x/1f/41/0a/1f410ac36e6462007bfc5450656718ea.jpg',
+    illustration: 'https://steamuserimages-a.akamaihd.net/ugc/616166913242053508/B53302A3EE0104ADB6347A74F309D66E0476C3BD/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
   },
   {
     id: '3',
@@ -149,6 +149,7 @@ const Home = (props) => {
           hasParallaxImages={true}
           autoplay={true}
           loop={true}
+          role='carousel'
         />
       </Box>
 
@@ -166,18 +167,24 @@ const Home = (props) => {
           data={entries2}
           renderItem={renderKategori}
           hasParallaxImages={true}
+          role='carousel'
         />
       </Box>
-      <Box bgColor='white' paddingVertical={10} rounded={5}>
+      <Box bgColor='white' paddingVertical={10} rounded={5} >
         <Heading flex={1} marginStart={30} color={'#DF9B52'}>RECOMENDATIONS</Heading>
       </Box>
-      <FlatList
+      <Box flexDirection='row' flexWrap='wrap' justifyContent='space-between' padding={10}>
+        {ENTRIES1.map(item => (
+          <Itemku key={item.id} item={item} width='48%' marginBottom={10} />
+        ))}
+      </Box>
+      {/* <FlatList
         data={ENTRIES1}
         renderItem={({ item }) => <Itemku item={item} />}
         keyExtractor={item => item.id}
         numColumns={2}
         contentContainerStyle={{ padding: 10 }}
-      />
+      /> */}
     </ScrollView>
 
   );
