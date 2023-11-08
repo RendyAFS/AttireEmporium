@@ -6,7 +6,7 @@ import FormPenyewaan from "./FormPenyewaan";
 import FormPengembalian from "./FormPengembalian";
 import Register from "./Register";
 import Login from "./Login";
-
+import Katalog from "./Katalog";
 
 export {
   Home,
@@ -17,4 +17,5 @@ export {
   FormPengembalian,
   Register,
   Login,
+  Katalog,
 };
