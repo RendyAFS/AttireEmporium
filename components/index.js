@@ -1,3 +1,3 @@
 import Header from "./header";
-
-export { Header };
+import Separator from "./separator";
+export { Header,Separator };

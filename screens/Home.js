@@ -3,7 +3,7 @@ import { GluestackUIProvider, Image, FlatList, SafeAreaView, Heading, Box, Text,
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
-
+import MasonryList from '@react-native-seoul/masonry-list';
 
 const ENTRIES1 = [
   {
@@ -78,7 +78,7 @@ const Home = (props) => {
     }
   };
   const Itemku = ({ item }) => (
-    <Box backgroundColor='white' width={'48%'} marginBottom={8} rounded={3} marginLeft={3} marginRight={7} overflow='hidden'>
+    <Box backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
       <Image alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.illustration} />
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
@@ -134,58 +134,67 @@ const Home = (props) => {
     setEntries2(ENTRIES2);
   }, []);
   return (
-    <ScrollView bgColor='#f5f5f5'>
-      <Header title={"Header"} />
+    <Box>
+      <ScrollView bgColor='#f5f5f5'>
+        <Header title={"Header"} />
 
-      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
-        <Carousel
-          marginTop={10}
-          ref={carouselRef}
-          sliderWidth={screenWidth}
-          sliderHeight={screenWidth}
-          itemWidth={screenWidth - 50}
-          data={entries}
-          renderItem={renderItem}
-          hasParallaxImages={true}
-          autoplay={true}
-          loop={true}
-          role='carousel'
-        />
-      </Box>
+        <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
+          <Carousel
+            marginTop={10}
+            ref={carouselRef}
+            sliderWidth={screenWidth}
+            sliderHeight={screenWidth}
+            itemWidth={screenWidth - 50}
+            data={entries}
+            renderItem={renderItem}
+            hasParallaxImages={true}
+            autoplay={true}
+            loop={true}
+            role='carousel'
+          />
+        </Box>
 
-      <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
-        <HStack justifyContent="center">
-          <Heading flex={1} marginStart={30} marginTop={10} color={'#DF9B52'}>CATEGORIES</Heading>
-        </HStack>
+        <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
+          <HStack justifyContent="center">
+            <Heading flex={1} marginStart={30} marginTop={10} color={'#DF9B52'}>CATEGORIES</Heading>
+          </HStack>
 
-        <Carousel
-          marginTop={13}
-          ref={carouselRef}
-          sliderWidth={screenWidth}
-          sliderHeight={screenWidth}
-          itemWidth={screenWidth - 210}
-          data={entries2}
-          renderItem={renderKategori}
-          hasParallaxImages={true}
-          role='carousel'
-        />
-      </Box>
-      <Box bgColor='white' paddingVertical={10} rounded={5} >
-        <Heading flex={1} marginStart={30} color={'#DF9B52'}>RECOMENDATIONS</Heading>
-      </Box>
-      <Box flexDirection='row' flexWrap='wrap' justifyContent='space-between' padding={10}>
-        {ENTRIES1.map(item => (
-          <Itemku key={item.id} item={item} width='48%' marginBottom={10} />
+          <Carousel
+            marginTop={13}
+            ref={carouselRef}
+            sliderWidth={screenWidth}
+            sliderHeight={screenWidth}
+            itemWidth={screenWidth - 210}
+            data={entries2}
+            renderItem={renderKategori}
+            hasParallaxImages={true}
+            role='carousel'
+          />
+        </Box>
+        <Box bgColor='white' paddingVertical={10} rounded={5} >
+          <Heading flex={1} marginStart={30} color={'#DF9B52'}>RECOMENDATIONS</Heading>
+        </Box>
+        {/* <Box flex={1} flexDirection='row' marginBottom={15} padding={10}>
+        {ENTRIES1.slice(0, 2).map(item => (
+          <Itemku key={item.id} item={item} />
         ))}
-      </Box>
-      {/* <FlatList
-        data={ENTRIES1}
-        renderItem={({ item }) => <Itemku item={item} />}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        contentContainerStyle={{ padding: 10 }}
-      /> */}
-    </ScrollView>
+
+      </Box> */}
+        <MasonryList
+
+          data={ENTRIES1}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => <Itemku item={item} />}
+          onRefresh={() => refetch({ first: ITEM_CNT })}
+          onEndReachedThreshold={0.1}
+          onEndReached={() => loadNext(ITEM_CNT)}
+        />
+      </ScrollView>
+
+
+    </Box>
 
   );
 };
