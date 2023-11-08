@@ -1,52 +1,67 @@
 import React, { useState } from "react";
-import {GluestackUIProvider, Heading, Center, StatusBar, Box, Text, Input, InputField, Pressable} from "@gluestack-ui/themed";
+import {FormControl, Heading, Center, StatusBar, Box, Text, Input, InputField, InputIcon, EyeOffIcon, Pressable, InputSlot, Button, ButtonText, VStack, EyeIcon} from "@gluestack-ui/themed";
 
-const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    const handleLogin = () => {
-        // Tambahkan logika autentikasi di sini sesuai kebutuhan Anda.
-    };
-
+function Login() {
+    const [showPassword, setShowPassword] = useState(false)
+    const handleState = () => {
+      setShowPassword((showState) => {
+        return !showState
+      })
+    }
     return (
-        <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
-            <Heading>Login</Heading>
-            <Box width={300}>
-                <Input
-                    width={"68%"}
-                    variant="outline"
-                    size="sm"
-                    isDisabled={false}
-                    isInvalid={false}
-                    isReadOnly={false}
-                    backgroundColor="#F5F5F5"
-                    marginTop={2}
-                    borderWidth={0}
-                >
-                    <InputField marginStart={30} placeholder="Username" />
-                </Input>
-                <Input
-                    width={"68%"}
-                    variant="outline"
-                    size="sm"
-                    isDisabled={false}
-                    isInvalid={false}
-                    isReadOnly={false}
-                    backgroundColor="#F5F5F5"
-                    marginTop={2}
-                    borderWidth={0}
-                >
-                    <InputField marginStart={30} placeholder="Password" />
-                </Input>
-                <Pressable marginTop={15} alignItems="center">
-                    <Text padding={10} width={100} backgroundColor="black" color="white" textAlign="center">
-                        Login
-                    </Text>
-                </Pressable>
-            </Box>
-        </Box>
-    );
-};
+      <FormControl
+      flex={1}
+      justifyContent="center"
+        padding={50}
+        borderWidth="$1"
+        borderRadius="$lg"
+        borderColor="$borderLight300"
 
+        sx={{
+          _dark: {
+            borderWidth: "$1",
+            borderRadius: "$lg",
+            borderColor: "$borderDark800",
+          },
+        }}
+      >
+        <VStack space="xl">
+          <Heading color="$text900" lineHeight="$md" textAlign="center">
+            Login
+          </Heading>
+          <VStack space="xs">
+            <Text color="$text500" lineHeight="$xs">
+              Username
+            </Text>
+            <Input>
+              <InputField type="text" />
+            </Input>
+          </VStack>
+          <VStack space="xs">
+            <Text color="$text500" lineHeight="$xs">
+              Password
+            </Text>
+            <Input textAlign="center">
+              <InputField type={showPassword ? "text" : "password"} />
+              <InputSlot pr="$3" onPress={handleState}>
+                {/* EyeIcon, EyeOffIcon are both imported from 'lucide-react-native' */}
+                <InputIcon
+                  as={showPassword ? EyeIcon : EyeOffIcon}
+                  color="$darkBlue500"
+                />
+              </InputSlot>
+            </Input>
+          </VStack>
+          <Button
+            ml="auto"
+            onPress={() => {
+              setShowModal(false)
+            }}
+          >
+            <ButtonText color="$white">Save</ButtonText>
+          </Button>
+        </VStack>
+      </FormControl>
+    )
+  }
 export default Login;
