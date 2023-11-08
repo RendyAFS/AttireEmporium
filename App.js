@@ -5,6 +5,7 @@ import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gl
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian } from "./screens/";
+import Katalog from "./screens/Katalog";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,7 @@ const App = () => {
           <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead} />
           <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
+          <Stack.Screen name="Katalog" component={Katalog} options={noHead} />
           {/* <Stack.Screen
             name="News Detail"
             component={NewsDetail}
