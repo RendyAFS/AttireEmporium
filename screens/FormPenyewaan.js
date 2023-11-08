@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { GluestackUIProvider, Heading, Textarea, TextareaInput, Box, Text, Input, InputField, Pressable } from "@gluestack-ui/themed";
 
+
 const FormPenyewaan = () => {
+
 
   return (
     <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
-      <Heading marginBottom={10}>Form Penyewaan barang</Heading>
+      <Heading marginBottom={10}>Konfirmasi Penyewaan barang</Heading>
       <Box width={300}>
         <Input
 
@@ -47,8 +49,10 @@ const FormPenyewaan = () => {
           width={'68%'}
           w="$64"
         >
-          <TextareaInput placeholder="Your text goes here..." />
+          <TextareaInput placeholder="Catatan Tambahan..." />
         </Textarea>
+
+        
         <Pressable marginTop={15} alignItems="center">
           <Text padding={10} width={100} backgroundColor="black" color="white" textAlign="center">
             Submit
