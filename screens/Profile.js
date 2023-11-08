@@ -7,17 +7,18 @@ const Profile = () => {
   return (
     <Box flex={1} justifyContent='center' bgColor='#F5F5F5' alignItems='center'>
       <Heading>Profile</Heading>
-
-
-
-      {/* BUTTON BUAT KE FITUR FORM */}
       <Pressable onPress={() => navigation.navigate('FormPenyewaan')} >
-        <Text padding={10} backgroundColor="black" color="white" borderRadius={10} margin={10}>Form Penyewaan</Text>
+        <Text>Form Penyewaan</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('FormPengembalian')} >
-        <Text padding={10} backgroundColor="black" color="white" borderRadius={10} margin={10}>Form Pengembalian</Text>
+        <Text>Form Pengembalian</Text>
       </Pressable>
-
+      <Pressable onPress={() => navigation.navigate('Register')} >
+        <Text>Register</Text>
+      </Pressable>
+      <Pressable onPress={() => navigation.navigate('Login')} >
+        <Text>Login</Text>
+      </Pressable>
     </Box>
   )
 }
