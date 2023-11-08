@@ -17,7 +17,7 @@ const Profile = () => {
       <Pressable onPress={() => navigation.navigate('FormPengembalian')} >
         <Text padding={10} backgroundColor="black" color="white" borderRadius={10} margin={10}>Form Pengembalian</Text>
       </Pressable>
-      {/* BUTTON BUAT KE FITUR FORM */}
+
     </Box>
   )
 }
