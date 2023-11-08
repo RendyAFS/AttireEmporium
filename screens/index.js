@@ -4,6 +4,8 @@ import Profile from "./Profile";
 import Favorite from "./Favorite"; 
 import FormPenyewaan from "./FormPenyewaan";
 import FormPengembalian from "./FormPengembalian";
+import Register from "./Register";
+import Login from "./Login";
 
 
 export {
@@ -13,4 +15,6 @@ export {
   Favorite,
   FormPenyewaan,
   FormPengembalian,
+  Register,
+  Login,
 };
