@@ -40,18 +40,19 @@ const FormPengembalian = () => {
     <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
       <Heading marginBottom={10}>Konfirmasi Pengembalian barang</Heading>
       <Box width={'95%'}>
-        <FlatList
+      <FlatList
+          width={'100%'}
           data={datas}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <Pressable>
-              <Box paddingTop={10} paddingHorizontal={8}>
-                <Box width={'auto'} height={85} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
+              <Box paddingTop={10} marginBottom={20}>
+                <Box width={'auto'} height={150} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
                   <Box flex={1} flexDirection="row">
-                    <Box flex={1} height={85}>
+                    <Box flex={2}>
                       <Image
                         source={{ uri: item.image }}
-                        width={'auto'} height={80}
+                        width={'auto'} height={145}
                         borderTopLeftRadius={8}
                         borderBottomLeftRadius={8}
                         alt="img"
@@ -89,7 +90,7 @@ const FormPengembalian = () => {
           </Textarea>
         </Box>
         <Box flexDirection="row" alignItems="center">
-          <Heading marginTop={25} marginStart={20} marginEnd={20}>Rating</Heading>
+          <Heading marginTop={25} marginStart={20} marginEnd={20}>Rating:</Heading>
           <Box flexDirection="row">{renderStars()}</Box>
         </Box>
         <Pressable marginTop={15} alignItems="center">
