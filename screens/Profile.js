@@ -19,6 +19,9 @@ const Profile = () => {
       <Pressable onPress={() => navigation.navigate('Login')} >
         <Text>Login</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('GetInto1')} >
+        <Text>GetInto1</Text>
+      </Pressable>
     </Box>
   )
 }

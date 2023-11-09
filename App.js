@@ -73,7 +73,8 @@ const App = () => {
           <Stack.Screen name="Register" component={Register} options={noHead} />          
           <Stack.Screen name="Login" component={Login} options={noHead} />   
           <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />     
-          <Stack.Screen name="Katalog" component={Katalog} options={noHead} />     
+          <Stack.Screen name="Katalog" component={Katalog} options={noHead} /> 
+          <Stack.Screen name="GetInto1" component={GetInto1} options={noHead} />    
 
           {/* <Stack.Screen
             name="News Detail"

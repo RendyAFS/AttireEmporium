@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Image } from 'react-native';
+import React from 'react';
 
 const GetInto1 = () => {
   return (
     <View>
-      <Text>GetInto1</Text>
+      <Image source={require('/assets/images/getinto1.png')} />
     </View>
-  )
-}
+  );
+};
 
-export default GetInto1
+export default GetInto1;
