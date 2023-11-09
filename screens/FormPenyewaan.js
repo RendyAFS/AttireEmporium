@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import { GluestackUIProvider, Image, Heading, Textarea, TextareaInput, Box, Text, Input, InputField, Pressable } from "@gluestack-ui/themed";
+import { 
+  GluestackUIProvider, 
+  Image, 
+  Heading, 
+  Textarea, 
+  TextareaInput, 
+  Box, 
+  Text, 
+  Pressable } from "@gluestack-ui/themed";
 import { FlatList } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const datas = [
   {
@@ -19,14 +28,14 @@ const FormPenyewaan = () => {
   const [showPickupDatePicker, setShowPickupDatePicker] = useState(false);
   const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
 
-  const onPickupDateChange = (event, selected) => {
+  const onPickupDateChange = (_, selected) => {
     if (selected) {
       setPickupDate(selected);
       setShowPickupDatePicker(false);
     }
   };
 
-  const onReturnDateChange = (event, selected) => {
+  const onReturnDateChange = (_, selected) => {
     if (selected) {
       setReturnDate(selected);
       setShowReturnDatePicker(false);
@@ -35,7 +44,7 @@ const FormPenyewaan = () => {
 
   return (
     <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
-      <Heading marginBottom={10}>Konfirmasi Penyewaan barang</Heading>
+      <Heading marginBottom={10} >Konfirmasi Penyewaan barang</Heading>
       <Box width={'90%'}>
         <FlatList
           width={'100%'}
@@ -44,12 +53,12 @@ const FormPenyewaan = () => {
           renderItem={({ item }) => (
             <Pressable>
               <Box paddingTop={10} marginBottom={20}>
-                <Box width={'auto'} height={85} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
+                <Box width={'auto'} height={150} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
                   <Box flex={1} flexDirection="row">
-                    <Box flex={1} height={85}>
+                    <Box flex={2}>
                       <Image
                         source={{ uri: item.image }}
-                        width={'auto'} height={80}
+                        width={'auto'} height={145}
                         borderTopLeftRadius={8}
                         borderBottomLeftRadius={8}
                         alt="img"
@@ -72,20 +81,6 @@ const FormPenyewaan = () => {
             </Pressable>
           )}
         />
-        <Input
-          width={"100%"}
-          variant="outline"
-          size="sm"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-          backgroundColor="#F5F5F5"
-          marginBottom={10}
-          borderWidth={1}
-          borderColor="black"
-        >
-          <InputField marginStart={5} placeholder="Nama" />
-        </Input>
 
         <Box flexDirection="row" justifyContent="space-between" marginTop={15}>
           <Box width="48%">
@@ -134,7 +129,7 @@ const FormPenyewaan = () => {
             width={'100%'}
             marginTop={20}
           >
-            <TextareaInput placeholder="Komentar..." />
+            <TextareaInput placeholder="Catatan Tambahan..." />
           </Textarea>
         </Box>
 

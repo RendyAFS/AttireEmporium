@@ -1,5 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GluestackUIProvider, Image, FlatList, SafeAreaView, Heading, Box, Text, ScrollView, HStack, VStack } from "@gluestack-ui/themed";
+import { GluestackUIProvider, 
+  Image, 
+  FlatList, 
+  SafeAreaView, 
+  Heading, 
+  Box, 
+  Text, 
+  ScrollView, 
+  HStack, 
+  VStack,
+ } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';

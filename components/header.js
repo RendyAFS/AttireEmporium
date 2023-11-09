@@ -46,37 +46,31 @@ const Header = (props) => {
             />
           </Pressable>
 
-          {/* <Pressable onPress={() => props.drawer.current.openDrawer()}>
-            <Ionicons name="menu-sharp"
-              marginStart={10}
-              size={37} color="#DF9B52" />
-          </Pressable> */}
-          {/* <Box flex={1}>
-            <Menu
-              placement={"top"}
-              disabledKeys={["Theme"]}
-              trigger={({ ...triggerProps }) => {
-                return (
-                  // <Button {...triggerProps}>
-                  //   <Ionicons name="menu-sharp"
-                  //     marginStart={10}
-                  //     size={37} color="#DF9B52" />
-                  // </Button>
-                  <Button marginRight={40} backgroundColor="transparent"  {...triggerProps}>
-                    <Ionicons name="menu-sharp"
-                      size={37} color="#DF9B52" />
-                  </Button>
-                )
-              }}
-            >
-              <MenuItem key="Katalog" onPress={() => navigation.navigate('Katalog')} textValue="Katalog">
-                <MenuItemLabel size="sm">Katalog</MenuItemLabel>
-              </MenuItem>
-              <MenuItem key="Add account" textValue="Add account">
-                <MenuItemLabel size="sm">Sign Out</MenuItemLabel>
-              </MenuItem>
-            </Menu>
-          </Box> */}
+          
+          <Menu
+            placement={"top"}
+            disabledKeys={["Theme"]}
+            trigger={({ ...triggerProps }) => {
+              return (
+                // <Button {...triggerProps}>
+                //   <Ionicons name="menu-sharp"
+                //     marginStart={10}
+                //     size={37} color="#DF9B52" />
+                // </Button>
+                <Button marginRight={40}  backgroundColor="transparent"  {...triggerProps}>
+                  <Ionicons name="menu-sharp"
+                    size={37} color="#DF9B52" />
+                </Button>
+              )
+            }}
+          >
+            <MenuItem key="Katalog" onPress={() => navigation.navigate('Katalog')} textValue="Katalog">
+              <MenuItemLabel size="sm">Katalog</MenuItemLabel>
+            </MenuItem>
+            <MenuItem key="Add account"  textValue="Add account">
+              <MenuItemLabel size="sm">Sign Out</MenuItemLabel>
+            </MenuItem>
+          </Menu>
         </HStack>
       </Box>
     </SafeAreaView>
