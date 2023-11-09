@@ -7,7 +7,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import React from 'react'
 
-const Header = (props) => {
+const HeaderHome = (props) => {
   const trueGray900 = "#171717";
   const navigation = useNavigation();
   return (
@@ -15,26 +15,7 @@ const Header = (props) => {
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
-          <Box marginStart={20} flex={5}>
-            <Input
-              variant="outline"
-              width={"100%"}
-              size="sm"
-              isDisabled={false}
-              isInvalid={false}
-              isReadOnly={false}
-              backgroundColor="#F5F5F5"
-              marginTop={2}
-              borderWidth={0}
-            >
-              <InputField marginStart={20} placeholder="Cari Costum disini" />
-            </Input>
-
-            <Box position="absolute" marginLeft={5} marginTop={7}>
-              <Ionicons name="search" size={24} color="#DF9B52" />
-            </Box>
-          </Box>
-          <Pressable flex={1} onPress={() => navigation.navigate('Profile')}>
+          <Pressable onPress={() => navigation.navigate('Profile')}>
             <Image marginEnd={20}
               marginStart={10}
               marginTop={2}
@@ -46,7 +27,30 @@ const Header = (props) => {
             />
           </Pressable>
 
-          
+          <Pressable width={"65%"} onPress={() => navigation.navigate('Katalog')}>
+            <Input
+              variant="outline"
+              size="sm"
+              isDisabled={false}
+              isInvalid={false}
+              isReadOnly={false}
+              backgroundColor="#F5F5F5"
+              marginTop={2}
+              borderWidth={0}
+
+            >
+              <InputField marginStart={20} placeholder="Cari Costum disini" />
+            </Input>
+          </Pressable>
+
+          <Box position="absolute" marginLeft={70} marginTop={7}>
+            <Ionicons name="search" size={24} color="#DF9B52" />
+          </Box>
+          {/* <Pressable onPress={() => props.drawer.current.openDrawer()}>
+            <Ionicons name="menu-sharp"
+              marginStart={10}
+              size={37} color="#DF9B52" />
+          </Pressable> */}
           <Menu
             placement={"top"}
             disabledKeys={["Theme"]}
@@ -57,7 +61,7 @@ const Header = (props) => {
                 //     marginStart={10}
                 //     size={37} color="#DF9B52" />
                 // </Button>
-                <Button marginRight={40}  backgroundColor="transparent"  {...triggerProps}>
+                <Button marginRight={40} backgroundColor="transparent"  {...triggerProps}>
                   <Ionicons name="menu-sharp"
                     size={37} color="#DF9B52" />
                 </Button>
@@ -67,7 +71,7 @@ const Header = (props) => {
             <MenuItem key="Katalog" onPress={() => navigation.navigate('Katalog')} textValue="Katalog">
               <MenuItemLabel size="sm">Katalog</MenuItemLabel>
             </MenuItem>
-            <MenuItem key="Add account"  textValue="Add account">
+            <MenuItem key="Add account" textValue="Add account">
               <MenuItemLabel size="sm">Sign Out</MenuItemLabel>
             </MenuItem>
           </Menu>
@@ -77,7 +81,7 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default HeaderHome;
 
 
 

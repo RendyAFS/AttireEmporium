@@ -1,11 +1,14 @@
-import { View, Text } from 'react-native'
+
+import { Box, Text } from '@gluestack-ui/themed'
 import React from 'react'
+import Header from '../components/header'
 
 const Katalog = () => {
   return (
-    <View>
+    <Box flex={1}>
+      <Header />
       <Text>Katalog</Text>
-    </View>
+    </Box>
   )
 }
 
