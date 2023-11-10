@@ -10,7 +10,11 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const noHead = { headerShown: false };
-//tabs
+const forFade = ({ current }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
 const Tabs = () => {
   return (
     <Tab.Navigator
@@ -82,7 +86,7 @@ const App = () => {
             options={noHead}
           /> */}
         </Stack.Navigator>
-      </NavigationContainer> 
+      </NavigationContainer>
     </GluestackUIProvider>
   );
 };

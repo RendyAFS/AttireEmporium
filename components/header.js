@@ -15,7 +15,7 @@ const Header = (props) => {
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
-        <Pressable marginStart={20} flex={5}>
+        <Pressable marginStart={20} flex={5} onPress={() => navigation.navigate('Katalog')}>
             <Box width={"100%"} height={40} backgroundColor="#f5f5f5" rounded={5}></Box>
             <Text  marginTop={8} marginLeft={50} position="absolute">Cari Disini</Text>
             <Box position="absolute" marginLeft={10} marginTop={7}>
