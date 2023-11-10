@@ -7,6 +7,9 @@ import FormPengembalian from "./FormPengembalian";
 import Register from "./Register";
 import Login from "./Login";
 import Katalog from "./Katalog";
+import GetInto1 from "./GetInto1";
+import GetInto2 from "./GetInto2";
+
 
 export {
   Home,
@@ -18,4 +21,6 @@ export {
   Register,
   Login,
   Katalog,
+  GetInto1,
+  GetInto2,
 };
