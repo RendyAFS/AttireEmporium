@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 
-const CostumePosting = () => {
+const CreateItem = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
   const [costumeName, setCostumeName] = useState('');
   const [costumeDescription, setCostumeDescription] = useState('');
@@ -73,7 +73,7 @@ const CostumePosting = () => {
           keyboardType="numeric"
         />
         {/* Bagian Gambar Kostum */}
-        
+
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {costumeImages.map((image, index) => (
             <Image key={index} source={{ uri: image }} style={styles.imageThumbnail} />
@@ -172,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CostumePosting;
+export default CreateItem;

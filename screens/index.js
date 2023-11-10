@@ -11,6 +11,9 @@ import GetInto1 from "./GetInto1";
 import GetInto2 from "./GetInto2";
 import DetailBarang from "./DetailBarang";
 import EditProfile from "./EditProfile";
+import CreateItem from "./CreateItem";
+import EditItem from "./EditItem";
+import ProfileRenter from "./ProfileRenter";
 export {
   Home,
   History,
@@ -24,5 +27,8 @@ export {
   GetInto1,
   GetInto2,
   DetailBarang,
-  EditProfile
+  EditProfile,
+  CreateItem,
+  EditItem,
+  ProfileRenter
 };
