@@ -10,7 +10,11 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const noHead = { headerShown: false };
-//tabs
+const forFade = ({ current }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
 const Tabs = () => {
   return (
     <Tab.Navigator
@@ -70,10 +74,10 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead} />
-          <Stack.Screen name="Register" component={Register} options={noHead} />          
-          <Stack.Screen name="Login" component={Login} options={noHead} />   
-          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />     
-          <Stack.Screen name="Katalog" component={Katalog} options={noHead} />     
+          <Stack.Screen name="Register" component={Register} options={noHead} />
+          <Stack.Screen name="Login" component={Login} options={noHead} />
+          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
+          <Stack.Screen name="Katalog" component={Katalog} options={noHead } />
 
           {/* <Stack.Screen
             name="News Detail"
@@ -81,7 +85,7 @@ const App = () => {
             options={noHead}
           /> */}
         </Stack.Navigator>
-      </NavigationContainer> 
+      </NavigationContainer>
     </GluestackUIProvider>
   );
 };

@@ -1,4 +1,4 @@
 import Header from "./header";
 import Separator from "./separator";
-import HeaderHome from "./headerhome";
-export { Header,Separator, HeaderHome};
+import HeaderKatalog from "./headerkatalog";
+export { Header,Separator, HeaderKatalog};
