@@ -13,13 +13,8 @@ import {
   InputField,
   Icon,
   TrashIcon,
-  Alert,
-  AlertIcon,
-  CheckCircleIcon,
-  VStack,
-  AlertText
 } from "@gluestack-ui/themed";
-import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
+import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 
 const ENTRIES1 = [
