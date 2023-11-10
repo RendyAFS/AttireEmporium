@@ -1,3 +1,4 @@
 import Header from "./header";
 import Separator from "./separator";
-export { Header,Separator };
+import HeaderKatalog from "./headerkatalog";
+export { Header,Separator, HeaderKatalog};

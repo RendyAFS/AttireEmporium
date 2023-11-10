@@ -15,7 +15,14 @@ const Header = (props) => {
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
-          <Pressable onPress={() => navigation.navigate('Profile')}>
+        <Pressable marginStart={20} flex={5} onPress={() => navigation.navigate('Katalog')}>
+            <Box width={"100%"} height={40} backgroundColor="#f5f5f5" rounded={5}></Box>
+            <Text  marginTop={8} marginLeft={50} position="absolute">Cari Disini</Text>
+            <Box position="absolute" marginLeft={10} marginTop={7}>
+              <Ionicons name="search" size={24} color="#DF9B52" />
+            </Box>
+          </Pressable>
+          <Pressable flex={1} onPress={() => navigation.navigate('Profile')}>
             <Image marginEnd={20}
               marginStart={10}
               marginTop={2}
@@ -26,53 +33,6 @@ const Header = (props) => {
               rounded={30}
             />
           </Pressable>
-
-          <Input
-            width={"65%"}
-            variant="outline"
-            size="sm"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-            backgroundColor="#F5F5F5"
-            marginTop={2}
-            borderWidth={0}
-          >
-            <InputField marginStart={20} placeholder="Cari Costum disini" />
-          </Input>
-          <Box position="absolute" marginLeft={70} marginTop={7}>
-            <Ionicons name="search" size={24} color="#DF9B52" />
-          </Box>
-          {/* <Pressable onPress={() => props.drawer.current.openDrawer()}>
-            <Ionicons name="menu-sharp"
-              marginStart={10}
-              size={37} color="#DF9B52" />
-          </Pressable> */}
-          
-          <Menu
-            placement={"top"}
-            disabledKeys={["Theme"]}
-            trigger={({ ...triggerProps }) => {
-              return (
-                // <Button {...triggerProps}>
-                //   <Ionicons name="menu-sharp"
-                //     marginStart={10}
-                //     size={37} color="#DF9B52" />
-                // </Button>
-                <Button marginRight={40}  backgroundColor="transparent"  {...triggerProps}>
-                  <Ionicons name="menu-sharp"
-                    size={37} color="#DF9B52" />
-                </Button>
-              )
-            }}
-          >
-            <MenuItem key="Katalog" onPress={() => navigation.navigate('Katalog')} textValue="Katalog">
-              <MenuItemLabel size="sm">Katalog</MenuItemLabel>
-            </MenuItem>
-            <MenuItem key="Add account"  textValue="Add account">
-              <MenuItemLabel size="sm">Sign Out</MenuItemLabel>
-            </MenuItem>
-          </Menu>
         </HStack>
       </Box>
     </SafeAreaView>
