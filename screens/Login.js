@@ -44,7 +44,6 @@ function Login() {
             <Input textAlign="center">
               <InputField type={showPassword ? "text" : "password"} />
               <InputSlot pr="$3" onPress={handleState}>
-                {/* EyeIcon, EyeOffIcon are both imported from 'lucide-react-native' */}
                 <InputIcon
                   as={showPassword ? EyeIcon : EyeOffIcon}
                   color="$darkBlue500"
