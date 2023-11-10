@@ -9,8 +9,8 @@ import Login from "./Login";
 import Katalog from "./Katalog";
 import GetInto1 from "./GetInto1";
 import GetInto2 from "./GetInto2";
-
-
+import DetailBarang from "./DetailBarang";
+import EditProfile from "./EditProfile";
 export {
   Home,
   History,
@@ -23,4 +23,6 @@ export {
   Katalog,
   GetInto1,
   GetInto2,
+  DetailBarang,
+  EditProfile
 };
