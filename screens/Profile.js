@@ -2,6 +2,8 @@ import { GluestackUIProvider, Heading, Center, Box, Text, Pressable, Image, HSta
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo } from "@expo/vector-icons";
+
+
 const Profile = () => {
   const navigation = useNavigation();
 

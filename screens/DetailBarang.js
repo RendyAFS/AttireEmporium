@@ -1,9 +1,11 @@
 import React from 'react';
 import { Pressable, Box, Text, Image, Button, ButtonText, Heading, Icon } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
 
 const DetailBarang = () => {
   // Dummy rating, gantilah dengan rating yang sesuai dengan barang tersebut
   const rating = 4.5;
+  const navigation = useNavigation();
 
   return (
     <Box flex={1} alignItems='center' >
@@ -29,12 +31,15 @@ const DetailBarang = () => {
         </Box>
         {/* Akhir bagian menampilkan rating */}
       </Box>
+
       <Box width={"100%"} alignItems='center' backgroundColor='#313C47' flex={1}>
-        <Button marginTop={10} backgroundColor='#DF9B52' width={300}>
-          <ButtonText>Pesan Sekarang</ButtonText>
-        </Button>
+        <Pressable onPress={() => navigation.navigate('FormPenyewaan')} >
+          <Text marginTop={10} backgroundColor='#DF9B52' paddingVertical={10} paddingHorizontal={60} color='white' fontWeight='bold' borderRadius={10}>
+            Pesan Sekarang
+          </Text>
+        </Pressable>
       </Box>
-    </Box>
+    </Box >
   );
 }
 

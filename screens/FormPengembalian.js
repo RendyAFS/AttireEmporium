@@ -2,6 +2,7 @@ import { GluestackUIProvider, Heading, Box, Text, Pressable, Image, Textarea, Te
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const datas = [
   {
@@ -14,6 +15,12 @@ const datas = [
 ];
 
 const FormPengembalian = () => {
+  const navigation = useNavigation();
+  const handleGoBack = () => {
+    // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
+    navigation.goBack();
+  };
+
   const [rating, setRating] = useState(0);
 
   const handleStarPress = (starIndex) => {
@@ -40,7 +47,7 @@ const FormPengembalian = () => {
     <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
       <Heading marginBottom={10}>Konfirmasi Pengembalian barang</Heading>
       <Box width={'95%'}>
-      <FlatList
+        <FlatList
           width={'100%'}
           data={datas}
           keyExtractor={(item) => item.id.toString()}
@@ -86,14 +93,18 @@ const FormPengembalian = () => {
             width={'100%'}
             marginTop={20}
           >
-            <TextareaInput placeholder="Komentar..." role="dialog"/>
+            <TextareaInput placeholder="Komentar..." role="dialog" />
           </Textarea>
         </Box>
         <Box flexDirection="row" alignItems="center">
           <Heading marginTop={25} marginStart={20} marginEnd={20}>Rating:</Heading>
           <Box flexDirection="row">{renderStars()}</Box>
         </Box>
-        <Pressable marginTop={15} alignItems="center">
+        <Pressable onPress={() => {
+          navigation.navigate('Home')
+        }}
+          marginTop={15} alignItems="center"
+        >
           <Text padding={10} width={100} borderRadius={10} backgroundColor="black" color="white" textAlign="center">
             Submit
           </Text>

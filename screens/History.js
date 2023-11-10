@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -96,6 +97,12 @@ const datas =
 
 
 const History = () => {
+  const navigation = useNavigation();
+  const handleGoBack = () => {
+    // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
+    navigation.goBack();
+  };
+
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearchChange = (text) => {
@@ -131,7 +138,9 @@ const History = () => {
         data={filteredData} // Menampilkan hasil pencarian
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Pressable>
+          <Pressable onPress={() => {
+            navigation.navigate('FormPengembalian')
+          }}>
             <Box paddingTop={10} paddingHorizontal={8}>
               <Box width={'auto'} height={85} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
                 <Box flex={1} flexDirection="row">
