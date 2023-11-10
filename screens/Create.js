@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useTheme, Themed } from "@gluestack-ui/themed";
 
-const CostumePosting = () => {
+const CreateItem = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
   const [costumeName, setCostumeName] = useState('');
   const [costumeDescription, setCostumeDescription] = useState('');
@@ -95,4 +95,84 @@ const CostumePosting = () => {
   );
 };
 
-export default CostumePosting;
+// Styles untuk komponen-komponen dalam halaman
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  header: {
+    backgroundColor: '#000000',
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  menuButton: {
+    padding: 10,
+  },
+  menuIcon: {
+    fontSize: 24,
+    color: '#FF6347',
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
+  content: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#FF6347',
+    textAlign: 'center',
+  },
+  input: {
+    height: 40,
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingHorizontal: 12,
+  },
+  multilineInput: {
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  imageThumbnail: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  imageButton: {
+    backgroundColor: '#FF6347',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  imageButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  postButton: {
+    backgroundColor: '#FF6347',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  postButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+export default CreateItem;

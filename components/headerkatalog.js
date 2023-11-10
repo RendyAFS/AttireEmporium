@@ -11,10 +11,7 @@ const HeaderKatalog = (props) => {
   const trueGray900 = "#171717";
   const navigation = useNavigation();
   const handleSearchSubmit = () => {
-    // Call the setSearchText function when the Enter key is pressed
     props.setSearchText(searchText);
-    // Dismiss the keyboard
-    Keyboard.dismiss();
   };
 
   return (
@@ -32,7 +29,6 @@ const HeaderKatalog = (props) => {
               backgroundColor="#F5F5F5"
               marginTop={2}
               borderWidth={1}
-              onSubmitEditing={handleSearchSubmit}
             >
               <InputField
                 marginStart={20}

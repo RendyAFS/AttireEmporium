@@ -17,7 +17,7 @@ import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
-
+import { StatusBar } from 'react-native';
 const ENTRIES1 = [
   {
     id: '1',
@@ -150,7 +150,9 @@ const Home = (props) => {
   }, []);
   return (
     <Box>
+      <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
       <ScrollView bgColor='#f5f5f5'>
+
         <Header title={"Header"} />
 
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
@@ -168,12 +170,10 @@ const Home = (props) => {
             role='carousel'
           />
         </Box>
-
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
           <HStack justifyContent="center">
             <Heading flex={1} marginStart={30} marginTop={10} color={'#DF9B52'}>CATEGORIES</Heading>
           </HStack>
-
           <Carousel
             marginTop={13}
             ref={carouselRef}

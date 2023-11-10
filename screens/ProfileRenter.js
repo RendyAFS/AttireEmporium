@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const EditItem = () => {
+const ProfileRenter = () => {
   return (
     <View>
-      <Text>EditItem</Text>
+      <Text>ProfileRenter</Text>
     </View>
   )
 }
 
-export default EditItem
+export default ProfileRenter

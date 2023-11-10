@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,7 +48,9 @@ const Tabs = () => {
         tabBarStyle: {
           height: 70,
           borderTopWidth: 1,
-          backgroundColor: "#313C47"
+          backgroundColor: "#313C47",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
         },
         tabBarLabel: ({ children, color, focused }) => {
           return (
@@ -88,7 +90,11 @@ const App = () => {
             gestureDirection: 'vertical',
           }} />
           <Stack.Screen name="DetailBarang" component={DetailBarang} />
-          <Stack.Screen name="Edit Profile" component={EditProfile} />
+          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} />
+          <Stack.Screen name="Create Item" component={CreateItem} options={noHead} />
+          <Stack.Screen name="Edit Item" component={EditItem} options={noHead} />
+          <Stack.Screen name="Profile Renter" component={ProfileRenter} options={noHead} />
+
 
           {/* <Stack.Screen
             name="News Detail"

@@ -8,16 +8,15 @@ import { useNavigation } from "@react-navigation/native";
 import React from 'react'
 
 const Header = (props) => {
-  const trueGray900 = "#171717";
   const navigation = useNavigation();
   return (
     <SafeAreaView>
-      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
+
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
-        <Pressable marginStart={20} flex={5} onPress={() => navigation.navigate('Katalog')}>
+          <Pressable marginStart={20} flex={5} onPress={() => navigation.navigate('Katalog')}>
             <Box width={"100%"} height={40} backgroundColor="#f5f5f5" rounded={5}></Box>
-            <Text  marginTop={8} marginLeft={50} position="absolute">Cari Disini</Text>
+            <Text marginTop={8} marginLeft={50} position="absolute">Cari Disini</Text>
             <Box position="absolute" marginLeft={10} marginTop={7}>
               <Ionicons name="search" size={24} color="#DF9B52" />
             </Box>
@@ -26,7 +25,7 @@ const Header = (props) => {
             <Image marginEnd={20}
               marginStart={10}
               marginTop={2}
-              source={require("../assets/images/anonim.jpg")}
+              source={require("../assets/images/avatar.png")}
               width={35}
               height={35}
               alt="CNN Logo"

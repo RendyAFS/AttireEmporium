@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { HeaderKatalog } from '../components';
 import {
   GluestackUIProvider,
+  Pressable,
   Image,
   FlatList,
   SafeAreaView,
@@ -15,7 +16,7 @@ import {
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
-
+import { useNavigation } from "@react-navigation/native";
 const ENTRIES1 = [
   {
     id: '1',
@@ -79,6 +80,7 @@ const ENTRIES2 = [
 const { width: screenWidth } = Dimensions.get('window');
 
 const Katalog = () => {
+  const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
 
   const Itemku = ({ item }) => {
@@ -89,12 +91,12 @@ const Katalog = () => {
       subtitle.toLowerCase().includes(searchText.toLowerCase());
 
     return isMatch ? (
-      <Box backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
+      <Pressable onPress={() => navigation.navigate('DetailBarang')} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
         <Image alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.illustration} />
         <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
         <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
         <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp 400000</Text>
-      </Box>
+      </Pressable>
     ) : null;
   };
   return (
