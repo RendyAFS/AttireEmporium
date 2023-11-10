@@ -74,11 +74,19 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead} />
-          <Stack.Screen name="Register" component={Register} options={noHead} />          
-          <Stack.Screen name="Login" component={Login} options={noHead} />   
-          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />     
-          <Stack.Screen name="Katalog" component={Katalog} options={noHead} /> 
-          <Stack.Screen name="GetInto1" component={GetInto1} options={noHead} />    
+          <Stack.Screen name="Register" component={Register} options={noHead} />
+          <Stack.Screen name="Login" component={Login} options={noHead} />
+          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
+          <Stack.Screen name="Katalog" component={Katalog} options={noHead} />
+          <Stack.Screen name="GetInto1" component={GetInto1} options={noHead} />
+          <Stack.Screen name="GetInto2" component={GetInto2} options={{
+            ...noHead,
+            transitionSpec: {
+              open: { animation: 'timing', config: { duration: 300 } },
+              close: { animation: 'timing', config: { duration: 300 } },
+            },
+            gestureDirection: 'vertical',
+          }} />
 
           {/* <Stack.Screen
             name="News Detail"
