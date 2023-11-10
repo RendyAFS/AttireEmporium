@@ -129,7 +129,8 @@ const FormPenyewaan = () => {
             width={'100%'}
             marginTop={20}
           >
-            <TextareaInput placeholder="Catatan Tambahan..." />
+            
+            <TextareaInput placeholder="Catatan Tambahan..." role="dialog"/>
           </Textarea>
         </Box>
 

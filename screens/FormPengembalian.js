@@ -86,7 +86,7 @@ const FormPengembalian = () => {
             width={'100%'}
             marginTop={20}
           >
-            <TextareaInput placeholder="Komentar..." />
+            <TextareaInput placeholder="Komentar..." role="dialog"/>
           </Textarea>
         </Box>
         <Box flexDirection="row" alignItems="center">
