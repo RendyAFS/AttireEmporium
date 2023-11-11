@@ -73,26 +73,19 @@ const App = () => {
   return (
     <GluestackUIProvider config={config}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Tabs" component={Tabs} options={noHead} />
+        <Stack.Navigator initialRouteName="GetInto1">
+          <Stack.Screen name="Tabs" component={Tabs} options={{...noHead, statusBarColor: '#DF9B52'}} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={noHead}/>
           <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
-          <Stack.Screen name="Register" component={Register} options={noHead} />
-          <Stack.Screen name="Login" component={Login} options={noHead} />
+          <Stack.Screen name="Register" component={Register} options={{...noHead,statusBarColor: '#021C35'}} />
+          <Stack.Screen name="Login" component={Login} options={{...noHead, statusBarColor: '#021C35'}} />
           <Stack.Screen name="Katalog" component={Katalog} options={noHead} />
-          <Stack.Screen name="GetInto1" component={GetInto1} options={noHead} />
-          <Stack.Screen name="GetInto2" component={GetInto2} options={{
-            ...noHead,
-            transitionSpec: {
-              open: { animation: 'timing', config: { duration: 300 } },
-              close: { animation: 'timing', config: { duration: 300 } },
-            },
-            gestureDirection: 'vertical',
-          }} />
+          <Stack.Screen name="GetInto1" component={GetInto1} options={{...noHead,statusBarColor: '#eee',statusBarStyle:'dark'}} />
+          <Stack.Screen name="GetInto2" component={GetInto2}  options={{...noHead,statusBarColor: '#eee',statusBarStyle:'dark'}} />
           <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ title: 'Detail barang' }}/>
           <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} />
           <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item' }} />
-          <Stack.Screen name="Edit Item" component={EditItem} ooptions={{ title: 'Edit Item' }} />
+          <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item' }} />
           <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter' }} />
 
 

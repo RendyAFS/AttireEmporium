@@ -1,7 +1,7 @@
 import { GluestackUIProvider, Heading, Center, Box, Text, Pressable, Image, HStack, VStack, ScrollView } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons, Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
 
 
 const Profile = () => {
@@ -10,7 +10,6 @@ const Profile = () => {
   return (
     <ScrollView>
       <Box flex={1} bgColor='#DF9B52' alignItems='center'>
-        <StatusBar backgroundColor={'#DF9B52'} barStyle={'light-content'} />
         <Box flex={1} alignItems="center">
           <Heading marginTop={30}>PROFILE</Heading>
           <Image alt="20" width={120} height={120} rounded={50} marginTop={10} source={require('../assets/images/avatar.png')} />
@@ -41,20 +40,20 @@ const Profile = () => {
           </HStack>
           <HStack marginTop={30}>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
-              <Box backgroundColor="#f3e9ff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="favorite" size={50} color="#A15DEA" />
+              <Box backgroundColor="#e0fff0" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <FontAwesome name="plus-square" size={50} color="#88D8B0" />
               </Box>
               <Text>Create Item</Text>
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
-              <Box backgroundColor="#fff2e3" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialCommunityIcons name="account-edit" size={50} color="#DF9B52" />
+              <Box backgroundColor="#eaefff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <MaterialCommunityIcons name="store-edit" size={50} color="#748CE1" />
               </Box>
               <Text>Edit Item</Text>
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
-              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <Entypo name="log-out" size={40} color="#da5393" />
+              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <MaterialIcons name="store" size={50} color=  "#0D98BA" />
               </Box>
               <Text>Proflie Renter</Text>
             </Pressable>
