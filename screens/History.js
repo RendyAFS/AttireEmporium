@@ -139,7 +139,7 @@ const History = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable onPress={() => {
-            navigation.navigate('FormPengembalian')
+            navigation.navigate('FormPengembalian',{ item: item })
           }}>
             <Box paddingTop={10} paddingHorizontal={8}>
               <Box width={'auto'} height={85} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
@@ -150,6 +150,7 @@ const History = () => {
                       borderTopLeftRadius={8}
                       borderBottomLeftRadius={8}
                       alt="img"
+                      role="img"
                     />
                   </Box>
                   <Box flex={4} flexDirection="column" padding={5}>

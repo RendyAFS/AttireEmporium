@@ -64,7 +64,7 @@ const EditItem = () => {
         </VStack>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {costumeImages.map((image, index) => (
-            <Image key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
+            <Image role='img' key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
           ))}
         </ScrollView>
         <Pressable

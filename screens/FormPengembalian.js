@@ -1,23 +1,15 @@
 import { GluestackUIProvider, Heading, Box, Text, Pressable, Image, Textarea, TextareaInput } from "@gluestack-ui/themed";
-import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const datas = [
-  {
-    id: 1,
-    title: "Custom Name 1",
-    date: "18-10-2023",
-    desc: "Deskripsi Costume Yang Dipesan",
-    image: "https://down-id.img.susercontent.com/file/sg-11134201-22100-6riucdxu3livf6",
-  },
-];
 
-const FormPengembalian = () => {
+
+const FormPengembalian = ({ route }) => {
+  const data = (route.params.item);
+  console.log(route.params.item)
   const navigation = useNavigation();
   const handleGoBack = () => {
-    // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
     navigation.goBack();
   };
 
@@ -47,41 +39,35 @@ const FormPengembalian = () => {
     <Box flex={1} justifyContent="center" bgColor="#F5F5F5" alignItems="center">
       <Heading marginBottom={10}>Konfirmasi Pengembalian barang</Heading>
       <Box width={'95%'}>
-        <FlatList
-          width={'100%'}
-          data={datas}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Pressable>
-              <Box paddingTop={10} marginBottom={20}>
-                <Box width={'auto'} height={150} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
-                  <Box flex={1} flexDirection="row">
-                    <Box flex={2}>
-                      <Image
-                        source={{ uri: item.image }}
-                        width={'auto'} height={145}
-                        borderTopLeftRadius={8}
-                        borderBottomLeftRadius={8}
-                        alt="img"
-                      />
-                    </Box>
-                    <Box flex={4} flexDirection="column" padding={5}>
-                      <Box flex={1}>
-                        <Text fontWeight="bold" fontSize={18}>{item.title}</Text>
-                      </Box>
-                      <Box flex={2}>
-                        <Text fontSize={14}>{item.desc}</Text>
-                      </Box>
-                      <Box flex={1}>
-                        <Text fontSize={14}>{item.date}</Text>
-                      </Box>
-                    </Box>
+        <Pressable>
+          <Box paddingTop={10} marginBottom={20}>
+            <Box width={'auto'} height={150} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>
+              <Box flex={1} flexDirection="row">
+                <Box flex={2}>
+                  <Image
+                    source={{ uri: data.image }}
+                    width={'auto'} height={145}
+                    borderTopLeftRadius={8}
+                    borderBottomLeftRadius={8}
+                    alt="img"
+                    role="img"
+                  />
+                </Box>
+                <Box flex={4} flexDirection="column" padding={5}>
+                  <Box flex={1}>
+                    <Text fontWeight="bold" fontSize={18}>{data.title}</Text>
+                  </Box>
+                  <Box flex={2}>
+                    <Text fontSize={14}>{data.desc}</Text>
+                  </Box>
+                  <Box flex={1}>
+                    <Text fontSize={14}>{data.date}</Text>
                   </Box>
                 </Box>
               </Box>
-            </Pressable>
-          )}
-        />
+            </Box>
+          </Box>
+        </Pressable>
         <Box paddingHorizontal={10}>
           <Textarea
             size="md"

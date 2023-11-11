@@ -30,6 +30,7 @@ const Header = (props) => {
               height={35}
               alt="CNN Logo"
               rounded={30}
+              role="img"
             />
           </Pressable>
         </HStack>
