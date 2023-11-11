@@ -46,7 +46,7 @@ const ENTRIES2 = [
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const Home = (props) => {
+const Home = () => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
   const [entries2, setEntries2] = useState(ENTRIES2);
