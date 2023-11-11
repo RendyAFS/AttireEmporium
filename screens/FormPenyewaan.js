@@ -43,7 +43,9 @@ const datas = [
 
 
 
-const FormPenyewaan = () => {
+const FormPenyewaan = ({ route }) => {
+  console.log(route.params.data)
+  const data = (route.params.data);
   const [showModal, setShowModal] = useState(false)
   const ref = React.useRef(null)
   const navigation = useNavigation();
@@ -85,7 +87,7 @@ const FormPenyewaan = () => {
                   <Box flex={1} flexDirection="column">
                     <Box flex={8}>
                       <Image
-                        source={{ uri: item.image }}
+                        source={{ uri: data.image }}
                         width={'auto'} height={500}
                         alt="img"
                         resizeMode="cover"
@@ -93,8 +95,8 @@ const FormPenyewaan = () => {
                       />
                     </Box>
                     <Box flex={1} flexDirection="column" paddingBottom={20} paddingTop={5} paddingStart={10} backgroundColor="rgba(255, 255, 255, 0.9)" >
-                      <Text fontWeight="bold" fontSize={18}>{item.title}</Text>
-                      <Text fontSize={14}>{item.desc}</Text>
+                      <Text fontWeight="bold" fontSize={18}>{data.title}</Text>
+                      <Text fontSize={14}>{data.subtitle}</Text>
                     </Box>
                   </Box>
                 </Box>

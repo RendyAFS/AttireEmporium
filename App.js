@@ -79,11 +79,11 @@ const App = () => {
           <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={noHead} />
           <Stack.Screen name="Register" component={Register} options={{...noHead,statusBarColor: '#021C35'}} />
           <Stack.Screen name="Login" component={Login} options={{...noHead, statusBarColor: '#021C35'}} />
-          <Stack.Screen name="Katalog" component={Katalog} options={noHead} />
+          <Stack.Screen name="Katalog" component={Katalog} options={{...noHead,statusBarColor: 'white',statusBarStyle:'dark'}} />
           <Stack.Screen name="GetInto1" component={GetInto1} options={{...noHead,statusBarColor: '#eee',statusBarStyle:'dark'}} />
           <Stack.Screen name="GetInto2" component={GetInto2}  options={{...noHead,statusBarColor: '#eee',statusBarStyle:'dark'}} />
-          <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ title: 'Detail barang' }}/>
-          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} />
+          <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ statusBarColor: 'black',statusBarStyle:'dark' }}/>
+          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: {  backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} />
           <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item' }} />
           <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item' }} />
           <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter' }} />
