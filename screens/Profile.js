@@ -12,7 +12,7 @@ const Profile = () => {
       <Box flex={1} bgColor='#DF9B52' alignItems='center'>
         <Box flex={1} alignItems="center">
           <Heading marginTop={30}>PROFILE</Heading>
-          <Image alt="20" width={120} height={120} rounded={50} marginTop={10} source={require('../assets/images/avatar.png')} />
+          <Image role="img" alt="20" width={120} height={120} rounded={50} marginTop={10} source={require('../assets/images/avatar.png')} />
         </Box>
         <Box flex={2} marginTop={20} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
           <Box alignItems="center" marginTop={20}>

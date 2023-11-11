@@ -1,20 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  GluestackUIProvider,
   Image,
-  FlatList,
-  SafeAreaView,
   Heading,
   Box,
   Text,
   ScrollView,
   HStack,
-  VStack,
   Pressable
 } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
+import { Dimensions, StyleSheet,Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
@@ -64,7 +60,7 @@ const Home = (props) => {
   const Itemku = ({ item }) => (
 
     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
-      <Image alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
+      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
       <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp 400000</Text>
@@ -79,7 +75,6 @@ const Home = (props) => {
             style={styles.image}
             parallaxFactor={0.4}
             {...parallaxProps}
-            role='img'
           />
           <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
             fontWeight='bold' numberOfLines={2}>
@@ -103,7 +98,6 @@ const Home = (props) => {
           resizeMode={'cover'}
           parallaxFactor={0.1}
           {...parallaxProps}
-          role='img'
         />
         <Text textAlign='center' numberOfLines={2}>
           {item.title}
@@ -137,7 +131,6 @@ const Home = (props) => {
             hasParallaxImages={true}
             autoplay={true}
             loop={true}
-            role='carousel'
           />
         </Box>
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
@@ -153,7 +146,6 @@ const Home = (props) => {
             data={entries2}
             renderItem={renderKategori}
             hasParallaxImages={true}
-            role='carousel'
           />
         </Box>
         <Box bgColor='white' paddingVertical={10} rounded={5} >
