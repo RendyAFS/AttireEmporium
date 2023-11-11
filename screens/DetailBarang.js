@@ -1,6 +1,8 @@
 import React from 'react';
-import { Pressable, Box, Text, Image, Button, ButtonText, Heading, Icon } from "@gluestack-ui/themed";
+import { Pressable, Box, Text, Image, Button, ButtonText, Heading } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
+
+
 
 const DetailBarang = ({route}) => {
   // Dummy rating, gantilah dengan rating yang sesuai dengan barang tersebut

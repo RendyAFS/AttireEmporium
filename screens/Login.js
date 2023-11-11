@@ -66,7 +66,7 @@ function Login() {
           <Button
             backgroundColor="#DF9B52"
             marginTop={10}
-            rounded={10}
+            rounded={5}
             onPress={() => navigation.navigate('Tabs')}
 
           >
@@ -82,7 +82,7 @@ function Login() {
           <Button
             backgroundColor="#021C35"
             onPress={() => navigation.navigate('Register')}
-            rounded={10}
+            rounded={5}
           >
             <ButtonText color="$white">Register</ButtonText>
           </Button>
