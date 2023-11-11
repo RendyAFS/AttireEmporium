@@ -73,6 +73,7 @@ const FormPenyewaan = ({ route }) => {
                     alt="img"
                     resizeMode="cover"
                     borderRadius={10}
+                    role="img"
                   />
                 </Box>
                 <Box flex={1} flexDirection="column" paddingBottom={20} paddingTop={5} paddingStart={10} backgroundColor="rgba(255, 255, 255, 0.9)" >
@@ -149,7 +150,7 @@ const FormPenyewaan = ({ route }) => {
 
             <Center flex={1} flexDirection="row">
               <Text onPress={handleGoBack}
-                backgroundColor="red"
+                backgroundColor="#313C47"
                 paddingVertical={10}
                 paddingHorizontal={60}
                 borderRadius={10}
@@ -162,7 +163,7 @@ const FormPenyewaan = ({ route }) => {
                 Batal
               </Text>
               <Text onPress={() => setShowModal(true)} ref={ref}
-                backgroundColor="green"
+                backgroundColor="#DF9B52"
                 paddingVertical={10}
                 paddingHorizontal={40}
                 borderRadius={10}
