@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VStack, Text, Input, InputField, Pressable, Image, ScrollView } from '@gluestack-ui/themed';
 import { useTheme } from '@gluestack-ui/themed';
-
+//definisi create
 const Create = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
   const [costumeName, setCostumeName] = useState('');
