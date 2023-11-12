@@ -98,7 +98,7 @@ const Create = () => {
           height={50}
           marginTop={10}
           borderRadius={4}
-          backgroundColor={'#313C47'}
+          backgroundColor={'#DF9B52'}
           marginBottom={16}
           onPress={handleImageSelection}
         >
@@ -116,7 +116,7 @@ const Create = () => {
           backgroundColor={'#DF9B52'}
           onPress={handlePostCostume}
         >
-          <Text color={theme.postButtonTextColor} fontWeight="bold">
+          <Text color="white" fontWeight="bold">
             Post Costume
           </Text>
         </Pressable>

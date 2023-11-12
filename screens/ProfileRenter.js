@@ -26,7 +26,7 @@ const ProfileRenter = () => {
       renderItem={({ item }) => (
         <VStack flex={1} backgroundColor='#FFFFFF' padding={16}>
           <VStack alignItems='center'>
-            <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#000000' />
+            <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
           </VStack>
           <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Informasi Pengguna</Text>
           {item ? ( // Check if item (userData) is not null
