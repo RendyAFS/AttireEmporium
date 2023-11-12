@@ -2,7 +2,6 @@ import {
   GluestackUIProvider,
   Heading,
   Center,
-  StatusBar,
   Box,
   Text,
   Pressable,
@@ -14,10 +13,9 @@ import { config } from "@gluestack-ui/config";
 import {
   FlatList,
 } from 'react-native';
-import React, { useState } from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-
+import React, { useState, useMemo } from 'react';
 
 
 const datas =
@@ -95,24 +93,15 @@ const datas =
   ];
 
 
-
 const History = () => {
   const navigation = useNavigation();
-  const handleGoBack = () => {
-    // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
-    navigation.goBack();
-  };
+  const [searchText, setSearchText] = useState('');
 
-  const [searchKeyword, setSearchKeyword] = useState('');
-
-  const handleSearchChange = (text) => {
-    setSearchKeyword(text);
-  }
-
-  // Filter data berdasarkan hasil pencarian
-  const filteredData = datas.filter((item) => {
-    return item.title.toLowerCase().includes(searchKeyword.toLowerCase());
-  });
+  const filteredData = useMemo(() => {
+    return datas.filter((item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [searchText]);
 
   return (
     <GluestackUIProvider config={config}>
@@ -125,21 +114,24 @@ const History = () => {
               isDisabled={false}
               isInvalid={false}
               isReadOnly={false}
-              value={searchKeyword}
-              onChangeText={handleSearchChange}
-              style={{ flex: 1 }} 
+              style={{ flex: 1 }}
             >
-              <InputField marginStart={5} placeholder="Cari History Pemesanan" />
+              <InputField
+                marginStart={5}
+                placeholder="Cari History Pemesanan"
+                value={searchText}
+                onChangeText={(text) => setSearchText(text)}
+              />
             </Input>
           </Box>
         </Center>
       </Box>
       <FlatList
-        data={filteredData} // Menampilkan hasil pencarian
+        data={filteredData}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable onPress={() => {
-            navigation.navigate('FormPengembalian',{ item: item })
+            navigation.navigate('FormPengembalian', { item: item })
           }}>
             <Box paddingTop={10} paddingHorizontal={8}>
               <Box width={'auto'} height={85} bgColor="white" borderColor="#DF9B52" borderWidth={2} borderRadius={10}>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, Box, Text, Image, Button, ButtonText, Heading } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 

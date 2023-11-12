@@ -61,8 +61,9 @@ const FormPenyewaan = ({ route }) => {
 
   return (
     <GluestackUIProvider config={config}>
-      <Box flex={1} flexDirection="column" bgColor="#DF9B52" paddingHorizontal={10}>
-        <Box flex={1} bgColor="#DF9B52" alignItems="center" paddingTop={20}>
+      <Box flex={1}  flexDirection="column" bgColor="#DF9B52" paddingHorizontal={10}>
+      <Heading textAlign="center" marginBottom={5}>Konfirmasi Penyewaan barang</Heading>
+        <Box flex={1} bgColor="#DF9B52" alignItems="center" paddingTop={8} marginBottom={10}>
           <Box width={'90%'}>
             <Box width={'auto'} height={350}>
               <Box flex={1} flexDirection="column">
