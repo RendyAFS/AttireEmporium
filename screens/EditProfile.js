@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+profile
+import React, { useState, useEffect } from 'react';
 import { Box, Image, Button, Input, Heading, InputField } from "@gluestack-ui/themed";
-import { View } from 'react-native';
+import { Alert } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 
 const EditProfile = () => {
-  const [fullName, setFullName] = useState("Japir Jibran kanibal");
-  const [address, setAddress] = useState("Alamat lengkap pengguna");
-  const [phoneNumber, setPhoneNumber] = useState("Nomor Hp pengguna");
+  const [fullName, setFullName] = useState("Javier Jibran");
+  const [address, setAddress] = useState("Lumajang");
+  const [phoneNumber, setPhoneNumber] = useState("081230038908");
+  const navigation = useNavigation(); 
 
   const handleSave = () => {
-    // Logika penyimpanan data disini
+
     console.log("Data saved:", { fullName, address, phoneNumber });
+
+
+    Alert.alert(
+      "Profile Diubah !",
+      "Perubahan pada profil Anda telah disimpan.",
+      [
+        { text: "OK", onPress: () => navigation.navigate('Profile')}
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -32,22 +45,20 @@ const EditProfile = () => {
           marginTop={20}
           borderWidth={0}
           placeholder="Nama Lengkap"
-         
           backgroundColor="#f3f3f3"
           rounded={10}
           onChangeText={(text) => setFullName(text)}
         >
-          <InputField placeholder="Username"  value={fullName} />
+          <InputField placeholder="Username"  />
         </Input>
         <Input
-          
           marginTop={20}
           borderWidth={0}
           onChangeText={(text) => setAddress(text)}
           backgroundColor="#f3f3f3"
           rounded={10}
         >
-          <InputField placeholder="Alamat Lengkap" value={address} />
+          <InputField placeholder="Alamat Lengkap"  />
         </Input>
         <Input
           placeholder="Nomor Hp"
@@ -57,7 +68,7 @@ const EditProfile = () => {
           rounded={10}
           onChangeText={(text) => setPhoneNumber(text)}
         >
-          <InputField value={phoneNumber} placeholder="Nomor Hp" />
+          <InputField  placeholder="Nomor Hp" />
         </Input>
         <Button marginTop={50} backgroundColor="#DF9B52" rounded={10} onPress={handleSave}>
           <Heading color="white">Save</Heading>
