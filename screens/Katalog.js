@@ -19,7 +19,6 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import datas from '../datas';
 
-
 const { width: screenWidth } = Dimensions.get('window');
 
 const Katalog = () => {
@@ -64,16 +63,3 @@ const Katalog = () => {
 };
 
 export default Katalog;
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    marginBottom: Platform.select({ ios: 0, android: 1 }),
-    backgroundColor: 'white',
-    borderRadius: 8,
-  },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-
-  },
-});

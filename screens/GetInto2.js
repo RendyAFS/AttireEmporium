@@ -14,14 +14,13 @@ const GetInto2 = () => {
       <Text fontSize={22} fontWeight='bold' textAlign='center' >
           Temukan Gaya mu di Attire Emporium
         </Text>
-        <Text fontSize={17} textAlign='center' marginTop={10} marginLeft={29} marginRight={29}>
+        <Text fontSize={15} marginTop={10} marginLeft={29} marginRight={29}>
           Attire Emporium hadir untuk menyempurnakan momen-momen istimewamu. Temukan gaya yang sesuai dan buat setiap penampilan berkesan.
         </Text>
       </Box>
       <Button
         backgroundColor='#313C47'
         onPress={() => navigation.navigate('Login')}
-
         height={50}
         width={"65%"}
         marginTop={50}
