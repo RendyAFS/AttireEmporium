@@ -96,7 +96,6 @@ const datas =
 const History = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-
   const filteredData = useMemo(() => {
     return datas.filter((item) =>
       item.title.toLowerCase().includes(searchText.toLowerCase())
