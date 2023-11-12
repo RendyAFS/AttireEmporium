@@ -23,27 +23,15 @@ import {
   CalendarDaysIcon,
   HStack
 } from "@gluestack-ui/themed";
-import { FlatList } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { config } from "@gluestack-ui/config";
 import { useNavigation } from "@react-navigation/native";
 
 
 
-// Data
-const datas = [
-  {
-    id: 1,
-    title: "Custom Name 1",
-    date: "18-10-2023",
-    desc: "Deskripsi Costume Yang Dipesan",
-    image: "https://down-id.img.susercontent.com/file/sg-11134201-22100-6riucdxu3livf6",
-  },
-];
-
-
-
-const FormPenyewaan = () => {
+const FormPenyewaan = ({ route }) => {
+  console.log(route.params.data)
+  const data = (route.params.data);
   const [showModal, setShowModal] = useState(false)
   const ref = React.useRef(null)
   const navigation = useNavigation();
@@ -76,30 +64,24 @@ const FormPenyewaan = () => {
       <Box flex={1} flexDirection="column" bgColor="#DF9B52" paddingHorizontal={10}>
         <Box flex={1} bgColor="#DF9B52" alignItems="center" paddingTop={20}>
           <Box width={'90%'}>
-            <FlatList
-              width={'100%'}
-              data={datas}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <Box width={'auto'} height={350}>
-                  <Box flex={1} flexDirection="column">
-                    <Box flex={8}>
-                      <Image
-                        source={{ uri: item.image }}
-                        width={'auto'} height={500}
-                        alt="img"
-                        resizeMode="cover"
-                        borderRadius={10}
-                      />
-                    </Box>
-                    <Box flex={1} flexDirection="column" paddingBottom={20} paddingTop={5} paddingStart={10} backgroundColor="rgba(255, 255, 255, 0.9)" >
-                      <Text fontWeight="bold" fontSize={18}>{item.title}</Text>
-                      <Text fontSize={14}>{item.desc}</Text>
-                    </Box>
-                  </Box>
+            <Box width={'auto'} height={350}>
+              <Box flex={1} flexDirection="column">
+                <Box flex={8}>
+                  <Image
+                    source={{ uri: data.image }}
+                    width={'auto'} height={300}
+                    alt="img"
+                    resizeMode="cover"
+                    borderRadius={10}
+                    role="img"
+                  />
                 </Box>
-              )}
-            />
+                <Box flex={1} flexDirection="column" paddingBottom={20} paddingTop={5} paddingStart={10} backgroundColor="rgba(255, 255, 255, 0.9)" >
+                  <Text fontWeight="bold" fontSize={18}>{data.title}</Text>
+                  <Text fontSize={14}>{data.subtitle}</Text>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Box>
         <Box flex={1} backgroundColor="#DF9B52">
@@ -168,7 +150,7 @@ const FormPenyewaan = () => {
 
             <Center flex={1} flexDirection="row">
               <Text onPress={handleGoBack}
-                backgroundColor="red"
+                backgroundColor="#313C47"
                 paddingVertical={10}
                 paddingHorizontal={60}
                 borderRadius={10}
@@ -181,7 +163,7 @@ const FormPenyewaan = () => {
                 Batal
               </Text>
               <Text onPress={() => setShowModal(true)} ref={ref}
-                backgroundColor="green"
+                backgroundColor="#DF9B52"
                 paddingVertical={10}
                 paddingHorizontal={40}
                 borderRadius={10}
@@ -202,58 +184,50 @@ const FormPenyewaan = () => {
                 finalFocusRef={ref}
               >
                 <ModalBackdrop />
-                <FlatList
-                  justifyContent="center"
-                  width={'100%'}
-                  data={datas}
-                  keyExtractor={(item) => item.id.toString()}
-                  renderItem={({ item }) => (
-                    <Center>
-                      <ModalContent>
-                        <ModalHeader>
-                          <Heading size="lg">Konfirmasi !</Heading>
-                          <ModalCloseButton>
-                            <Icon as={CloseIcon} />
-                          </ModalCloseButton>
-                        </ModalHeader>
-                        <ModalBody>
-                          <Text fontWeight="bold">
-                            Detail Barang: <Text>{item.title}</Text>
-                          </Text>
-                          <Text fontWeight="bold">
-                            Tanggal Peminjaman: <Text>{pickupDate.toDateString()}</Text>
-                          </Text>
-                          <Text fontWeight="bold">
-                            Tanggal Pengembalian: <Text>{returnDate.toDateString()}</Text>
-                          </Text>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            action="secondary"
-                            mr="$3"
-                            onPress={() => {
-                              setShowModal(false)
-                            }}
-                          >
-                            <ButtonText>Batal</ButtonText>
-                          </Button>
-                          <Button
-                            size="sm"
-                            action="positive"
-                            borderWidth="$0"
-                            onPress={() => {
-                              navigation.navigate('Home')
-                            }}
-                          >
-                            <ButtonText>Konfirmasi</ButtonText>
-                          </Button>
-                        </ModalFooter>
-                      </ModalContent>
-                    </Center>
-                  )}
-                />
+                <Center>
+                  <ModalContent>
+                    <ModalHeader>
+                      <Heading size="lg">Konfirmasi !</Heading>
+                      <ModalCloseButton>
+                        <Icon as={CloseIcon} />
+                      </ModalCloseButton>
+                    </ModalHeader>
+                    <ModalBody>
+                      <Text fontWeight="bold">
+                        Nama Barang: <Text>{data.title}</Text>
+                      </Text>
+                      <Text fontWeight="bold">
+                        Tanggal Peminjaman: <Text>{pickupDate.toDateString()}</Text>
+                      </Text>
+                      <Text fontWeight="bold">
+                        Tanggal Pengembalian: <Text>{returnDate.toDateString()}</Text>
+                      </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        action="secondary"
+                        mr="$3"
+                        onPress={() => {
+                          setShowModal(false)
+                        }}
+                      >
+                        <ButtonText>Batal</ButtonText>
+                      </Button>
+                      <Button
+                        size="sm"
+                        action="positive"
+                        borderWidth="$0"
+                        onPress={() => {
+                          navigation.navigate('Home')
+                        }}
+                      >
+                        <ButtonText>Konfirmasi</ButtonText>
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Center>
               </Modal>
             </Center>
           </Box>

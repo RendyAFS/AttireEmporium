@@ -31,7 +31,7 @@ function Login() {
   return (
     <Box flex={1} backgroundColor="#021C35" >
       <Box alignItems="center" justifyContent="center" flex={1}>
-        <Image alt="hello" width={220} height={310} resizeMode="cover" source={require('../assets/images/Logo.png')} />
+        <Image role="img" alt="hello" width={220} height={310} resizeMode="cover" source={require('../assets/images/Logo.png')} />
 
       </Box>
       <Box
@@ -66,11 +66,9 @@ function Login() {
           <Button
             backgroundColor="#DF9B52"
             marginTop={10}
-            onPress={() => {
-              // Tambahkan logika login di sini
-            }}
-            rounded={10}
-            onPress={() => navigation.navigate('Home')}
+            rounded={5}
+            onPress={() => navigation.navigate('Tabs')}
+
           >
             <ButtonText color="$white">Login</ButtonText>
           </Button>
@@ -84,7 +82,7 @@ function Login() {
           <Button
             backgroundColor="#021C35"
             onPress={() => navigation.navigate('Register')}
-            rounded={10}
+            rounded={5}
           >
             <ButtonText color="$white">Register</ButtonText>
           </Button>

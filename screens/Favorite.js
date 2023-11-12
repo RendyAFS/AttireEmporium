@@ -58,7 +58,7 @@ const Home = (props) => {
   // const fontColor = "#313C47"
   const Itemku = ({ item }) => (
     <Box backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
-      <Image alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.illustration} />
+      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.illustration} />
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
 

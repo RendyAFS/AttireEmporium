@@ -108,58 +108,75 @@ const EditItem = () => {
    },
  };
 
- return (
-   <View style={{ ...styles.container, padding: 16 }}>
-     <View style={{ ...styles.header, backgroundColor: 'black' }}>
-       {/* Tombol untuk membuka drawer */}
-       <TouchableOpacity onPress={openDrawer} style={styles.menuButton}>
-         <Text style={styles.menuIcon}>☰</Text>
-       </TouchableOpacity>
-       {/* Judul halaman */}
-       <Text style={styles.headerTitle}>Edit Your Costume</Text>
-       <View style={{ flex: 1 }}></View>
-     </View>
-     {/* Konten halaman */}
-     <ScrollView contentContainerStyle={styles.content}>
-       {/* Bagian Detail Kostum */}
-       <Text style={styles.title}>Detail Kostum</Text>
-       <TextInput
-         style={styles.input}
-         placeholder="Nama Kostum"
-         value={costumeName}
-         onChangeText={(text) => setCostumeName(text)}
-       />
-       <TextInput
-         style={[styles.input, styles.multilineInput]}
-         placeholder="Deskripsi"
-         value={costumeDescription}
-         onChangeText={(text) => setCostumeDescription(text)}
-         multiline
-       />
-       <TextInput
-         style={styles.input}
-         placeholder="Harga Rental (per hari)"
-         value={rentalPrice}
-         onChangeText={(text) => setRentalPrice(text)}
-         keyboardType="numeric"
-       />
-       {/* Bagian Gambar Kostum */}
-       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-         {costumeImages.map((image, index) => (
-           <Image key={index} source={{ uri: image }} style={styles.imageThumbnail} />
-         ))}
-       </ScrollView>
-       {/* Tombol untuk menambahkan gambar kostum */}
-       <TouchableOpacity style={styles.imageButton} onPress={handleImageSelection}>
-         <Text style={styles.imageButtonText}>Tambahkan Gambar</Text>
-       </TouchableOpacity>
-       {/* Tombol untuk memposting kostum */}
-       <TouchableOpacity style={styles.postButton} onPress={handleEditCostume}>
-         <Text style={styles.postButtonText}>Edit Costume</Text>
-       </TouchableOpacity>
-     </ScrollView>
-   </View>
- );
+  return (
+    <Box flex={1} backgroundColor="#1A1A1A" padding={16}>
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#FFD700">
+          Costume Details
+        </Text>
+        <VStack space="md" width="100%">
+          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+            <InputField
+              placeholder="Costume Name"
+              value={costumeName}
+              onChangeText={(text) => setCostumeName(text)}
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={20} width="100%">
+          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+            <InputField
+              placeholder="Description"
+              value={costumeDescription}
+              onChangeText={(text) => setCostumeDescription(text)}
+              multiline
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={20} width="100%">
+          <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
+            <InputField
+              placeholder="Rental Price (per day)"
+              value={rentalPrice}
+              onChangeText={(text) => setRentalPrice(text)}
+              keyboardType="numeric"
+            />
+          </Input>
+        </VStack>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {costumeImages.map((image, index) => (
+            <Image key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
+          ))}
+        </ScrollView>
+        <Pressable
+          marginTop={20}
+          justifyContent="center"
+          alignItems="center"
+          height={50}
+          borderRadius={4}
+          backgroundColor="#FFD700"
+          marginBottom={16}
+          onPress={handleImageSelection}
+        >
+          <Text color="#1A1A1A" fontWeight="bold">
+            Add Image
+          </Text>
+        </Pressable>
+        <Pressable
+          justifyContent="center"
+          alignItems="center"
+          height={50}
+          borderRadius={4}
+          backgroundColor="#FFD700"
+          onPress={handleEditCostume}
+        >
+          <Text color="#1A1A1A" fontWeight="bold">
+            Edit Costume
+          </Text>
+        </Pressable>
+      </ScrollView>
+    </Box>
+  );
 };
 
 export default EditItem

@@ -23,6 +23,7 @@ const EditProfile = () => {
           marginBottom={10}
           alt='profile'
           rounded={50}
+          role='img'
         />
         <Heading color='white' fontSize={25}>{fullName}</Heading>
       </Box>
