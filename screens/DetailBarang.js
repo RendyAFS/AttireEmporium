@@ -4,6 +4,7 @@ import { Pressable, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons'; 
 
+// Functional
 const DetailBarang = ({ route }) => {
   const navigation = useNavigation();
   const data = route.params.item;
@@ -29,7 +30,7 @@ const DetailBarang = ({ route }) => {
 
   return (
     <Box flex={1} alignItems='center' >
-      <Image role='img' source={{ uri: data.image }} alt='gambar barang' width={"100%"} height={600} />
+      <Image role='img' resizeMode='contain' source={{ uri: data.image }} alt='gambar barang' width={"100%"} height={300} />
       <Box backgroundColor='white' flex={5} width={"100%"} borderTopStartRadius={30} padding={15}>
         <Heading fontSize={24} marginTop={15} fontWeight="bold">
           {data.title}
@@ -40,7 +41,7 @@ const DetailBarang = ({ route }) => {
         <Text fontSize={18} color="#02E107" marginTop={2}>
           Tersedia
         </Text>
-        <Box width={"5%"} marginTop={1}>
+        <Box width={'auto'} marginTop={1}>
           <Pressable onPress={() => showFavoritePopup()}>
             <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
           </Pressable>
