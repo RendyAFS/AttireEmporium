@@ -17,40 +17,13 @@ import { StatusBar } from 'react-native';
 import datas from '../data/datas';
 import category from '../data/category';
 
-const ENTRIES2 = [
-  {
-    id: '1',
-    title: 'Baju Game',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://cdn.dribbble.com/users/1070235/screenshots/3972823/juggernaut_dota_2.png ',
-  },
-  {
-    id: '2',
-    title: 'Baju Perang',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://steamuserimages-a.akamaihd.net/ugc/616166913242053508/B53302A3EE0104ADB6347A74F309D66E0476C3BD/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
-  },
-  {
-    id: '3',
-    title: 'Baju Wibu',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-    illustration: 'https://ae01.alicdn.com/kf/Sa6a1a7d75991407fb655297f32e642ebS/Baju-Seragam-Cosplay-Anime-YouTuber-Vumbi-Hololive-Mayuni-Fuyuko-Pakaian-Seragam-Kostum-Cosplay-Kustom-Permainan-Pakaian.jpg',
-  },
-  {
-    id: '4',
-    title: 'Baju Partai',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://asset.kompas.com/crops/U3mPvwHDHwgEp47O5qdnXpa0USg=/0x0:779x519/780x390/data/photo/2021/10/15/61698c7aece86.jpg',
-  },
-];
-
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const Home = () => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
-  const [entries2, setEntries2] = useState(ENTRIES2);
+  const [entries2, setEntries2] = useState(category);
   const carouselRef = useRef(null);
   const goForward = () => {
     if (carouselRef.current) {
@@ -115,7 +88,7 @@ const Home = () => {
     setEntries(datas);
   }, []);
   useEffect(() => {
-    setEntries2(ENTRIES2);
+    setEntries2(category);
   }, []);
   return (
     <Box>
@@ -148,7 +121,7 @@ const Home = () => {
             sliderWidth={screenWidth}
             sliderHeight={screenWidth}
             itemWidth={screenWidth - 210}
-            data={entries2}
+            data={category}
             renderItem={renderKategori}
             hasParallaxImages={true}
           />
