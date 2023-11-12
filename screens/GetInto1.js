@@ -7,35 +7,35 @@ const GetInto1 = () => {
   return (
     <Box backgroundColor='#eee' justifyContent='center' alignItems='center'>
       <Box maxWidth={'100%'} marginBottom={30} marginTop={70}>
-        <Image role='img' alt='japir' width={200} height={400} source={require('../assets/images/getinto2.png')} />
+        <Image role='img' alt='japir' width={300} height={610} source={require('../assets/images/getinto2.png')} />
       </Box>
       <Box width={"80%"}>
-        <Text fontSize={20} fontWeight='bold' textAlign='center' >
-          Selamat datang di Attire Emporium
+        <Text fontSize={22} fontWeight='bold' textAlign='center' >
+          Selamat Datang di Attire Emporium
         </Text>
-        <Text fontSize={15} textAlign='center' marginTop={10}>
+        <Text fontSize={17} textAlign='center' marginTop={10} marginLeft={15} marginRight={15}>
           Tempatnya penyewaan fashion pilihan untuk penampilanmu yang tak terlupakan!
         </Text>
       </Box>
-      {/* <Button
+      <Button
         borderColor='#313C47'
         borderWidth={2}
         backgroundColor='#eee'
         onPress={() => navigation.navigate('Login')}
         height={50}
         width={"65%"}
-        marginTop={30}
+        marginTop={60}
       >
         <ButtonText color='#313C47' fontSize={20} fontWeight='bold'>
           Login
         </ButtonText>
-      </Button> */}
+      </Button>
       <Button
         backgroundColor='#313C47'
         onPress={() => navigation.navigate('GetInto2')}
         height={50}
         width={"65%"}
-        marginTop={100}
+        marginTop={20}
       >
         <ButtonText fontSize={20} fontWeight='bold'>
           Next
