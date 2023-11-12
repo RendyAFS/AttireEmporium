@@ -8,7 +8,7 @@ const GetInto1 = () => {
   return (
     <Box backgroundColor='#eee' justifyContent='center' alignItems='center'>
       <Box maxWidth={'100%'} marginBottom={30} marginTop={70}>
-        <Image role='img' alt='japir' width={300} height={610} source={require('../assets/images/getinto2.png')} />
+        <Image role='img' resizeMode='contain' alt='japir' width={300} height={400} source={require('../assets/images/getinto2.png')} />
       </Box>
       <Box width={"80%"}>
         <Text fontSize={22} fontWeight='bold' textAlign='center' >
