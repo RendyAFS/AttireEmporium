@@ -52,7 +52,6 @@ const Home = () => {
   const [entries, setEntries] = useState(datas);
   const [entries2, setEntries2] = useState(ENTRIES2);
   const carouselRef = useRef(null);
-  // const fontColor = "#313C47"
   const goForward = () => {
     if (carouselRef.current) {
       carouselRef.current.snapToNext();
