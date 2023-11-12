@@ -53,7 +53,7 @@ const ENTRIES1 = [
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const Home = (props) => {
+const Favorite = (props) => {
   const [entries, setEntries] = useState(ENTRIES1);
   // const fontColor = "#313C47"
   const Itemku = ({ item }) => (
@@ -107,7 +107,7 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default Favorite;
 
 const styles = StyleSheet.create({
   imageContainer: {
