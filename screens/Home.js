@@ -10,11 +10,12 @@ import {
 } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import { Dimensions, StyleSheet,Platform } from 'react-native';
+import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
-import datas from '../datas';
+import datas from '../data/datas';
+import category from '../data/category';
 
 const ENTRIES2 = [
   {
@@ -68,19 +69,24 @@ const Home = () => {
   );
   const renderItem = ({ item }, parallaxProps) => {
     return (
-        <Pressable  onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
-          <ParallaxImage
-            source={{ uri: item.image }}
-            containerStyle={styles.imageContainer}
-            style={styles.image}
-            parallaxFactor={0.4}
-            {...parallaxProps}
-          />
-          <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
-            fontWeight='bold' numberOfLines={2}>
-            {item.title}
-          </Text>
-        </Pressable>
+      <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
+        <ParallaxImage
+          source={{ uri: item.image }}
+          containerStyle={{
+            flex: 1,
+            marginBottom: Platform.select({ ios: 0, android: 1 }),
+            backgroundColor: 'white',
+            borderRadius: 8,
+          }}
+          style={{...StyleSheet.absoluteFillObject}}
+          parallaxFactor={0.4}
+          {...parallaxProps}
+        />
+        <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
+          fontWeight='bold' numberOfLines={2}>
+          {item.title}
+        </Text>
+      </Pressable>
     );
   };
   const renderKategori = ({ item }, parallaxProps) => {
@@ -94,7 +100,7 @@ const Home = () => {
             backgroundColor: 'black',
             borderRadius: 8,
           }}
-          style={styles.image}
+          style={{ ...StyleSheet.absoluteFillObject }}
           resizeMode={'cover'}
           parallaxFactor={0.1}
           {...parallaxProps}
@@ -176,16 +182,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    marginBottom: Platform.select({ ios: 0, android: 1 }),
-    backgroundColor: 'white',
-    borderRadius: 8,
-  },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-
-  },
-});

@@ -1,6 +1,5 @@
 import { GluestackUIProvider, Heading, Center, Box, Text, Pressable, Image, HStack, VStack, ScrollView } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
 
 
