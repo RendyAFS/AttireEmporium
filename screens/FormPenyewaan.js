@@ -72,7 +72,7 @@ const FormPenyewaan = ({ route }) => {
                     source={{ uri: data.image }}
                     width={'auto'} height={300}
                     alt="img"
-                    resizeMode="cover"
+                    resizeMode="contain"
                     borderRadius={10}
                     role="img"
                   />
