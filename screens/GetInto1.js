@@ -7,8 +7,8 @@ const GetInto1 = () => {
   const navigation = useNavigation();
   return (
     <Box backgroundColor='#eee' justifyContent='center' alignItems='center'>
-      <Box maxWidth={'100%'} marginBottom={30} marginTop={70}>
-        <Image role='img' resizeMode='contain' alt='japir' width={300} height={400} source={require('../assets/images/getinto2.png')} />
+      <Box Width={'100%'} marginTop={50} marginBottom={20}>
+        <Image role='img' resizeMode='contain' alt='japir' width={200} height={400} source={require('../assets/images/getinto2.png')} />
       </Box>
       <Box width={"80%"}>
         <Text fontSize={22} fontWeight='bold' textAlign='center' >
