@@ -1,99 +1,128 @@
-// Impor komponen yang diperlukan dari react dan react-native
 import React, { useState } from 'react';
-import { VStack, Text, TextInput, Button, Image } from "@gluestack-ui/themed";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { VStack, Text, Input, InputField, Pressable, Image, ScrollView } from '@gluestack-ui/themed';
+import { useTheme } from '@gluestack-ui/themed';
 
-// Definisikan komponen Create
 const Create = () => {
-  // Gunakan state untuk menyimpan data inputan
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState(null);
+  // State untuk menyimpan informasi kostum yang akan diposting
+  const [costumeName, setCostumeName] = useState('');
+  const [costumeDescription, setCostumeDescription] = useState('');
+  const [rentalPrice, setRentalPrice] = useState('');
+  const [costumeImages, setCostumeImages] = useState([]);
 
-  // Fungsi untuk memilih gambar dari kamera
-  const selectFromCamera = () => {
-    const options = {
-      mediaType: 'photo',
-      quality: 0.5,
-      includeBase64: true,
-    };
-    launchCamera(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setImage(response);
-      }
+  // Fungsi untuk menangani proses posting kostum
+  const handlePostCostume = () => {
+    // Simulasi posting kostum (ganti dengan logika sesungguhnya)
+    console.log('Posting costume:', {
+      costumeName,
+      costumeDescription,
+      rentalPrice,
+      costumeImages,
     });
+
+    // Reset nilai form setelah posting
+    setCostumeName('');
+    setCostumeDescription('');
+    setRentalPrice('');
+    setCostumeImages([]);
   };
 
-  // Fungsi untuk memilih gambar dari galeri
-  const selectFromGallery = () => {
-    const options = {
-      mediaType: 'photo',
-      quality: 0.5,
-      includeBase64: true,
-    };
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setImage(response);
-      }
-    });
+  // Fungsi untuk menangani pemilihan gambar kostum
+  const handleImageSelection = () => {
+    // Simulasi pemilihan gambar (belum ada logika sesungguhnya)
+    console.log('Selecting image...');
   };
 
-  // Fungsi untuk menangani submit
-  const handleSubmit = () => {
-    // Logika untuk memposting kostum akan ditempatkan di sini
-    console.log('Kostum diposting:', title, description, price, image);
-  };
+  // Access the theme
+  const theme = useTheme();
 
   return (
-    <VStack flex={1} backgroundColor='#FFFFFF' padding={16}>
-      {/* Input untuk judul kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Judul Kostum:</Text>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Masukkan judul kostum"
-      />
+    <VStack flex={1} backgroundColor={theme.backgroundColor} padding={16}>
+      {/* Konten halaman */}
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        {/* Bagian Detail Kostum */}
+        <Text fontSize={18} fontWeight="bold" marginBottom={8} color={theme.titleColor}>
+          Detail Kostum
+        </Text>
+        <VStack space="md" marginTop={30}>
+          <Input
+            backgroundColor={theme.inputBackgroundColor}
+            rounded={10}
+          >
+            <InputField
+              type="text"
+              placeholder="Nama Kostum"
+              value={costumeName}
+              onChangeText={(text) => setCostumeName(text)}
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={30}>
+          <Input
+            backgroundColor={theme.inputBackgroundColor}
+            rounded={10}
+            height={80}
+          >
+            <InputField
+              type="text"
+              placeholder="Deskripsi"
+              value={costumeDescription}
+              onChangeText={(text) => setCostumeDescription(text)}
+              multiline
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={30}>
+          <Input
+            backgroundColor={theme.inputBackgroundColor}
+            rounded={10}
+          >
+            <InputField
+              type="text"
+              placeholder="Harga Rental (per hari)"
+              value={rentalPrice}
+              onChangeText={(text) => setRentalPrice(text)}
+              keyboardType="numeric"
+            />
+          </Input>
+        </VStack>
+        {/* Bagian Gambar Kostum */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {costumeImages.map((image, index) => (
+            <Image key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
+          ))}
+        </ScrollView>
+        {/* Tombol untuk menambahkan gambar kostum */}
+        <Pressable
+          justifyContent="center"
+          alignItems="center"
+          height={50}
+          marginTop={10}
+          borderRadius={4}
+          backgroundColor={'#313C47'}
+          marginBottom={16}
+          onPress={handleImageSelection}
+        >
+          <Text color={'white'} fontWeight="bold">
+            Tambahkan Gambar
+          </Text>
+        </Pressable>
+        {/* Tombol untuk memposting kostum */}
+        <Pressable
+          justifyContent="center"
+          alignItems="center"
+          height={50}
 
-      {/* Input untuk deskripsi kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Deskripsi Kostum:</Text>
-      <TextInput
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Masukkan deskripsi kostum"
-      />
-
-      {/* Input untuk harga kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Harga Kostum:</Text>
-      <TextInput
-        value={price}
-        onChangeText={setPrice}
-        placeholder="Masukkan harga kostum"
-        keyboardType="numeric"
-      />
-
-      {/* Tombol untuk memilih gambar dari kamera */}
-      <Button title="Pilih dari Kamera" onPress={selectFromCamera} />
-
-      {/* Tombol untuk memilih gambar dari galeri */}
-      <Button title="Pilih dari Galeri" onPress={selectFromGallery} />
-
-      {/* Tampilkan gambar yang dipilih */}
-      {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-
-      {/* Tombol untuk submit */}
-      <Button title="Post Kostum" onPress={handleSubmit} />
+          borderRadius={4}
+          backgroundColor={'#DF9B52'}
+          onPress={handlePostCostume}
+        >
+          <Text color={theme.postButtonTextColor} fontWeight="bold">
+            Post Costume
+          </Text>
+        </Pressable>
+      </ScrollView>
     </VStack>
   );
 };
-
 
 export default Create;

@@ -1,99 +1,101 @@
-// Impor komponen yang diperlukan dari react dan react-native
 import React, { useState } from 'react';
-import { VStack, Text, TextInput, Button, Image } from "@gluestack-ui/themed";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
 
-// Definisikan komponen EditCostume
-const EditCostume = ({ costume }) => {
-  // Gunakan state untuk menyimpan data inputan
-  const [title, setTitle] = useState(costume.title);
-  const [description, setDescription] = useState(costume.description);
-  const [price, setPrice] = useState(costume.price);
-  const [image, setImage] = useState(costume.image);
+const EditItem = () => {
+  const [costumeName, setCostumeName] = useState('');
+  const [costumeDescription, setCostumeDescription] = useState('');
+  const [rentalPrice, setRentalPrice] = useState('');
+  const [costumeImages, setCostumeImages] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Fungsi untuk memilih gambar dari kamera
-  const selectFromCamera = () => {
-    const options = {
-      mediaType: 'photo',
-      quality: 0.5,
-      includeBase64: true,
-    };
-    launchCamera(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setImage(response);
-      }
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleEditCostume = () => {
+    console.log('Editing costume:', {
+      costumeName,
+      costumeDescription,
+      rentalPrice,
+      costumeImages,
     });
   };
 
-  // Fungsi untuk memilih gambar dari galeri
-  const selectFromGallery = () => {
-    const options = {
-      mediaType: 'photo',
-      quality: 0.5,
-      includeBase64: true,
-    };
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setImage(response);
-      }
-    });
+  const handleImageSelection = () => {
+    console.log('Selecting image...');
   };
 
-  // Fungsi untuk menangani submit
-  const handleSubmit = () => {
-    // Logika untuk memposting kostum akan ditempatkan di sini
-    console.log('Kostum diperbarui:', title, description, price, image);
-  };
+  const theme = useTheme();
 
   return (
-    <VStack flex={1} backgroundColor='#FFFFFF' padding={16}>
-      {/* Input untuk judul kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Judul Kostum:</Text>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Perbarui judul kostum"
-      />
-
-      {/* Input untuk deskripsi kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Deskripsi Kostum:</Text>
-      <TextInput
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Perbarui deskripsi kostum"
-      />
-
-      {/* Input untuk harga kostum */}
-      <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Harga Kostum:</Text>
-      <TextInput
-        value={price}
-        onChangeText={setPrice}
-        placeholder="Perbarui harga kostum"
-        keyboardType="numeric"
-      />
-
-      {/* Tombol untuk memilih gambar dari kamera */}
-      <Button title="Pilih dari Kamera" onPress={selectFromCamera} />
-
-      {/* Tombol untuk memilih gambar dari galeri */}
-      <Button title="Pilih dari Galeri" onPress={selectFromGallery} />
-
-      {/* Tampilkan gambar yang dipilih */}
-      {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
-
-      {/* Tombol untuk submit */}
-      <Button title="Perbarui Kostum" onPress={handleSubmit} />
-    </VStack>
+    <Box flex={1} backgroundColor="#1A1A1A" padding={16}>
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#FFD700">
+          Costume Details
+        </Text>
+        <VStack space="md" width="100%">
+          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+            <InputField
+              placeholder="Costume Name"
+              value={costumeName}
+              onChangeText={(text) => setCostumeName(text)}
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={20} width="100%">
+          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+            <InputField
+              placeholder="Description"
+              value={costumeDescription}
+              onChangeText={(text) => setCostumeDescription(text)}
+              multiline
+            />
+          </Input>
+        </VStack>
+        <VStack space="md" marginTop={20} width="100%">
+          <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
+            <InputField
+              placeholder="Rental Price (per day)"
+              value={rentalPrice}
+              onChangeText={(text) => setRentalPrice(text)}
+              keyboardType="numeric"
+            />
+          </Input>
+        </VStack>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {costumeImages.map((image, index) => (
+            <Image role='img' key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
+          ))}
+        </ScrollView>
+        <Pressable
+          marginTop={20}
+          justifyContent="center"
+          alignItems="center"
+          height={50}
+          borderRadius={4}
+          backgroundColor="#FFD700"
+          marginBottom={16}
+          onPress={handleImageSelection}
+        >
+          <Text color="#1A1A1A" fontWeight="bold">
+            Add Image
+          </Text>
+        </Pressable>
+        <Pressable
+          justifyContent="center"
+          alignItems="center"
+          height={50}
+          borderRadius={4}
+          backgroundColor="#FFD700"
+          onPress={handleEditCostume}
+        >
+          <Text color="#1A1A1A" fontWeight="bold">
+            Edit Costume
+          </Text>
+        </Pressable>
+      </ScrollView>
+    </Box>
   );
 };
 
-// Ekspor komponen EditCostume agar dapat digunakan di bagian lain dari aplikasi Anda
-export default EditCostume;
+export default EditItem;
