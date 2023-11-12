@@ -28,9 +28,9 @@ const EditItem = () => {
   const theme = useTheme();
 
   return (
-    <Box flex={1} backgroundColor="#1A1A1A" padding={16}>
+    <Box flex={1} backgroundColor="white" padding={16}>
       <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#FFD700">
+        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#DF9B52">
           Costume Details
         </Text>
         <VStack space="md" width="100%">
@@ -73,11 +73,11 @@ const EditItem = () => {
           alignItems="center"
           height={50}
           borderRadius={4}
-          backgroundColor="#FFD700"
+          backgroundColor="#DF9B52"
           marginBottom={16}
           onPress={handleImageSelection}
         >
-          <Text color="#1A1A1A" fontWeight="bold">
+          <Text color="white" fontWeight="bold">
             Add Image
           </Text>
         </Pressable>
@@ -86,10 +86,10 @@ const EditItem = () => {
           alignItems="center"
           height={50}
           borderRadius={4}
-          backgroundColor="#FFD700"
+          backgroundColor="#DF9B52"
           onPress={handleEditCostume}
         >
-          <Text color="#1A1A1A" fontWeight="bold">
+          <Text color="white" fontWeight="bold">
             Edit Costume
           </Text>
         </Pressable>

@@ -1,3 +1,4 @@
+profile
 import React, { useState, useEffect } from 'react';
 import { Box, Image, Button, Input, Heading, InputField } from "@gluestack-ui/themed";
 import { Alert } from 'react-native';
