@@ -15,7 +15,6 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
 import datas from '../data/datas';
-import category from '../data/category';
 
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -23,20 +22,15 @@ const { width: screenWidth } = Dimensions.get('window');
 const Home = () => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
-  const [entries2, setEntries2] = useState(category);
   const carouselRef = useRef(null);
-  const goForward = () => {
-    if (carouselRef.current) {
-      carouselRef.current.snapToNext();
-    }
-  };
+
   const Itemku = ({ item }) => (
 
     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
       <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
-      <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp 400000</Text>
+      <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp {item.harga}</Text>
     </Pressable>
   );
   const renderItem = ({ item }, parallaxProps) => {
@@ -50,7 +44,7 @@ const Home = () => {
             backgroundColor: 'white',
             borderRadius: 8,
           }}
-          style={{...StyleSheet.absoluteFillObject}}
+          style={{ ...StyleSheet.absoluteFillObject }}
           parallaxFactor={0.4}
           {...parallaxProps}
         />
@@ -87,9 +81,6 @@ const Home = () => {
   useEffect(() => {
     setEntries(datas);
   }, []);
-  useEffect(() => {
-    setEntries2(category);
-  }, []);
   return (
     <Box>
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
@@ -109,21 +100,6 @@ const Home = () => {
             hasParallaxImages={true}
             autoplay={true}
             loop={true}
-          />
-        </Box>
-        <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5} marginBottom={9}>
-          <HStack justifyContent="center">
-            <Heading flex={1} marginStart={30} marginTop={10} color={'#DF9B52'}>CATEGORIES</Heading>
-          </HStack>
-          <Carousel
-            marginTop={13}
-            ref={carouselRef}
-            sliderWidth={screenWidth}
-            sliderHeight={screenWidth}
-            itemWidth={screenWidth - 210}
-            data={category}
-            renderItem={renderKategori}
-            hasParallaxImages={true}
           />
         </Box>
         <Box bgColor='white' paddingVertical={10} rounded={5} >

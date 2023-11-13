@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import {
-  FormControl,
-  Heading,
-  Center,
-  StatusBar,
   Box,
   Text,
   Input,
   InputField,
   InputIcon,
   EyeOffIcon,
-  Pressable,
   InputSlot,
   Button,
   ButtonText,
@@ -38,15 +33,11 @@ function Login() {
         width="100%"
         backgroundColor="white"
         padding={20}
-        shadow="md"
         flex={1}
         borderTopLeftRadius={40}
         borderTopRightRadius={40}
       >
         <VStack space="xl">
-          {/* <Heading fontSize={24} color="$text900" textAlign="center">
-            Login
-          </Heading> */}
           <VStack space="md" marginTop={30}>
             <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
               <InputField type="text" placeholder="Username" />
