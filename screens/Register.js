@@ -8,8 +8,6 @@ import {
     ButtonText,
     Divider,
     Text,
-    Image,
-    ScrollView,
     InputSlot,
     InputIcon,
     EyeOffIcon,
@@ -69,6 +67,7 @@ const Register = () => {
                         onPress={() => {
                         }}
                         rounded={10}
+                        onPress={() => navigation.navigate('Login')}
                     >
                         <ButtonText color="$white">Register</ButtonText>
                     </Button>

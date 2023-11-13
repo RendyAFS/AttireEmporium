@@ -21,29 +21,19 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  showModal,
   Center,
   CloseIcon,
   Button,
   ButtonText,
   Pressable
 } from "@gluestack-ui/themed";
-import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import datas from '../data/datas';
 
-const { width: screenWidth } = Dimensions.get('window');
-
 const Favorite = (props) => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-
-  const filteredData = useMemo(() => {
-    return datas.filter((item) =>
-      item.title.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [searchText]);
   const [entries, setEntries] = useState(datas);
   // const fontColor = "#313C47"
   const Itemku = ({ item }) => (
@@ -53,7 +43,7 @@ const Favorite = (props) => {
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
       <Box flex={1} flexDirection='row'>
-        <Text flex={3} marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp 400000</Text>
+        <Text flex={3} marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp {item.harga}</Text>
         <Icon onPress={() => setShowModal(true)} ref={ref} flex={1} marginTop={12} marginRight={5} color='red' as={TrashIcon} size="md" />
       </Box>
     </Pressable>
@@ -149,16 +139,3 @@ const Favorite = (props) => {
 };
 
 export default Favorite;
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    marginBottom: Platform.select({ ios: 0, android: 1 }),
-    backgroundColor: 'white',
-    borderRadius: 8,
-  },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-
-  },
-});
