@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Heading,
@@ -22,7 +22,7 @@ const { width: screenWidth } = Dimensions.get('window');
 const Home = () => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
-  const carouselRef = useRef(null);
+
 
   const Itemku = ({ item }) => (
 
@@ -55,32 +55,6 @@ const Home = () => {
       </Pressable>
     );
   };
-  const renderKategori = ({ item }, parallaxProps) => {
-    return (
-      <Box width={screenWidth - 210} height={screenWidth - 210}>
-        <ParallaxImage
-          source={{ uri: item.illustration }}
-          containerStyle={{
-            flex: 5,
-            marginBottom: Platform.select({ ios: 0, android: 2 }),
-            backgroundColor: 'black',
-            borderRadius: 8,
-          }}
-          style={{ ...StyleSheet.absoluteFillObject }}
-          resizeMode={'cover'}
-          parallaxFactor={0.1}
-          {...parallaxProps}
-        />
-        <Text textAlign='center' numberOfLines={2}>
-          {item.title}
-        </Text>
-      </Box>
-    );
-  };
-
-  useEffect(() => {
-    setEntries(datas);
-  }, []);
   return (
     <Box>
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
@@ -91,7 +65,6 @@ const Home = () => {
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
           <Carousel
             marginTop={10}
-            ref={carouselRef}
             sliderWidth={screenWidth}
             sliderHeight={screenWidth}
             itemWidth={screenWidth - 50}
