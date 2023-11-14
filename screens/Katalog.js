@@ -13,13 +13,11 @@ import {
   HStack,
   VStack,
 } from "@gluestack-ui/themed";
-import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import { Dimensions, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
-import datas from '../datas';
+import datas from '../data/datas';
 
-const { width: screenWidth } = Dimensions.get('window');
 
 const Katalog = () => {
   console.log(datas)
@@ -27,10 +25,10 @@ const Katalog = () => {
   const [searchText, setSearchText] = useState('');
 
   const Itemku = ({ item }) => {
-    const { title, subtitle, illustration } = item;
+    const { title, subtitle } = item;
 
     const isMatch =
-      title.toLowerCase().includes(searchText.toLowerCase()) ||
+      title.toLowerCase().includes(searchText.toLowerCase()) 
       subtitle.toLowerCase().includes(searchText.toLowerCase());
 
     return isMatch ? (

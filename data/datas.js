@@ -1,17 +1,17 @@
 const datas = [
   {
     id: '1',
-    title: 'Baju',
+    title: 'Baju Naruto',
     harga: '30000',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
     image: 'https://s1.bukalapak.com/img/61981045003/s-463-463/data.jpeg.webp',
   },
   {
     id: '2',
-    title: 'Baju Ara Ara johanes',
+    title: 'Baju Manten',
     harga: '40000',
     subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    image: 'https://imgx.parapuan.co/crop/0x0:0x0/x/photo/2023/05/13/rekomendasi-kostum-cosplayjpg-20230513023735.jpg',
+    image: 'https://img.ws.mms.shopee.co.id/1769b77b87de7f60904cbca18cb09854',
   },
   {
     id: '3',
