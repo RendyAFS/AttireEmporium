@@ -59,9 +59,7 @@ const Home = () => {
     <Box>
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
       <ScrollView bgColor='#f5f5f5'>
-
         <Header title={"Header"} />
-
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
           <Carousel
             marginTop={10}
