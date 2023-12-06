@@ -11,12 +11,17 @@ import {
     InputSlot,
     InputIcon,
     EyeOffIcon,
+    EyeIcon,
     Heading,
     HStack,
+    FormControl,
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 
 const Register = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const [showPassword, setShowPassword] = useState(false);
     const navigation = useNavigation();
 
@@ -36,9 +41,12 @@ const Register = () => {
                 <VStack space="xl">
                     <Heading>REGISTER</Heading>
                     <VStack space="md" width="100%">
-                        <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-                            <InputField type="text" placeholder="Nama" />
-                        </Input>
+                        <FormControl>
+                            <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+                                <InputField type="text" placeholder="Nama" />
+                            </Input>
+                        </FormControl>
+
                     </VStack>
                     <VStack space="md" width="100%">
                         <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
@@ -46,28 +54,30 @@ const Register = () => {
                         </Input>
                     </VStack>
                     <VStack space="md" width="100%">
-                        <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-                            <InputField placeholder="Email" />
-                        </Input>
+                        <FormControl>
+                            <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+                                <InputField placeholder="Email" onChangeText={(email) => setEmail(email)} />
+                            </Input>
+                        </FormControl>
                     </VStack>
                     <VStack space="md" width="100%">
-                        <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
-                            <InputField placeholder="Password" type={showPassword ? "text" : "password"} />
-                            <InputSlot pr="$3" onPress={handleTogglePassword}>
-                                <InputIcon
-                                    as={showPassword ? EyeIcon : EyeOffIcon}
-                                    color={'blue'}
-                                />
-                            </InputSlot>
-                        </Input>
+                        <FormControl>
+                            <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
+                                <InputField placeholder="Password" type={showPassword ? "text" : "password"} onChange={(password) => setPassword(password)} />
+                                <InputSlot pr="$3" onPress={handleTogglePassword}>
+                                    <InputIcon
+                                        as={showPassword ? EyeIcon : EyeOffIcon}
+                                        color={'blue'}
+                                    />
+                                </InputSlot>
+                            </Input>
+                        </FormControl>
+
                     </VStack>
                     <Button
                         backgroundColor="#DF9B52"
                         marginTop={10}
-                        onPress={() => {
-                        }}
                         rounded={10}
-                        onPress={() => navigation.navigate('Login')}
                     >
                         <ButtonText color="$white">Register</ButtonText>
                     </Button>
