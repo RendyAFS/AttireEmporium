@@ -10,11 +10,6 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const noHead = { headerShown: false };
-const forFade = ({ current }) => ({
-  cardStyle: {
-    opacity: current.progress,
-  },
-});
 const Tabs = () => {
   return (
     <Tab.Navigator

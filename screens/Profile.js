@@ -52,7 +52,7 @@ const Profile = () => {
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
               <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="store" size={50} color=  "#0D98BA" />
+                <MaterialIcons name="store" size={50} color="#0D98BA" />
               </Box>
               <Text>Proflie Renter</Text>
             </Pressable>

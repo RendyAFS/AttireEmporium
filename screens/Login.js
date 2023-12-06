@@ -16,18 +16,20 @@ import {
   Divider
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
-function Login() {
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
+
   return (
     <Box flex={1} backgroundColor="#021C35" >
       <Box alignItems="center" justifyContent="center" flex={1}>
         <Image role="img" alt="hello" width={220} height={310} resizeMode="cover" source={require('../assets/images/Logo.png')} />
-
       </Box>
       <Box
         width="100%"
@@ -40,12 +42,12 @@ function Login() {
         <VStack space="xl">
           <VStack space="md" marginTop={30}>
             <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-              <InputField type="text" placeholder="Username" />
+              <InputField value={email} type="text" placeholder="Username" onChangeText={text => setEmail(text)} />
             </Input>
           </VStack>
           <VStack space="md">
             <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
-              <InputField placeholder="Password" type={showPassword ? "text" : "password"} />
+              <InputField value={password} placeholder="Password" type={showPassword ? "text" : "password"} onChangeText={text => setPassword(text)} />
               <InputSlot pr="$3" onPress={handleTogglePassword}>
                 <InputIcon
                   as={showPassword ? EyeIcon : EyeOffIcon}
