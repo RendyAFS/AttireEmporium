@@ -14,6 +14,7 @@ import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import datas from '../data/datas';
 
 
@@ -60,7 +61,24 @@ const Home = () => {
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
       <ScrollView bgColor='#f5f5f5'>
         <Header title={"Header"} />
+
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
+          <Box p={10} >
+            <LinearGradient
+              // Background Linear Gradient
+              colors={['#021C35', '#0174BE']}
+              style={{ width: '100%', height: 100, borderRadius: 10 }}
+
+              end={{ x: 1, y: 2 }}
+            >
+              <Box width={'100%'} height={120} rounded={10} padding={25}>
+                <HStack>
+                  <Text color='white' fontSize={18}>Selamat Datang</Text>
+                </HStack>
+                <Heading color='white' fontSize={25}>Denny Daffa Rizaldy</Heading>
+              </Box>
+            </LinearGradient>
+          </Box>
           <Carousel
             marginTop={10}
             sliderWidth={screenWidth}
