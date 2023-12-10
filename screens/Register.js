@@ -12,10 +12,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 const Register = () => {
-    
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+
 
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {

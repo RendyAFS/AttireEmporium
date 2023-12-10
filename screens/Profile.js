@@ -1,11 +1,34 @@
 import { GluestackUIProvider, Heading, Center, Box, Text, Pressable, Image, HStack, VStack, ScrollView } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "../firebase";
 const Profile = () => {
   const navigation = useNavigation();
+  const logoutHandler = () => {
+    // Logout dari Firebase
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Hapus data user dari AsyncStorage
+        removeUserData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
+  const removeUserData = async () => {
+    try {
+      // Menghapus data dari AsyncStorage
+      await AsyncStorage.removeItem("user-data");
+      // Diarahkan ke Login
+      navigation.replace("Login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <ScrollView>
       <Box flex={1} bgColor='#DF9B52' alignItems='center'>
@@ -30,7 +53,7 @@ const Profile = () => {
               </Box>
               <Text>Edit Profile</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Login')} >
+            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
               <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <Entypo name="log-out" size={40} color="#da5393" />
               </Box>
