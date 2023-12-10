@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -16,14 +16,61 @@ import {
   Divider
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "../firebase";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
+
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+  useEffect(() => {
+    getUser();
+  }, []);
+  const getUser = async () => {
+    try {
+      // Ambil data dari AsyncStorage
+      const userData = await AsyncStorage.getItem("user-data");
+      if (userData !== null) {
+        // Diarahkan ke Halaman Home
+        navigation.replace("Tabs");
+      } else {
+        setIsLoading(false);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const loginHandler = () => {
+    // Verifikasi Login via Firebase
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Panggil method untuk Menyimpan data User ke AsyncStorage
+        saveUserData(email, password, userCredential);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const saveUserData = async (email, password, credential) => {
+    const userData = { email, password, credential };
+    try {
+      // Menyimpan data ke AsyncStorage
+      await AsyncStorage.setItem("user-data", JSON.stringify(userData));
+      // Diarahkan ke Home
+      navigation.replace("Home");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
 
   return (
@@ -42,12 +89,12 @@ const Login = () => {
         <VStack space="xl">
           <VStack space="md" marginTop={30}>
             <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-              <InputField value={email} type="text" placeholder="Username" onChangeText={text => setEmail(text)} />
+              <InputField value={email} type="text" placeholder="Username" onChangeText={(value) => setEmail(value)} />
             </Input>
           </VStack>
           <VStack space="md">
             <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
-              <InputField value={password} placeholder="Password" type={showPassword ? "text" : "password"} onChangeText={text => setPassword(text)} />
+              <InputField value={password} placeholder="Password" type={showPassword ? "text" : "password"} onChangeText={(value) => setPassword(value)} />
               <InputSlot pr="$3" onPress={handleTogglePassword}>
                 <InputIcon
                   as={showPassword ? EyeIcon : EyeOffIcon}
@@ -60,7 +107,7 @@ const Login = () => {
             backgroundColor="#DF9B52"
             marginTop={10}
             rounded={5}
-            onPress={() => navigation.navigate('Tabs')}
+            onPress={loginHandler}
 
           >
             <ButtonText color="$white">Login</ButtonText>

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Heading, Center, StatusBar, Box, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +82,7 @@ const App = () => {
           <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter', statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="Test" component={Test} options={{ title: 'Debug', statusBarColor: 'white', statusBarStyle: 'dark' }} />
 
 
           {/* <Stack.Screen

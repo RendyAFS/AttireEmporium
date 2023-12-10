@@ -6,7 +6,9 @@ import {
   Text,
   ScrollView,
   HStack,
-  Pressable
+  VStack,
+  Pressable,
+  AvatarImage
 } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
@@ -14,6 +16,7 @@ import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import datas from '../data/datas';
 
 
@@ -26,11 +29,16 @@ const Home = () => {
 
   const Itemku = ({ item }) => (
 
-    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
-      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
-      <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{item.title}</Text>
-      <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{item.subtitle}</Text>
-      <Text marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp {item.harga}</Text>
+    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })}   >
+      <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
+        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
+        <Box p={5}>
+          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>{item.title}</Text>
+          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{item.subtitle}</Text>
+          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {item.harga}</Text>
+        </Box>
+
+      </Box>
     </Pressable>
   );
   const renderItem = ({ item }, parallaxProps) => {
@@ -60,7 +68,28 @@ const Home = () => {
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
       <ScrollView bgColor='#f5f5f5'>
         <Header title={"Header"} />
+
         <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
+          <Box p={10} >
+            <LinearGradient
+              // Background Linear Gradient
+              colors={['#021C35', '#0174BE']}
+              style={{ width: '100%', height: 100, borderRadius: 10 }}
+
+              end={{ x: 1, y: 2 }}
+            >
+              <Box width={'100%'} height={120} rounded={10} padding={25}>
+                <HStack>
+                  <VStack>
+                    <Text color='white' fontSize={15}>Selamat Datang</Text>
+                    <Heading color='white' fontSize={20}>Denny Daffa Rizaldy</Heading>
+                  </VStack>
+                  <AvatarImage />
+                </HStack>
+
+              </Box>
+            </LinearGradient>
+          </Box>
           <Carousel
             marginTop={10}
             sliderWidth={screenWidth}
@@ -73,8 +102,11 @@ const Home = () => {
             loop={true}
           />
         </Box>
-        <Box bgColor='white' paddingVertical={10} rounded={5} >
-          <Heading flex={1} marginStart={30} color={'#DF9B52'}>RECOMENDATIONS</Heading>
+        <Box  paddingVertical={10} rounded={5} >
+          <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
+        </Box>
+        <Box  paddingVertical={10} rounded={5} >
+          <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
         </Box>
         {/* <Box flex={1} flexDirection='row' marginBottom={15} padding={10}>
         {ENTRIES1.slice(0, 2).map(item => (
@@ -82,16 +114,19 @@ const Home = () => {
         ))}
 
       </Box> */}
-        <MasonryList
-          data={datas}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <Itemku item={item} />}
-          onRefresh={() => refetch({ first: ITEM_CNT })}
-          onEndReachedThreshold={0.1}
-          onEndReached={() => loadNext(ITEM_CNT)}
-        />
+        <Box alignItems='center' justifyContent='center'>
+          <MasonryList
+            data={datas}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => <Itemku item={item} />}
+            onRefresh={() => refetch({ first: ITEM_CNT })}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => loadNext(ITEM_CNT)}
+          />
+        </Box>
+
       </ScrollView>
 
 
