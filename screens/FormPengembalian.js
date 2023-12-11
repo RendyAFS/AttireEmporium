@@ -37,7 +37,6 @@ const FormPengembalian = ({ route }) => {
 
   return (
     <GluestackUIProvider config={config}>
-
       <Box flex={1} bgColor="#DF9B52" alignItems="center">
         <Heading marginBottom={10}>Konfirmasi Pengembalian barang</Heading>
         <Box width={'95%'}>
