@@ -67,12 +67,12 @@ const Profile = () => {
               </Box>
               <Text>Create Item</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
+            {/* <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
               <Box backgroundColor="#eaefff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <MaterialCommunityIcons name="store-edit" size={50} color="#748CE1" />
               </Box>
               <Text>Edit Item</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
               <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <MaterialIcons name="store" size={50} color="#0D98BA" />

@@ -102,9 +102,9 @@ const Home = () => {
             loop={true}
           />
         </Box>
-        <Box  paddingVertical={10} rounded={5} >
+        {/* <Box  paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
-        </Box>
+        </Box> */}
         <Box  paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
         </Box>
