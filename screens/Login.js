@@ -65,14 +65,11 @@ const Login = () => {
       // Menyimpan data ke AsyncStorage
       await AsyncStorage.setItem("user-data", JSON.stringify(userData));
       // Diarahkan ke Home
-      navigation.replace("Home");
+      navigation.replace("Tabs");
     } catch (error) {
       console.error(error);
     }
   };
-
-
-
   return (
     <Box flex={1} backgroundColor="#021C35" >
       <Box alignItems="center" justifyContent="center" flex={1}>

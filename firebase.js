@@ -5,6 +5,7 @@ import "firebase/compat/database";
 const firebaseConfig = {
     apiKey: "AIzaSyBv26enrFXhEoKjVPQCSy6aUp7aXG4oh0g",
     authDomain: "aefb-8f62f.firebaseapp.com",
+    databaseURL: "https://aefb-8f62f-default-rtdb.firebaseio.com",
     projectId: "aefb-8f62f",
     storageBucket: "aefb-8f62f.appspot.com",
     messagingSenderId: "1030022035632",
