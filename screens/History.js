@@ -125,7 +125,7 @@ const History = () => {
         <Text fontSize={18} marginTop={30} marginBottom={10} marginStart={10} fontWeight="bold"> Riwayat Barang </Text>
       </Box>
       <FlatList
-        style={{ marginBottom: 100 }}
+        style={{ marginBottom: 105 }}
         data={filteredData}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
