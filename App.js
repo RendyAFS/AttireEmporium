@@ -22,52 +22,57 @@ const Tabs = () => {
               return (
                 <MaterialCommunityIcons
                   name={iconName}
-                  size={28}
+                  size={35}
                   color={focused ? '#021C35' : color}
                 />
               );
             case 'Favorite':
               iconName = focused ? 'favorite' : 'favorite-outline';
               return (
-                <MaterialIcons name={iconName} size={28} color={focused ? '#021C35' : color} />
+                <MaterialIcons
+                  name={iconName}
+                  size={35}
+                  color={focused ? '#021C35' : color} />
               );
             case 'History':
               iconName = focused ? 'history' : 'history';
               return (
                 <MaterialCommunityIcons
                   name={iconName}
-                  size={28}
+                  size={35}
                   color={focused ? '#021C35' : color}
                 />
               );
             case 'Profile':
               iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
               return (
-                <Ionicons name={iconName} size={28} color={focused ? '#021C35' : color} />
+                <Ionicons
+                  name={iconName}
+                  size={35}
+                  color={focused ? '#021C35' : color} />
               );
             default:
               return null;
           }
         },
         tabBarIconStyle: {
-          marginTop: 6,
+          // marginTop: ,
         },
         tabBarStyle: {
           position: 'absolute',
           width: '80%',
           marginHorizontal: '10%',
-          marginBottom: 20,
+          marginBottom: 25,
           height: 70,
           borderWidth: 2,
           borderColor: '#021C35',
           backgroundColor: '#fff',
           borderRadius: 10,
         },
-        tabBarLabel: ({ children, color, focused }) => (
-          <Text style={{ fontSize: 13, color: focused ? '#021C35' : color, marginBottom: 2 }}>
-            {children}
-          </Text>
-        ),
+        tabBarLabel: ({ focused }) => {
+          // Mengembalikan null jika tab sedang difokuskan
+          return focused ? null : <Text style={{ display: 'none' }}></Text>;
+        },
       })}
     >
       <Tab.Screen name="Home" component={Home} options={noHead} />
@@ -84,8 +89,8 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="GetInto1">
           <Stack.Screen name="Tabs" component={Tabs} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={{title: 'Penyewaan barang', statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={{title: 'Pengembalian barang', statusBarColor: 'white', statusBarStyle: 'dark' }}/>
+          <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={{ title: 'Penyewaan barang', statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={{ title: 'Pengembalian barang', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Register" component={Register} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Login" component={Login} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Katalog" component={Katalog} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
