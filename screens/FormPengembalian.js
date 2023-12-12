@@ -2,7 +2,7 @@ import { Heading, Box, Text, Pressable, Image, Textarea, TextareaInput, VStack, 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { config } from "@gluestack-ui/config";
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const FormPengembalian = ({ route }) => {
@@ -36,6 +36,8 @@ const FormPengembalian = ({ route }) => {
     return stars;
   };
 
+
+  
   return (
     <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={15}>
       <Box flex={1} bgColor="#fff" alignItems="center" marginTop={15}>
@@ -62,13 +64,14 @@ const FormPengembalian = ({ route }) => {
           </HStack>
 
           <Box flexDirection="column">
-            <Text marginTop={10} fontSize={18} fontWeight="bold">Rating:</Text>
+            <Text marginTop={10} fontSize={18} fontWeight="bold">Rating</Text>
             <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
           </Box>
 
 
           {/* Layout 2 */}
           <Box paddingHorizontal={10} backgroundColor="white" marginTop={0} height={'100%'} borderTopEndRadius={10} borderTopStartRadius={10}>
+            <Text fontSize={18} fontWeight="bold">Komentar</Text>
             <Textarea
               size="md"
               isReadOnly={false}
@@ -77,9 +80,9 @@ const FormPengembalian = ({ route }) => {
               borderWidth={1}
               borderColor="black"
               width={'100%'}
-              marginTop={30}
+              marginTop={10}
             >
-              <TextareaInput placeholder="Komentar..." role="dialog" />
+              <TextareaInput placeholder="Tambahkan Komentar..." role="dialog" />
             </Textarea>
             <Box flex={1} flexDirection="row" marginTop={15}>
               <Box flex={1}>
