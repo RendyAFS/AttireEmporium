@@ -51,6 +51,7 @@ const Login = () => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        console.log(userCredential);
         // Panggil method untuk Menyimpan data User ke AsyncStorage
         saveUserData(email, password, userCredential);
       })
@@ -65,7 +66,7 @@ const Login = () => {
       // Menyimpan data ke AsyncStorage
       await AsyncStorage.setItem("user-data", JSON.stringify(userData));
       // Diarahkan ke Home
-      navigation.replace("Tabs");
+      navigation.replace("Tabs", { email: email });
     } catch (error) {
       console.error(error);
     }
