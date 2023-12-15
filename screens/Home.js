@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Heading,
@@ -18,15 +18,58 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import datas from '../data/datas';
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from '../firebase'
 const { width: screenWidth } = Dimensions.get('window');
 
-const Home = () => {
+const Home = ({ route }) => {
+
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
+  const [userData, setUserData] = useState('');
+  const getCostume = async () => {
+    const costumeRef = firebase.database().ref("costumes/");
+    console.log(costumeRef)
+    return costumeRef
+      .once("value")
+      .then((snapshot) => {
+        const costumeData = snapshot.val();
+        if (costumeData) {
+          const notesArray = Object.entries(costumeData).map(([costumeId, costumeData]) => ({
+            costumeId,
+            ...costumeData,
+          }));
+          return notesArray;
+        } else {
+          return [];
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user notes:", error);
+        return [];
+      });
+  };
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      // console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData;
 
+        // Menampilkan UID ke konsol
+        // console.log("User UID from AsyncStorage:",  userData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    getUserData();
+    getCostume();
+  }, []);
   const Itemku = ({ item }) => (
 
     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })}   >
@@ -82,7 +125,7 @@ const Home = () => {
                 <HStack>
                   <VStack>
                     <Text color='white' fontSize={15}>Selamat Datang</Text>
-                    <Heading color='white' fontSize={20}>Denny Daffa Rizaldy</Heading>
+                    <Heading color='white' fontSize={20}>{userData.username}</Heading>
                   </VStack>
                   <AvatarImage />
                 </HStack>
@@ -105,7 +148,7 @@ const Home = () => {
         {/* <Box  paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
         </Box> */}
-        <Box  paddingVertical={10} rounded={5} >
+        <Box paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
         </Box>
         {/* <Box flex={1} flexDirection='row' marginBottom={15} padding={10}>

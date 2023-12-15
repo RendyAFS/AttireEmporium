@@ -3,6 +3,7 @@ import { VStack, Text, Input, InputField, Pressable, Image, ScrollView } from '@
 import { useTheme } from '@gluestack-ui/themed';
 import firebase from "../firebase";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 //definisi create
 const Create = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
@@ -10,24 +11,61 @@ const Create = () => {
   const [costumeDescription, setCostumeDescription] = useState('');
   const [rentalPrice, setRentalPrice] = useState('');
   const [costumeImages, setCostumeImages] = useState([]);
+  const [userData, setUserData] = useState('');
   const navigation = useNavigation();
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData.credential.user.uid;
+
+        // Menampilkan UID ke konsol
+        console.log("User UID from AsyncStorage:", uid);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
+    getUserData();
+  }, []);
   // Fungsi untuk menangani proses posting kostum
-  const handlePostCostume = () => {
-    const database = firebase.database();
-    // Simulasi posting kostum (ganti dengan logika sesungguhnya)
-    const newCostumeRef = database.ref('costumes').push({
-      costumeName,
-      costumeDescription,
-      rentalPrice,
-      costumeImages,
-    });
-    console.log('Posted costume with key:', newCostumeRef.key);
-    // Reset nilai form setelah posting
-    setCostumeName('');
-    setCostumeDescription('');
-    setRentalPrice('');
-    setCostumeImages([]);
-    navigation.replace("Tabs");
+  const handlePostCostume = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        const uid = userData.credential.user.uid;
+        const username = userData.username;
+
+        // Menambahkan UID pengguna ke data kostum
+        const database = firebase.database();
+        const newCostumeRef = database.ref('costumes/' + userData.credential.user.uid).push({
+          costumeName,
+          costumeDescription,
+          rentalPrice,
+          costumeImages,
+          uid,
+          username,
+        });
+
+        console.log('Posted costume with key:', newCostumeRef.key);
+
+        // Reset nilai form setelah posting
+        setCostumeName('');
+        setCostumeDescription('');
+        setRentalPrice('');
+        setCostumeImages([]);
+        navigation.replace("Tabs");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
     const database = firebase.database();
@@ -57,7 +95,7 @@ const Create = () => {
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         {/* Bagian Detail Kostum */}
         <Text fontSize={18} fontWeight="bold" marginBottom={8} color={theme.titleColor}>
-          Detail Kostum
+          Detail Kostum {userData.username}
         </Text>
         <VStack space="md" marginTop={30}>
           <Input

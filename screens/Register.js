@@ -14,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 const Register = () => {
 
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [number, setNumber] = useState('');
     const [password, setPassword] = useState('');
 
 
@@ -22,30 +24,41 @@ const Register = () => {
         setShowPassword((prev) => !prev);
     };
     const navigation = useNavigation();
+
     const handleRegister = () => {
+        const database = firebase.database();
+        const newCostumeRef = database.ref('users').push({
+            email,
+            username,
+            number
+        });
+
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Panggil method untuk menyimpan data ke AsyncStorage
-                saveUserData(email, password, userCredential);
+                saveUserData(email, username, number, password, userCredential);
+                console.log(userCredential)
+                navigation.replace("Tabs");
             })
             .catch((error) => {
                 console.error(error);
             });
-    }
+    };
 
-    const saveUserData = async (email, password, credential) => {
-        const userData = { email, password, credential };
+    const saveUserData = async (email, username, number, password, credential) => {
+        const userData = { email, username, number, password, credential };
         try {
             // Menyimpan data User ke AsyncStorage
             await AsyncStorage.setItem("user-data", JSON.stringify(userData));
-            // Diarahkan ke Halaman Home
-            navigation.replace("Tabs");
+            // Diarahkan ke Halaman Home dengan membawa userCredential sebagai parameter
         } catch (error) {
             console.error(error);
         }
     };
+
+
     return (
 
         <Box flex={1} justifyContent="center" backgroundColor="#021C35">
@@ -76,6 +89,26 @@ const Register = () => {
                         isReadOnly={false}
                         backgroundColor="#f3f3f3" borderWidth={0} rounded={10}
                     >
+                        <InputField placeholder="Username" type='text' onChangeText={(username) => setUsername(username)} />
+                    </Input>
+                    <Input
+                        variant="outline"
+                        size="md"
+                        isDisabled={false}
+                        isInvalid={false}
+                        isReadOnly={false}
+                        backgroundColor="#f3f3f3" borderWidth={0} rounded={10}
+                    >
+                        <InputField placeholder="Nomor WhatsApp" keyboardType="numeric" onChangeText={(nomor) => setNumber(nomor)} />
+                    </Input>
+                    <Input
+                        variant="outline"
+                        size="md"
+                        isDisabled={false}
+                        isInvalid={false}
+                        isReadOnly={false}
+                        backgroundColor="#f3f3f3" borderWidth={0} rounded={10}
+                    >
                         <InputField placeholder="Password" type={showPassword ? "Text" : "password"} onChangeText={(password) => setPassword(password)} />
                         <InputSlot pr="$3" onPress={handleTogglePassword}>
                             <InputIcon
@@ -90,7 +123,7 @@ const Register = () => {
                         marginTop={10}
                         rounded={10}
                         isDisabled={false} isFocusVisible={false} onPress={() => { handleRegister() }} >
-                        <ButtonText>Add </ButtonText>
+                        <ButtonText>Register</ButtonText>
                     </Button>
                     <HStack alignItems="center" my={3}>
                         <Divider color="gray" thickness={1} flex={1} />

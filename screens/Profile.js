@@ -3,8 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
+import { useState,useEffect } from "react";
 const Profile = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState('');
   const logoutHandler = () => {
     // Logout dari Firebase
     firebase
@@ -18,7 +20,22 @@ const Profile = () => {
         console.error(error);
       });
   };
-
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      // console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  useEffect(() => {
+    getUserData();
+  }, []);
   const removeUserData = async () => {
     try {
       // Menghapus data dari AsyncStorage
@@ -38,7 +55,7 @@ const Profile = () => {
         </Box>
         <Box flex={2} marginTop={20} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
           <Box alignItems="center" marginTop={20}>
-            <Heading color="#545454" fontSize={25}>Denny Daffa Rizaldy</Heading>
+            <Heading color="#545454" fontSize={25}>{userData.username}</Heading>
           </Box>
           <HStack marginTop={30}>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Favorite')} >
