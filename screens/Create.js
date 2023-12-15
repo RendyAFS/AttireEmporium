@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VStack, Text, Input, InputField, Pressable, Image, ScrollView } from '@gluestack-ui/themed';
 import { useTheme } from '@gluestack-ui/themed';
+import firebase from "../firebase";
+import { useNavigation } from "@react-navigation/native";
 //definisi create
 const Create = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
@@ -8,23 +10,37 @@ const Create = () => {
   const [costumeDescription, setCostumeDescription] = useState('');
   const [rentalPrice, setRentalPrice] = useState('');
   const [costumeImages, setCostumeImages] = useState([]);
-
+  const navigation = useNavigation();
   // Fungsi untuk menangani proses posting kostum
   const handlePostCostume = () => {
+    const database = firebase.database();
     // Simulasi posting kostum (ganti dengan logika sesungguhnya)
-    console.log('Posting costume:', {
+    const newCostumeRef = database.ref('costumes').push({
       costumeName,
       costumeDescription,
       rentalPrice,
       costumeImages,
     });
-
+    console.log('Posted costume with key:', newCostumeRef.key);
     // Reset nilai form setelah posting
     setCostumeName('');
     setCostumeDescription('');
     setRentalPrice('');
     setCostumeImages([]);
+    navigation.replace("Tabs");
   };
+  useEffect(() => {
+    const database = firebase.database();
+    // Listen for changes in the 'costumes' node
+    const costumesRef = database.ref('costumes');
+    costumesRef.on('value', (snapshot) => {
+      const costumesData = snapshot.val();
+      // Update your component state or perform other actions with the data
+    });
+    // Cleanup the listener when the component unmounts
+    return () => costumesRef.off('value');
+  }, []);
+
 
   // Fungsi untuk menangani pemilihan gambar kostum
   const handleImageSelection = () => {
