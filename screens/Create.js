@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Text, Input, InputField, Pressable, Image, ScrollView } from '@gluestack-ui/themed';
+import { VStack, Text, Input, InputField, Pressable, Image, ScrollView, Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectItem, Box, SelectDragIndicator } from '@gluestack-ui/themed';
+import { Entypo } from '@expo/vector-icons';
 import { useTheme } from '@gluestack-ui/themed';
 import firebase from "../firebase";
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +11,7 @@ const Create = () => {
   const [costumeName, setCostumeName] = useState('');
   const [costumeDescription, setCostumeDescription] = useState('');
   const [rentalPrice, setRentalPrice] = useState('');
+  const [costumeCategory, setCostumeCategory] = useState('');
   const [costumeImages, setCostumeImages] = useState([]);
   const [userData, setUserData] = useState('');
   const navigation = useNavigation();
@@ -30,6 +32,11 @@ const Create = () => {
     }
   };
 
+  const handleSelectChange = (value) => {
+    setCostumeCategory(value);
+
+  };
+  console.log('Test' + costumeCategory);
   useEffect(() => {
     // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
     getUserData();
@@ -50,6 +57,7 @@ const Create = () => {
           costumeDescription,
           rentalPrice,
           costumeImages,
+          costumeCategory,
           uid,
           username,
         });
@@ -90,7 +98,7 @@ const Create = () => {
   const theme = useTheme();
 
   return (
-    <VStack flex={1} backgroundColor={theme.backgroundColor} padding={16}>
+    <VStack flex={1} backgroundColor={'white'} padding={16}>
       {/* Konten halaman */}
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         {/* Bagian Detail Kostum */}
@@ -100,7 +108,10 @@ const Create = () => {
         <VStack space="md" marginTop={30}>
           <Input
             backgroundColor={theme.inputBackgroundColor}
-            rounded={10}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            rounded={7}
+            borderColor='#021C35'
           >
             <InputField
               type="text"
@@ -113,8 +124,11 @@ const Create = () => {
         <VStack space="md" marginTop={30}>
           <Input
             backgroundColor={theme.inputBackgroundColor}
-            rounded={10}
+            borderColor='#021C35'
             height={80}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            rounded={7}
           >
             <InputField
               type="text"
@@ -125,10 +139,29 @@ const Create = () => {
             />
           </Input>
         </VStack>
-        <VStack space="md" marginTop={30}>
+        <VStack space="md" marginTop={20}>
+          {/* <Input
+            backgroundColor={theme.inputBackgroundColor}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            rounded={7}
+            borderColor='#021C35'
+          >
+            <InputField
+              type="text"
+              placeholder="Harga Rental (per hari)"
+              value={rentalPrice}
+              onChangeText={(text) => setRentalPrice(text)}
+              keyboardType="numeric"
+
+            />
+          </Input> */}
           <Input
             backgroundColor={theme.inputBackgroundColor}
-            rounded={10}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            rounded={7}
+            borderColor='#021C35'
           >
             <InputField
               type="text"
@@ -139,6 +172,49 @@ const Create = () => {
             />
           </Input>
         </VStack>
+        <Box marginTop={10}>
+
+          <Select
+            borderBottomWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            borderEndWidth={3}
+            rounded={7}
+            borderColor='#021C35'
+            onValueChange={handleSelectChange}
+          >
+            <SelectTrigger variant="outline" size="md" >
+              <SelectInput placeholder="Pilih Kategori" />
+              <SelectIcon mr="$3">
+                <Entypo name="chevron-down" size={15} color="black" />
+              </SelectIcon>
+            </SelectTrigger>
+            <SelectPortal>
+              <SelectBackdrop />
+              <SelectContent>
+                <SelectDragIndicatorWrapper>
+                  <SelectDragIndicator />
+                </SelectDragIndicatorWrapper>
+                <SelectItem label="Baju Japir" value="Japir" />
+                <SelectItem label="Ara Ara ALbar" value="Albar" />
+                <SelectItem
+                  label="Cross Platform Development Process"
+                  value="Cross Platform Development Process"
+                />
+                <SelectItem
+                  label="UI Designing"
+                  value="ui"
+                  isDisabled={true}
+                />
+                <SelectItem
+                  label="Backend Development"
+                  value="backend"
+                />
+              </SelectContent>
+            </SelectPortal>
+          </Select>
+
+        </Box>
         {/* Bagian Gambar Kostum */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {costumeImages.map((image, index) => (
