@@ -23,7 +23,7 @@ const Tabs = () => {
                 <MaterialCommunityIcons
                   name={iconName}
                   size={35}
-                  color={focused ? '#021C35' : color}
+                  color={focused ? '#021C35' : '#021C35'}
                 />
               );
             case 'Favorite':
@@ -32,7 +32,7 @@ const Tabs = () => {
                 <MaterialIcons
                   name={iconName}
                   size={35}
-                  color={focused ? '#021C35' : color} />
+                  color={focused ? '#021C35' : '#021C35'} />
               );
             case 'History':
               iconName = focused ? 'history' : 'history';
@@ -40,7 +40,7 @@ const Tabs = () => {
                 <MaterialCommunityIcons
                   name={iconName}
                   size={35}
-                  color={focused ? '#021C35' : color}
+                  color={focused ? '#021C35' : '#021C35'}
                 />
               );
             case 'Profile':
@@ -49,7 +49,7 @@ const Tabs = () => {
                 <Ionicons
                   name={iconName}
                   size={35}
-                  color={focused ? '#021C35' : color} />
+                  color={focused ? '#021C35' : '#021C35'} />
               );
             default:
               return null;
@@ -62,9 +62,12 @@ const Tabs = () => {
           position: 'absolute',
           width: '80%',
           marginHorizontal: '10%',
-          marginBottom: 25,
+          marginBottom: 15,
           height: 70,
-          borderWidth: 2,
+          borderBottomWidth:6,
+          borderEndWidth:6,
+          borderTopWidth:1,
+          borderStartWidth:1,
           borderColor: '#021C35',
           backgroundColor: '#fff',
           borderRadius: 10,
