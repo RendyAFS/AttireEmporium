@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 const Profile = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');
@@ -32,7 +32,7 @@ const Profile = () => {
       console.error(error);
     }
   };
-  
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -58,6 +58,12 @@ const Profile = () => {
             <Heading color="#545454" fontSize={25}>{userData.username}</Heading>
           </Box>
           <HStack marginTop={30}>
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
+              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <MaterialIcons name="store" size={50} color="#0D98BA" />
+              </Box>
+              <Text>Proflie Renter</Text>
+            </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Favorite')} >
               <Box backgroundColor="#f3e9ff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <MaterialIcons name="favorite" size={50} color="#A15DEA" />
@@ -69,12 +75,6 @@ const Profile = () => {
                 <MaterialCommunityIcons name="account-edit" size={50} color="#DF9B52" />
               </Box>
               <Text>Edit Profile</Text>
-            </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
-              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <Entypo name="log-out" size={40} color="#da5393" />
-              </Box>
-              <Text>Sign Out</Text>
             </Pressable>
           </HStack>
           <HStack marginTop={30}>
@@ -90,11 +90,11 @@ const Profile = () => {
               </Box>
               <Text>Edit Item</Text>
             </Pressable> */}
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
-              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="store" size={50} color="#0D98BA" />
+            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
+              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <Entypo name="log-out" size={40} color="#da5393" />
               </Box>
-              <Text>Proflie Renter</Text>
+              <Text>Sign Out</Text>
             </Pressable>
           </HStack>
           <Box marginTop={30} >

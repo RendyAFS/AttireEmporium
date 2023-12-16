@@ -201,9 +201,7 @@ const Home = ({ route }) => {
                         />
                       </Avatar>
                     </Pressable>
-
                   </Box>
-
                 </HStack>
 
               </Box>
@@ -224,32 +222,14 @@ const Home = ({ route }) => {
         <Box paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>CATEGORIES</Heading>
           <Box>
-            <ScrollView horizontal marginStart={20} paddingVertical={10}>
-              <Box p={10} marginEnd={10} bgColor='black'>
+            <ScrollView horizontal marginStart={20} paddingVertical={10} showsHorizontalScrollIndicator={false}>
+              <Box p={10} marginEnd={10} bgColor='black' width={250} height={100} rounded={10}>
                 <Text>Text</Text>
               </Box>
-              <Box p={10} marginEnd={10} bgColor='yellow'>
+              <Box p={10} marginEnd={10} bgColor='red' width={250} height={100} rounded={10}>
                 <Text>Text</Text>
               </Box>
-              <Box p={10} marginEnd={10} bgColor='purple'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='red'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='blue'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='green'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='lime'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='red'>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='red'>
+              <Box p={10} marginEnd={10} bgColor='purple' width={250} height={100} rounded={10}>
                 <Text>Text</Text>
               </Box>
             </ScrollView>
