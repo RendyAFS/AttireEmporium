@@ -8,10 +8,14 @@ import {
   HStack,
   VStack,
   Pressable,
-  AvatarImage
+  AvatarImage,
+  Avatar,
+  FlatList,
+  AvatarFallbackText
 } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import { Entypo } from "@expo/vector-icons";
 import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
@@ -27,28 +31,85 @@ const Home = ({ route }) => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
+  const [costume, setCostumeData] = useState([]);
+
+
+  useEffect(() => {
+    getUserData();
+    getCostume();
+    // fetchCostumeData();
+  }, []);
+
+  // console.log('hasilnya yaaaaituuu '+ costume)
+
+  // const fetchCostumeData = async () => {
+  //   try {
+  //     const costumesSnapshot = await firebase.database().ref('costumes').once('value');
+  //     const costumesData = costumesSnapshot.val();
+
+  //     if (costumesData) {
+  //       console.log("All Costumes Information:");
+
+  //       // Extracting all items from costumeData
+  //       const costumeArray = Object.entries(costumesData).map(([costumeId, costume]) => ({
+  //         costumeId,
+  //         ...costume,
+  //       }));
+
+  //       // Log each object in the array separately
+  //       costumeArray.forEach((costume, index) => {
+  //         console.log(`Object ${index + 1}:`, costume);
+  //       });
+
+  //       // Set all items in the costumeData state
+  //       setCostumeData(costumeArray);
+  //     } else {
+  //       console.log("No costumes found");
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching costumes data:', error);
+  //   }
+  // };
+
+
+
   const getCostume = async () => {
     const costumeRef = firebase.database().ref("costumes/");
-    console.log(costumeRef)
-    return costumeRef
-      .once("value")
-      .then((snapshot) => {
-        const costumeData = snapshot.val();
-        if (costumeData) {
-          const notesArray = Object.entries(costumeData).map(([costumeId, costumeData]) => ({
+
+    try {
+      const snapshot = await costumeRef.once("value");
+      const costumeData = snapshot.val();
+
+      if (costumeData && Object.keys(costumeData).length > 0) {
+        const allCostumes = Object.keys(costumeData).map((costumeId) => {
+          console.log(costumeData[costumeId]);
+          return costumeData[costumeId];
+        });
+
+        setCostumeData(allCostumes);
+
+        const costumesArray = Object.entries(costumeData).map(([userId, userData]) =>
+          Object.entries(userData).map(([costumeId, costume]) => ({
+            userId,
             costumeId,
-            ...costumeData,
-          }));
-          return notesArray;
-        } else {
-          return [];
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user notes:", error);
+            ...costume,
+          }))
+        );
+        const flattenedCostumes = costumesArray.flat();
+        return flattenedCostumes;
+      } else {
+        setCostumeData([]);
         return [];
-      });
+      }
+    } catch (error) {
+      console.error("Error fetching costumes data:", error);
+      setCostumeData([]);
+      return [];
+    }
   };
+
+
+  console.log(costume)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -66,19 +127,19 @@ const Home = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    getUserData();
-    getCostume();
-  }, []);
-  const Itemku = ({ item }) => (
+  const Itemku = ({ costume }) => (
 
-    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })}   >
+    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
       <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
-        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} />
+        {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
         <Box p={5}>
-          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>{item.title}</Text>
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{item.subtitle}</Text>
-          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {item.harga}</Text>
+          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
+            {costume.costumeName}
+          </Text>
+
+          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
+          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}><Entypo name="shop" size={15} color="black" /> {costume.username}</Text>
+          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
         </Box>
 
       </Box>
@@ -112,8 +173,8 @@ const Home = ({ route }) => {
       <ScrollView bgColor='#f5f5f5'>
         <Header title={"Header"} />
 
-        <Box bgColor='white' marginTop={10} paddingVertical={10} rounded={5}>
-          <Box p={10} >
+        <Box bgColor='white' marginTop={10} rounded={5}>
+          <Box p={20} >
             <LinearGradient
               // Background Linear Gradient
               colors={['#021C35', '#0174BE']}
@@ -121,13 +182,28 @@ const Home = ({ route }) => {
 
               end={{ x: 1, y: 2 }}
             >
-              <Box width={'100%'} height={120} rounded={10} padding={25}>
-                <HStack>
-                  <VStack>
+              <Box width={'100%'} height={120} rounded={10}>
+                <HStack justifyContent='center' alignItems='center' >
+                  <VStack marginStart={10} marginEnd={140} marginTop={20}>
                     <Text color='white' fontSize={15}>Selamat Datang</Text>
                     <Heading color='white' fontSize={20}>{userData.username}</Heading>
                   </VStack>
-                  <AvatarImage />
+                  <Box marginTop={15}>
+                    <Pressable onPress={() => navigation.navigate('Profile')}>
+                      <Avatar size="lg" >
+                        <Image
+                          source={require("../assets/images/avatar.png")}
+                          width={'100%'}
+                          height={'100%'}
+                          alt="CNN Logo"
+
+                          role="img"
+                        />
+                      </Avatar>
+                    </Pressable>
+
+                  </Box>
+
                 </HStack>
 
               </Box>
@@ -145,9 +221,40 @@ const Home = ({ route }) => {
             loop={true}
           />
         </Box>
-        {/* <Box  paddingVertical={10} rounded={5} >
-          <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
-        </Box> */}
+        <Box paddingVertical={10} rounded={5} >
+          <Heading flex={1} marginStart={20} color={'#DF9B52'}>CATEGORIES</Heading>
+          <Box>
+            <ScrollView horizontal marginStart={20} paddingVertical={10}>
+              <Box p={10} marginEnd={10} bgColor='black'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='yellow'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='purple'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='red'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='blue'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='green'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='lime'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='red'>
+                <Text>Text</Text>
+              </Box>
+              <Box p={10} marginEnd={10} bgColor='red'>
+                <Text>Text</Text>
+              </Box>
+            </ScrollView>
+          </Box>
+        </Box>
         <Box paddingVertical={10} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
         </Box>
@@ -157,19 +264,18 @@ const Home = ({ route }) => {
         ))}
 
       </Box> */}
-        <Box alignItems='center' justifyContent='center'>
+        <Box alignItems='center' justifyContent='center' p={10}>
           <MasonryList
-            data={datas}
-            keyExtractor={(item) => item.id}
+            data={costume}
+            keyExtractor={item => item.costumeId}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <Itemku item={item} />}
+            renderItem={({ item }) => <Itemku costume={item} />}
             onRefresh={() => refetch({ first: ITEM_CNT })}
             onEndReachedThreshold={0.1}
             onEndReached={() => loadNext(ITEM_CNT)}
           />
         </Box>
-
       </ScrollView>
 
 

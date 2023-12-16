@@ -45,7 +45,7 @@ const Create = () => {
 
         // Menambahkan UID pengguna ke data kostum
         const database = firebase.database();
-        const newCostumeRef = database.ref('costumes/' + userData.credential.user.uid).push({
+        const newCostumeRef = database.ref('costumes/').push({
           costumeName,
           costumeDescription,
           rentalPrice,
