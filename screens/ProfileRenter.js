@@ -8,44 +8,57 @@ const ProfileRenter = () => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
   const navigation = useNavigation();
+  
+
   const getCostume = async () => {
-    const costumeRef = firebase.database().ref("costumes/");
-
     try {
-      const snapshot = await costumeRef.once("value");
-      const costumeData = snapshot.val();
-
-      if (costumeData && Object.keys(costumeData).length > 0) {
-        const allCostumes = Object.keys(costumeData).map((costumeId) => {
-          console.log(costumeData[costumeId]);
-          return costumeData[costumeId];
-        });
-
-        setCostumeData(allCostumes);
-
-        const costumesArray = Object.entries(costumeData).map(([userId, userData]) =>
-          Object.entries(userData).map(([costumeId, costume]) => ({
-            userId,
-            costumeId,
-            ...costume,
-          }))
-        );
-        const flattenedCostumes = costumesArray.flat();
-        return flattenedCostumes;
+      const userDataString = await AsyncStorage.getItem("user-data");
+  
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+  
+        // Pastikan userData.credential ada sebelum mengakses propertinya
+        if (userData.credential && userData.credential.user) {
+          const userUid = userData.credential.user.uid;
+          console.log('User UID from AsyncStorage:', userUid);
+  
+          const costumeRef = firebase.database().ref("costumes/");
+          const snapshot = await costumeRef.once("value");
+          const costumeData = snapshot.val();
+  
+          if (costumeData) {
+            const allCostumes = Object.keys(costumeData).map((costumeId) => ({
+              costumeId,
+              ...costumeData[costumeId],
+            }));
+  
+            console.log('All Costumes:', allCostumes);
+  
+            const userCostumes = allCostumes.filter(costume => costume.uid === userUid);
+            console.log('User Costumes:', userCostumes);
+  
+            setCostumeData(userCostumes);
+          } else {
+            setCostumeData([]);
+          }
+        } else {
+          console.log('Credential is null or does not have user property.');
+        }
       } else {
-        setCostumeData([]);
-        return [];
+        console.log("User data not found in AsyncStorage");
       }
     } catch (error) {
       console.error("Error fetching costumes data:", error);
       setCostumeData([]);
-      return [];
     }
   };
+  
+
+
   const Itemku = ({ costume }) => (
 
     <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
-      <Box backgroundColor='white' rounded={10} p={0} hardShadow={1} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} >
+      <Box backgroundColor='white' rounded={10} p={2} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
         {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
         <Box p={5}>
           <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
@@ -86,7 +99,7 @@ const ProfileRenter = () => {
 
   return (
     <ScrollView>
-      <VStack flex={1}  padding={16}>
+      <VStack flex={1} padding={16}>
         <VStack alignItems='center'>
           <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
         </VStack>

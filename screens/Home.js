@@ -33,7 +33,6 @@ const Home = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
 
-
   useEffect(() => {
     getUserData();
     getCostume();
@@ -82,7 +81,7 @@ const Home = ({ route }) => {
 
       if (costumeData && Object.keys(costumeData).length > 0) {
         const allCostumes = Object.keys(costumeData).map((costumeId) => {
-          console.log(costumeData[costumeId]);
+          console.log('ini kostumku'+costumeData[costumeId]);
           return costumeData[costumeId];
         });
 
@@ -109,7 +108,7 @@ const Home = ({ route }) => {
   };
 
 
-  console.log(costume)
+  console.log('ini kostum '+costume)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -129,7 +128,7 @@ const Home = ({ route }) => {
 
   const Itemku = ({ costume }) => (
 
-    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
+    <Pressable  onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
       <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
         {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
         <Box p={5}>
@@ -168,12 +167,12 @@ const Home = ({ route }) => {
     );
   };
   return (
-    <Box>
+    <Box >
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
-      <ScrollView bgColor='#f5f5f5'>
+      <ScrollView bgColor='white'>
         <Header title={"Header"} />
 
-        <Box bgColor='white' marginTop={10} rounded={5}>
+        <Box  marginTop={10} rounded={5}>
           <Box p={20} >
             <LinearGradient
               // Background Linear Gradient
@@ -254,6 +253,7 @@ const Home = ({ route }) => {
             onRefresh={() => refetch({ first: ITEM_CNT })}
             onEndReachedThreshold={0.1}
             onEndReached={() => loadNext(ITEM_CNT)}
+            style={{marginBottom:100}}
           />
         </Box>
       </ScrollView>

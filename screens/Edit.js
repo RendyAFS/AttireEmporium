@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "../firebase";
 
 const EditItem = ({ route }) => {
   const data = route.params.data;
@@ -9,8 +11,8 @@ const EditItem = ({ route }) => {
   const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
   const [costumeImages, setCostumeImages] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-
-  console.log(data);
+  const navigation = useNavigation();
+  console.log(route.params);
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -18,6 +20,34 @@ const EditItem = ({ route }) => {
       rentalPrice,
       costumeImages,
     });
+  };
+  console.log(data.costumeId)
+  const editCostume = async () => {
+    try {
+
+      // Perbarui catatan berdasarkan costumeId
+      const costumeRef = firebase.database().ref(`costumes/${data.costumeId}`);
+      const snapshot = await costumeRef.once("value");
+      const existingCostume = snapshot.val();
+
+      if (existingCostume) {
+        // Perbarui data kostum
+        const updatedCostume = {
+          costumeName,
+          costumeDescription,
+          rentalPrice,
+          costumeImages,
+        };
+
+        await costumeRef.update(updatedCostume);
+        console.log("Costume updated successfully");
+        navigation.replace("Tabs");
+      } else {
+        console.log("Costume not found");
+      }
+    } catch (error) {
+      console.error("Error updating costume:", error);
+    }
   };
 
   const handleImageSelection = () => {
@@ -109,7 +139,7 @@ const EditItem = ({ route }) => {
           height={50}
           borderRadius={4}
           backgroundColor="#DF9B52"
-          onPress={handleEditCostume}
+          onPress={editCostume}
         >
           <Text color="white" fontWeight="bold">
             Edit Costume
