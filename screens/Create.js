@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { VStack, Text, Input, InputField, Pressable, Image, ScrollView, Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectItem, Box, SelectDragIndicator } from '@gluestack-ui/themed';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import { useTheme } from '@gluestack-ui/themed';
 import firebase from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from 'expo-image-picker';
 //definisi create
 const Create = () => {
   // State untuk menyimpan informasi kostum yang akan diposting
@@ -12,7 +13,7 @@ const Create = () => {
   const [costumeDescription, setCostumeDescription] = useState('');
   const [rentalPrice, setRentalPrice] = useState('');
   const [costumeCategory, setCostumeCategory] = useState('');
-  const [costumeImages, setCostumeImages] = useState([]);
+  const [image, setImage] = useState(null);
   const [userData, setUserData] = useState('');
   const navigation = useNavigation();
   const getUserData = async () => {
@@ -36,6 +37,21 @@ const Create = () => {
     setCostumeCategory(value);
 
   };
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
   console.log('Test' + costumeCategory);
   useEffect(() => {
     // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
@@ -56,9 +72,9 @@ const Create = () => {
           costumeName,
           costumeDescription,
           rentalPrice,
-          costumeImages,
           costumeCategory,
           uid,
+          image,
           username,
         });
 
@@ -68,13 +84,14 @@ const Create = () => {
         setCostumeName('');
         setCostumeDescription('');
         setRentalPrice('');
-        setCostumeImages([]);
+        setImage('');
         navigation.replace("Tabs");
       }
     } catch (error) {
       console.error(error);
     }
   };
+  console.log(image);
   useEffect(() => {
     const database = firebase.database();
     // Listen for changes in the 'costumes' node
@@ -216,11 +233,12 @@ const Create = () => {
 
         </Box>
         {/* Bagian Gambar Kostum */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {costumeImages.map((image, index) => (
-            <Image key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
-          ))}
-        </ScrollView>
+        <Box marginTop={20} justifyContent='center' alignItems='center'>
+          {image && <Image source={{ uri: image }} alignItems='center' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
+
+        </Box>
+
+
         {/* Tombol untuk menambahkan gambar kostum */}
         <Pressable
           justifyContent="center"
@@ -230,10 +248,10 @@ const Create = () => {
           borderRadius={4}
           backgroundColor={'#DF9B52'}
           marginBottom={16}
-          onPress={handleImageSelection}
+          onPress={pickImage}
         >
           <Text color={'white'} fontWeight="bold">
-            Tambahkan Gambar
+            <AntDesign name="picture" size={24} color="black" /> Tambahkan Gambar
           </Text>
         </Pressable>
         {/* Tombol untuk memposting kostum */}

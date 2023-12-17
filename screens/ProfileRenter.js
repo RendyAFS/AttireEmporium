@@ -1,61 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Text, Image, FlatList } from "@gluestack-ui/themed";
-
+import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView } from "@gluestack-ui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import MasonryList from '@react-native-seoul/masonry-list';
+import { useNavigation } from "@react-navigation/native";
+import firebase from '../firebase'
 const ProfileRenter = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState('');
+  const [costume, setCostumeData] = useState([]);
+  const navigation = useNavigation();
+  const getCostume = async () => {
+    const costumeRef = firebase.database().ref("costumes/");
+
+    try {
+      const snapshot = await costumeRef.once("value");
+      const costumeData = snapshot.val();
+
+      if (costumeData && Object.keys(costumeData).length > 0) {
+        const allCostumes = Object.keys(costumeData).map((costumeId) => {
+          console.log(costumeData[costumeId]);
+          return costumeData[costumeId];
+        });
+
+        setCostumeData(allCostumes);
+
+        const costumesArray = Object.entries(costumeData).map(([userId, userData]) =>
+          Object.entries(userData).map(([costumeId, costume]) => ({
+            userId,
+            costumeId,
+            ...costume,
+          }))
+        );
+        const flattenedCostumes = costumesArray.flat();
+        return flattenedCostumes;
+      } else {
+        setCostumeData([]);
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching costumes data:", error);
+      setCostumeData([]);
+      return [];
+    }
+  };
+  const Itemku = ({ costume }) => (
+
+    <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
+      <Box backgroundColor='white' rounded={10} p={0} hardShadow={1} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} >
+        {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
+        <Box p={5}>
+          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
+            {costume.costumeName}
+          </Text>
+          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
+          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
+          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
+        </Box>
+
+      </Box>
+    </Pressable>
+  );
 
   useEffect(() => {
-    fetchUserData()
-      .then((data) => setUserData(data))
-      .catch((error) => console.error(error));
+    getUserData();
+    getCostume();
   }, []);
 
-  const fetchUserData = async () => {
-    return {
-      name: 'Japir',
-      profilePicture: '../assets/images/avatar.png',
-      email: 'Jibran.Gaming@esport.com',
-      rentedCostumes: ['Kuli', 'Kang Nasgor'],
-    };
+
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      // console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData;
+
+        // Menampilkan UID ke konsol
+        // console.log("User UID from AsyncStorage:",  userData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+
   return (
-    <FlatList
-      data={[userData]}
-      keyExtractor={() => 'profile'} // Assuming there is only one profile
-      renderItem={({ item }) => (
-        <VStack flex={1} backgroundColor='#FFFFFF' padding={16}>
-          <VStack alignItems='center'>
-            <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
-          </VStack>
-          <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Informasi Pengguna</Text>
-          {item ? ( // Check if item (userData) is not null
-            <>
-              <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
-                <Text fontSize={16} fontWeight='bold' color='#000000'>Nama:</Text>
-                <Text fontSize={16} color='#333333'>{item.name}</Text>
-              </VStack>
-              <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
-                <Text fontSize={16} fontWeight='bold' color='#000000'>Email:</Text>
-                <Text fontSize={16} color='#333333'>{item.email}</Text>
-              </VStack>
-              <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Kostum yang Disewa</Text>
-              <FlatList
-                data={item.rentedCostumes}
-                renderItem={({ item }) => (
-                  <VStack justifyContent='space-between' padding={8} borderBottomWidth={3} borderColor='#DDDDDD'>
-                    <Text>{item}</Text>
-                  </VStack>
-                )}
-                keyExtractor={(item) => item}
-              />
-            </>
-          ) : (
-            <Text fontSize={18} color='#333333'>Loading...</Text>
-          )}
+    <ScrollView>
+      <VStack flex={1}  padding={16}>
+        <VStack alignItems='center'>
+          <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
         </VStack>
-      )}
-    />
+        <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Informasi Pengguna</Text>
+        <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
+          <Text fontSize={16} fontWeight='bold' color='#000000'>Nama:</Text>
+          <Text fontSize={16} color='#333333'>{userData.username}</Text>
+        </VStack>
+        <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
+          <Text fontSize={16} fontWeight='bold' color='#000000'>Email:</Text>
+          <Text fontSize={16} color='#333333'>{userData.email}</Text>
+        </VStack>
+        <Text fontSize={18} fontWeight='bold' marginBottom={8} marginTop={10} color='#FF6347'>Kostumku</Text>
+        <MasonryList
+          data={costume}
+          keyExtractor={item => item.costumeId}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => <Itemku costume={item} />}
+          onRefresh={() => refetch({ first: ITEM_CNT })}
+          onEndReachedThreshold={0.1}
+          onEndReached={() => loadNext(ITEM_CNT)}
+        />
+
+
+      </VStack>
+    </ScrollView>
   );
 };
 

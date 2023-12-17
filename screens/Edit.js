@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
+import { useNavigation } from "@react-navigation/native";
 
-const EditItem = () => {
-  const [costumeName, setCostumeName] = useState('');
-  const [costumeDescription, setCostumeDescription] = useState('');
-  const [rentalPrice, setRentalPrice] = useState('');
+const EditItem = ({ route }) => {
+  const data = route.params.data;
+  const [costumeName, setCostumeName] = useState(data.costumeName);
+  const [costumeDescription, setCostumeDescription] = useState(data.costumeDescription);
+  const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
   const [costumeImages, setCostumeImages] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
-
+  console.log(data);
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -34,7 +33,15 @@ const EditItem = () => {
           Costume Details
         </Text>
         <VStack space="md" width="100%">
-          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+          <Text>Nama</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'
+          >
             <InputField
               placeholder="Costume Name"
               value={costumeName}
@@ -43,7 +50,14 @@ const EditItem = () => {
           </Input>
         </VStack>
         <VStack space="md" marginTop={20} width="100%">
-          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+          <Text>Deskripsi</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'>
             <InputField
               placeholder="Description"
               value={costumeDescription}
@@ -53,7 +67,15 @@ const EditItem = () => {
           </Input>
         </VStack>
         <VStack space="md" marginTop={20} width="100%">
-          <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
+          <Text>Harga</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'
+          >
             <InputField
               placeholder="Rental Price (per day)"
               value={rentalPrice}
