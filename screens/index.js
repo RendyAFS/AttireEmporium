@@ -15,6 +15,7 @@ import CreateItem from "./Create";
 import EditItem from "./Edit";
 import ProfileRenter from "./ProfileRenter";
 import Test from "./test";
+import Detail from "./Detail";
 export {
   Home,
   History,
@@ -32,5 +33,6 @@ export {
   CreateItem,
   EditItem,
   ProfileRenter,
-  Test
+  Test,
+  Detail
 };
