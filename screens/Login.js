@@ -46,37 +46,38 @@ const Login = () => {
       console.error(e);
     }
   };
-  const loginHandler = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(async (userCredential) => {
-        const userEmail = userCredential.user.email;
+  const loginHandler = async () => {
+    try {
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      const userEmail = userCredential.user.email;
 
-        // Ambil data pengguna dari database berdasarkan alamat email
-        const userRef = firebase.database().ref('users');
-        const snapshot = await userRef.orderByChild('email').equalTo(userEmail).once('value');
-        const userDataFromDatabase = snapshot.val();
-        console.log(userRef)
-        if (userDataFromDatabase) {
-          // Dapatkan kunci pengguna (UID) dari hasil query
-          const uid = Object.keys(userDataFromDatabase)[0];
+      // Ambil data pengguna dari database berdasarkan alamat email
+      const userRef = firebase.database().ref('users');
+      const snapshot = await userRef.orderByChild('email').equalTo(userEmail).once('value');
+      const userDataFromDatabase = snapshot.val();
+      console.log('userDataFromDatabase:', userDataFromDatabase);
 
-          // Simpan data pengguna ke AsyncStorage atau lakukan tindakan lain
-          saveUserData(email, password, userCredential, uid, userDataFromDatabase[uid]);
-        } else {
-          console.error('Data pengguna tidak ditemukan di Firebase Realtime Database.');
-        }
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+      if (userDataFromDatabase) {
+        // Dapatkan kunci pengguna (UID) dari hasil query
+        const uid = Object.keys(userDataFromDatabase)[0];
+        console.log('UID from database:', uid);
+
+        // Simpan data pengguna ke AsyncStorage atau lakukan tindakan lain
+        saveUserData(email, password, userCredential, uid, userDataFromDatabase[uid]);
+      } else {
+        console.error('Data pengguna tidak ditemukan di Firebase Realtime Database.');
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
 
 
+
+
   const saveUserData = async (email, password, credential, uid, userDataFromDatabase) => {
-    const userData = { email, password, credential, uid, ...userDataFromDatabase };
+    const userData = { email, password, credential, uid: userDataFromDatabase.uid, ...userDataFromDatabase };
     try {
       // Menyimpan data ke AsyncStorage
       await AsyncStorage.setItem("user-data", JSON.stringify(userData));
@@ -86,6 +87,7 @@ const Login = () => {
       console.error(error);
     }
   };
+
 
 
   return (
@@ -166,4 +168,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default Login;
