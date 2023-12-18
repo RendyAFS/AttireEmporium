@@ -16,6 +16,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [number, setNumber] = useState('');
+    const [uid, setUid] = useState('');
     const [password, setPassword] = useState('');
 
 
@@ -24,14 +25,8 @@ const Register = () => {
         setShowPassword((prev) => !prev);
     };
     const navigation = useNavigation();
-
     const handleRegister = () => {
         const database = firebase.database();
-        const newCostumeRef = database.ref('users').push({
-            email,
-            username,
-            number
-        });
 
         firebase
             .auth()
@@ -39,13 +34,24 @@ const Register = () => {
             .then((userCredential) => {
                 // Panggil method untuk menyimpan data ke AsyncStorage
                 saveUserData(email, username, number, password, userCredential);
-                console.log(userCredential)
+                console.log(userCredential);
+
+                const uid = userCredential.user.uid; // Ambil UID dari userCredential
+
+                // Gunakan UID yang sudah ada untuk menyimpan data di Firebase
+                database.ref(`users/${uid}`).set({
+                    email,
+                    username,
+                    number,
+                });
+
                 navigation.replace("Tabs");
             })
             .catch((error) => {
                 console.error(error);
             });
     };
+
 
     const saveUserData = async (email, username, number, password, credential) => {
         const userData = { email, username, number, password, credential };

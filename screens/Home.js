@@ -38,6 +38,7 @@ const Home = ({ route }) => {
     getCostume();
     // fetchCostumeData();
   }, []);
+  console.log(userData);
 
   // console.log('hasilnya yaaaaituuu '+ costume)
 
@@ -74,28 +75,24 @@ const Home = ({ route }) => {
 
   const getCostume = async () => {
     const costumeRef = firebase.database().ref("costumes/");
-
+  
     try {
       const snapshot = await costumeRef.once("value");
       const costumeData = snapshot.val();
-
-      if (costumeData && Object.keys(costumeData).length > 0) {
-        const allCostumes = Object.keys(costumeData).map((costumeId) => {
-          console.log('ini kostumku'+costumeData[costumeId]);
-          return costumeData[costumeId];
+      console.log(costumeData);
+  
+      if (costumeData) {
+        const costumeIds = Object.keys(costumeData);
+        console.log('Costume IDs:', costumeIds);
+  
+        const allCostumes = costumeIds.map((costumeId) => {
+          console.log('ini kostumku', costumeData[costumeId]);
+          return { costumeId, ...costumeData[costumeId] };
         });
-
+  
         setCostumeData(allCostumes);
-
-        const costumesArray = Object.entries(costumeData).map(([userId, userData]) =>
-          Object.entries(userData).map(([costumeId, costume]) => ({
-            userId,
-            costumeId,
-            ...costume,
-          }))
-        );
-        const flattenedCostumes = costumesArray.flat();
-        return flattenedCostumes;
+  
+        return allCostumes;
       } else {
         setCostumeData([]);
         return [];
@@ -106,9 +103,10 @@ const Home = ({ route }) => {
       return [];
     }
   };
+  
 
 
-  console.log('ini kostum '+costume)
+  console.log('ini kostum '+ costume)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
