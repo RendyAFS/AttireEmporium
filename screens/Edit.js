@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "../firebase";
 
-const EditItem = () => {
-  const [costumeName, setCostumeName] = useState('');
-  const [costumeDescription, setCostumeDescription] = useState('');
-  const [rentalPrice, setRentalPrice] = useState('');
+const EditItem = ({ route }) => {
+  const data = route.params.data;
+  const [costumeName, setCostumeName] = useState(data.costumeName);
+  const [costumeDescription, setCostumeDescription] = useState(data.costumeDescription);
+  const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
   const [costumeImages, setCostumeImages] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
-
+  const navigation = useNavigation();
+  console.log(route.params);
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -19,6 +20,34 @@ const EditItem = () => {
       rentalPrice,
       costumeImages,
     });
+  };
+  console.log(data.costumeId)
+  const editCostume = async () => {
+    try {
+
+      // Perbarui catatan berdasarkan costumeId
+      const costumeRef = firebase.database().ref(`costumes/${data.costumeId}`);
+      const snapshot = await costumeRef.once("value");
+      const existingCostume = snapshot.val();
+
+      if (existingCostume) {
+        // Perbarui data kostum
+        const updatedCostume = {
+          costumeName,
+          costumeDescription,
+          rentalPrice,
+          costumeImages,
+        };
+
+        await costumeRef.update(updatedCostume);
+        console.log("Costume updated successfully");
+        navigation.replace("Tabs");
+      } else {
+        console.log("Costume not found");
+      }
+    } catch (error) {
+      console.error("Error updating costume:", error);
+    }
   };
 
   const handleImageSelection = () => {
@@ -34,7 +63,15 @@ const EditItem = () => {
           Costume Details
         </Text>
         <VStack space="md" width="100%">
-          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+          <Text>Nama</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'
+          >
             <InputField
               placeholder="Costume Name"
               value={costumeName}
@@ -43,7 +80,14 @@ const EditItem = () => {
           </Input>
         </VStack>
         <VStack space="md" marginTop={20} width="100%">
-          <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
+          <Text>Deskripsi</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'>
             <InputField
               placeholder="Description"
               value={costumeDescription}
@@ -53,7 +97,15 @@ const EditItem = () => {
           </Input>
         </VStack>
         <VStack space="md" marginTop={20} width="100%">
-          <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
+          <Text>Harga</Text>
+          <Input
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderTopWidth={1}
+            borderStartWidth={1}
+            rounded={7}
+            borderColor='#021C35'
+          >
             <InputField
               placeholder="Rental Price (per day)"
               value={rentalPrice}
@@ -87,7 +139,7 @@ const EditItem = () => {
           height={50}
           borderRadius={4}
           backgroundColor="#DF9B52"
-          onPress={handleEditCostume}
+          onPress={editCostume}
         >
           <Text color="white" fontWeight="bold">
             Edit Costume

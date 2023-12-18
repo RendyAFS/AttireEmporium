@@ -1,11 +1,51 @@
 import { GluestackUIProvider, Heading, Center, Box, Text, Pressable, Image, HStack, VStack, ScrollView } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "../firebase";
+import { useState, useEffect } from "react";
 const Profile = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState('');
+  const logoutHandler = () => {
+    // Logout dari Firebase
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Hapus data user dari AsyncStorage
+        removeUserData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      // console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    getUserData();
+  }, []);
+  const removeUserData = async () => {
+    try {
+      // Menghapus data dari AsyncStorage
+      await AsyncStorage.removeItem("user-data");
+      // Diarahkan ke Login
+      navigation.replace("Login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <ScrollView>
       <Box flex={1} bgColor='#DF9B52' alignItems='center'>
@@ -15,9 +55,15 @@ const Profile = () => {
         </Box>
         <Box flex={2} marginTop={20} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
           <Box alignItems="center" marginTop={20}>
-            <Heading color="#545454" fontSize={25}>Denny Daffa Rizaldy</Heading>
+            <Heading color="#545454" fontSize={25}>{userData.username}</Heading>
           </Box>
           <HStack marginTop={30}>
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
+              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <MaterialIcons name="store" size={50} color="#0D98BA" />
+              </Box>
+              <Text>Proflie Renter</Text>
+            </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Favorite')} >
               <Box backgroundColor="#f3e9ff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <MaterialIcons name="favorite" size={50} color="#A15DEA" />
@@ -30,12 +76,6 @@ const Profile = () => {
               </Box>
               <Text>Edit Profile</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Login')} >
-              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <Entypo name="log-out" size={40} color="#da5393" />
-              </Box>
-              <Text>Sign Out</Text>
-            </Pressable>
           </HStack>
           <HStack marginTop={30}>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
@@ -44,17 +84,17 @@ const Profile = () => {
               </Box>
               <Text>Create Item</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
+            {/* <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
               <Box backgroundColor="#eaefff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
                 <MaterialCommunityIcons name="store-edit" size={50} color="#748CE1" />
               </Box>
               <Text>Edit Item</Text>
-            </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
-              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="store" size={50} color=  "#0D98BA" />
+            </Pressable> */}
+            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
+              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
+                <Entypo name="log-out" size={40} color="#da5393" />
               </Box>
-              <Text>Proflie Renter</Text>
+              <Text>Sign Out</Text>
             </Pressable>
           </HStack>
           <Box marginTop={30} >

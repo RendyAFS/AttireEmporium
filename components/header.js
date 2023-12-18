@@ -11,7 +11,6 @@ const Header = (props) => {
   const navigation = useNavigation();
   return (
     <SafeAreaView>
-
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
           <Pressable marginStart={20} flex={5} onPress={() => navigation.navigate('Katalog')}>
