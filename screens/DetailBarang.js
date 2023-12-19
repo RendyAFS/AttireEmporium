@@ -1,32 +1,127 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Image, Button, Heading, Text } from "@gluestack-ui/themed";
 import { Pressable, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
-
+import firebase from "../firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Functional
 const DetailBarang = ({ route }) => {
   const navigation = useNavigation();
+  const [userDataLoaded, setUserDataLoaded] = useState(false);
+  const [userData, setUserData] = useState('');
+  const [isCostumeFavorite, setIsCostumeFavorite] = useState(false);
   const data = route.params.item;
 
-  const showFavoritePopup = () => {
-    Alert.alert(
-      'Tersimpan di Favorite !',
-      'Barang telah ditambahkan ke daftar Favorite',
-      [
-        {
-          text: 'OK',
-          onPress: () => console.log('Favorite Popup Closed'),
-        },
-        {
-          text: 'Cek Favorite mu',
-          style: 'color = "#02E107"',
-          onPress: () => navigation.navigate('Favorite'),
-        },
-      ],
-      { cancelable: false }
-    );
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      console.log("Data from AsyncStorage:", userDataString);
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        setUserDataLoaded(true);  // Set userDataLoaded to true after setting userData
+        const uid = userData.credential.user.uid;
+
+        // Menampilkan UID ke konsol
+        console.log("User UID from AsyncStorage:", uid);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const checkIsCostumeFavorite = async () => {
+    try {
+      if (!userDataLoaded) {
+        return;  // Wait for userData to be loaded before checking favorite status
+      }
+
+      const uid = userData.credential.user.uid;
+      const costumeId = data.costumeId;
+      const database = firebase.database();
+
+      const favoriteRef = database.ref(`users/${uid}/favoriteCostume/${costumeId}`);
+      const snapshot = await favoriteRef.once('value');
+
+      setIsCostumeFavorite(snapshot.exists());
+    } catch (error) {
+      console.error('Error checking if costume is a favorite:', error);
+    }
+  };
+
+  // useEffect Render GetUserData
+  useEffect(() => {
+    getUserData();
+  }, []);
+  // useEffect to check if costume is a favorite
+  useEffect(() => {
+    checkIsCostumeFavorite();
+  }, [userDataLoaded]);  // Trigger when userDataLoaded changes
+
+  // ... rest of your component
+
+
+  // const isCostumeFavorite = async () => {
+  //   try {
+  //     const uid = userData.credential.user.uid;
+  //     const costumeId = data.costumeId;
+  //     const database = firebase.database();
+
+  //     const favoriteRef = database.ref(`users/${uid}/favoriteCostume/${costumeId}`);
+  //     const snapshot = await favoriteRef.once("value");
+
+  //     return snapshot.exists();
+  //   } catch (error) {
+  //     console.error('Error checking if costume is a favorite:', error);
+  //     return false;
+  //   }
+  // };
+
+
+  console.log(userData)
+  const showFavoritePopup = async () => {
+    try {
+      const uid = userData.credential.user.uid;
+      const costumeId = data.costumeId;
+      const database = firebase.database();
+
+      const favoriteRef = database.ref(`users/${uid}/favoriteCostume/${costumeId}`);
+      const snapshot = await favoriteRef.once("value");
+
+      if (snapshot.exists()) {
+        // If the costumeId exists, delete it
+        favoriteRef.remove();
+      } else {
+        // If the costumeId doesn't exist, add it
+        database.ref(`users/${uid}/favoriteCostume/${costumeId}`).set({
+          isFavorite: true,
+        });
+      }
+
+
+      Alert.alert(
+        'Tersimpan di Favorite!',
+        'Barang telah ditambahkan ke daftar Favorite',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('Favorite Popup Closed'),
+          },
+          {
+            text: 'Cek Favorite mu',
+            style: 'color = "#02E107"',
+            onPress: () => navigation.navigate('Favorite'),
+          },
+        ],
+        { cancelable: false }
+      );
+    } catch (error) {
+      console.error('Error processing favorite:', error);
+    }
+    checkIsCostumeFavorite();
+  };
+
 
   return (
     <Box flex={1} alignItems='center' >
@@ -43,7 +138,11 @@ const DetailBarang = ({ route }) => {
         </Text>
         <Box width={'auto'} marginTop={1}>
           <Pressable onPress={() => showFavoritePopup()}>
-            <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
+            {isCostumeFavorite ? (
+              <Ionicons name="heart" size={30} color="red" marginBottom={5} />
+            ) : (
+              <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
+            )}
           </Pressable>
         </Box>
         <Text fontSize={20} marginTop={15} fontWeight="bold">Deskripsi Barang : </Text>
@@ -51,7 +150,6 @@ const DetailBarang = ({ route }) => {
           {data.costumeDescription}
         </Text>
       </Box>
-
       <Box width={"100%"} alignItems='center' backgroundColor='#313C47' paddingBottom={20} paddingTop={10}>
         <Pressable onPress={() => navigation.navigate('FormPenyewaan', { data: data })} >
           <Text marginTop={10} backgroundColor='#DF9B52' paddingVertical={10} paddingHorizontal={60} color='white' fontWeight='bold' borderRadius={10}>
