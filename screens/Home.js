@@ -105,8 +105,6 @@ const Home = ({ route }) => {
   };
   
 
-
-  console.log('ini kostum '+ costume)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
