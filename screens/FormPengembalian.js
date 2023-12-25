@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 const FormPengembalian = ({ route }) => {
-  const data = (route.params.item);
+  const data = (route.params.item[0]);
   console.log(route.params.item)
   const navigation = useNavigation();
   const handleGoBack = () => {
@@ -45,28 +45,28 @@ const FormPengembalian = ({ route }) => {
           {/* Layout 2 */}
           <Box width={'auto'} height={300} bgColor="white" borderRadius={10}>
             <Box flex={1} flexDirection="column">
-              <Image
+              {/* <Image
                 source={{ uri: data.image }}
                 width={'auto'} height={300}
                 borderRadius={10}
                 alt="img"
                 role="img"
                 resizeMode="cover"
-              />
+              /> */}
             </Box>
           </Box>
-          <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.title}</Text>
+          <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.namakostum}</Text>
           <Text fontSize={14}>Tanggal Peminjaman</Text>
           <HStack justifyContent="center" marginTop={10}>
-            <Text fontSize={18} fontWeight="bold">{data.date}</Text>
+            <Text fontSize={18} fontWeight="bold">{data.peminjaman}</Text>
             <Text fontSize={18} fontWeight="bold"> - </Text>
-            <Text fontSize={18} fontWeight="bold">{data.date}</Text>
+            <Text fontSize={18} fontWeight="bold">{data.pengembalian}</Text>
           </HStack>
 
           <Box flexDirection="column">
             <Text marginTop={10} fontSize={18} fontWeight="bold">Rating</Text>
             <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
-          </Box>
+          </Box>x
 
 
           {/* Layout 2 */}

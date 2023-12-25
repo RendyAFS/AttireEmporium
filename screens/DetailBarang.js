@@ -12,7 +12,7 @@ const DetailBarang = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [isCostumeFavorite, setIsCostumeFavorite] = useState(false);
   const data = route.params.item;
-
+  console.log(data)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -41,7 +41,7 @@ const DetailBarang = ({ route }) => {
       const costumeId = data.costumeId;
       const database = firebase.database();
 
-      const favoriteRef = database.ref(`users/${uid}/favoriteCostume/${costumeId}`);
+      const favoriteRef = database.ref(`favoriteCostume/${costumeId}`);
       const snapshot = await favoriteRef.once('value');
 
       setIsCostumeFavorite(snapshot.exists());
@@ -57,9 +57,7 @@ const DetailBarang = ({ route }) => {
   // useEffect to check if costume is a favorite
   useEffect(() => {
     checkIsCostumeFavorite();
-  }, [userDataLoaded]);  // Trigger when userDataLoaded changes
-
-  // ... rest of your component
+  }, [userDataLoaded]);
 
 
   // const isCostumeFavorite = async () => {
@@ -78,15 +76,21 @@ const DetailBarang = ({ route }) => {
   //   }
   // };
 
-
+  console.log(data)
   console.log(userData)
   const showFavoritePopup = async () => {
     try {
       const uid = userData.credential.user.uid;
       const costumeId = data.costumeId;
       const database = firebase.database();
+      const costumeName = data.costumeName;  
+      const costumeDescription = data.costumeDescription;
+      const costumeCategory = data.costumeCategory;
+      const status = data.status;
+      const rentalPrice = data.rentalPrice;
 
-      const favoriteRef = database.ref(`users/${uid}/favoriteCostume/${costumeId}`);
+      
+      const favoriteRef = database.ref(`favoriteCostume/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
 
       if (snapshot.exists()) {
@@ -94,28 +98,33 @@ const DetailBarang = ({ route }) => {
         favoriteRef.remove();
       } else {
         // If the costumeId doesn't exist, add it
-        database.ref(`users/${uid}/favoriteCostume/${costumeId}`).set({
-          isFavorite: true,
+        database.ref(`favoriteCostume/${costumeId}`).set({
+          costumeName,
+          costumeDescription,
+          costumeCategory,
+          status,
+          rentalPrice,
+          uid
         });
       }
 
 
-      Alert.alert(
-        'Tersimpan di Favorite!',
-        'Barang telah ditambahkan ke daftar Favorite',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('Favorite Popup Closed'),
-          },
-          {
-            text: 'Cek Favorite mu',
-            style: 'color = "#02E107"',
-            onPress: () => navigation.navigate('Favorite'),
-          },
-        ],
-        { cancelable: false }
-      );
+      // Alert.alert(
+      //   'Tersimpan di Favorite!',
+      //   'Barang telah ditambahkan ke daftar Favorite',
+      //   [
+      //     {
+      //       text: 'OK',
+      //       onPress: () => console.log('Favorite Popup Closed'),
+      //     },
+      //     {
+      //       text: 'Cek Favorite mu',
+      //       style: 'color = "#02E107"',
+      //       onPress: () => navigation.navigate('Favorite'),
+      //     },
+      //   ],
+      //   { cancelable: false }
+      // );
     } catch (error) {
       console.error('Error processing favorite:', error);
     }
@@ -134,7 +143,7 @@ const DetailBarang = ({ route }) => {
           Rp {data.rentalPrice}
         </Text>
         <Text fontSize={18} color="#02E107" marginTop={2}>
-          Tersedia
+          {data.status}
         </Text>
         <Box width={'auto'} marginTop={1}>
           <Pressable onPress={() => showFavoritePopup()}>

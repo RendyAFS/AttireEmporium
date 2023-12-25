@@ -21,12 +21,14 @@ import {
   ButtonText,
   ModalCloseButton,
   CalendarDaysIcon,
-  HStack
+  HStack,
 } from "@gluestack-ui/themed";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Linking } from "react-native";
 import { config } from "@gluestack-ui/config";
 import { useNavigation } from "@react-navigation/native";
-
+import firebase from "../firebase";
 
 
 const FormPenyewaan = ({ route }) => {
@@ -35,15 +37,35 @@ const FormPenyewaan = ({ route }) => {
   const [showModal, setShowModal] = useState(false)
   const ref = React.useRef(null)
   const navigation = useNavigation();
+  const [Deskripsi, setDeskripsi] = useState('')
+  const [pickupDate, setPickupDate] = useState(new Date()); // State untuk tanggal peminjaman
+  const [returnDate, setReturnDate] = useState(new Date()); // State untuk tanggal pengembalian
+  const [showPickupDatePicker, setShowPickupDatePicker] = useState(false);
+  const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
+  console.log(data.number)
+
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData.credential.user.uid;
+
+        // Menampilkan UID ke konsol
+        console.log("User UID from AsyncStorage:", uid);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleGoBack = () => {
     // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
     navigation.goBack();
   };
 
-  const [pickupDate, setPickupDate] = useState(new Date()); // State untuk tanggal peminjaman
-  const [returnDate, setReturnDate] = useState(new Date()); // State untuk tanggal pengembalian
-  const [showPickupDatePicker, setShowPickupDatePicker] = useState(false);
-  const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
+
 
   const onPickupDateChange = (_, selected) => {
     if (selected) {
@@ -58,19 +80,104 @@ const FormPenyewaan = ({ route }) => {
       setShowReturnDatePicker(false);
     }
   };
+  console.log(data.number)
+  const handlePostCostume = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        const uid = userData.credential.user.uid;
+        const username = userData.username;
+        const number = userData.number;
+        const status = 'Dipinjam'; // Assuming 'Tersedia' is the default status
+        const costumeId = data.costumeId;
+        const namakostum = data.costumeName;
+        const peminjaman = pickupDate.toDateString();
+        const pengembalian = returnDate.toDateString();
+        const toko = data.username;
+        const nomor = data.number
+        const statusRef = firebase.database().ref(`costumes/${data.costumeId}`);
+        const snapshot = await statusRef.once("value");
+        const existingCostume = snapshot.val();
+        // Menambahkan UID pengguna ke data kostum tanpa membuat ID unik
+        const database = firebase.database();
+        const historyRef = database.ref(`history/${costumeId}/`);
+
+        // Set data directly without creating a unique ID
+        historyRef.set({
+          uid,
+          namakostum,
+          peminjaman,
+          pengembalian,
+          toko,
+        });
+        if (existingCostume) {
+          // Perbarui data kostum
+          const updatedCostume = {
+            status,
+          };
+
+          await statusRef.update(updatedCostume);
+        }
+
+        const whatsappLink = `https://api.whatsapp.com/send/?phone=62${nomor}&text=Halo+kak%2C+saya+ingin+menyewa+kostum+*${data.costumeName}*+dengan\n*Tanggal+pengambilan :*\n${pickupDate.toDateString()}\n*Tanggal+pengembalian :*\n${returnDate.toDateString()}\n*Deskripsi :*\n${Deskripsi}`;
+        Linking.openURL(whatsappLink)
+          .catch((err) => console.error('Error opening WhatsApp:', err));
+        // Menambahkan UID pengguna ke data kostum
+
+        // Reset nilai form setelah posting
+        navigation.replace("Tabs");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // const confrimCostume = async () => {
+  //   // const nomor = data.number
+
+  //   try {
+  //     const userDataString = await AsyncStorage.getItem("user-data");
+  //     if (userDataString) {
+  //       const userData = JSON.parse(userDataString);
+  //       const uid = userData.credential.user.uid;
+  //       const username = userData.username;
+  //       const number = userData.number;
+  //       const costumeId = data.costumeId
+  //       const database = firebase.database();
+  //       const newCostumeRef = database.ref(`history/${uid}/${costumeId}`).push({
+  //         peeminjaman: pickupDate,
+  //         pengembalian: returnDate,
+
+  //       });
+  //       const nomor = data.number
+
+  //       const whatsappLink = `https://api.whatsapp.com/send/?phone=62${nomor}&text=Halo+kak%2C+saya+ingin+menyewa+kostum+*${data.costumeName}*+dengan\n*Tanggal+pengambilan :*\n${pickupDate.toDateString()}\n*Tanggal+pengembalian :*\n${returnDate.toDateString()}\n*Deskripsi :*\n${Deskripsi}`;
+  //       Linking.openURL(whatsappLink)
+  //         .catch((err) => console.error('Error opening WhatsApp:', err));
+  //       // Menambahkan UID pengguna ke data kostum
+
+  //       console.log('Posted costume with key:', newCostumeRef.key);
+  //       navigation.replace("Tabs");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={15}>
       <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.title}</Text>
       <Box flex={2} bgColor="#fff" alignItems="center" marginTop={8}>
         <Box width={'90%'}>
-          <Image
+          {/* <Image
             source={{ uri: data.image }}
             width={'100%'} height={'100%'}
             alt="img"
             resizeMode="cover"
             role="img"
-          />
+          /> */}
         </Box>
       </Box>
       <Box flex={3} backgroundColor="#fff">
@@ -102,7 +209,7 @@ const FormPenyewaan = ({ route }) => {
             <Box width="100%">
               <HStack>
                 <Text marginBottom={5} fontSize={14}>
-                 Tanggal Pengembalian:
+                  Tanggal Pengembalian:
                 </Text>
               </HStack>
               <Pressable onPress={() => setShowReturnDatePicker(true)}>
@@ -130,9 +237,10 @@ const FormPenyewaan = ({ route }) => {
               borderWidth={1}
               borderColor="black"
               width={'100%'}
+
             >
 
-              <TextareaInput placeholder="Catatan Tambahan..." role="dialog" />
+              <TextareaInput placeholder="Catatan Tambahan..." role="dialog" onChangeText={(text) => setDeskripsi(text)} />
             </Textarea>
           </Box>
 
@@ -168,7 +276,7 @@ const FormPenyewaan = ({ route }) => {
                   </ModalHeader>
                   <ModalBody>
                     <Text fontWeight="bold">
-                      Nama Barang: <Text>{data.title}</Text>
+                      Nama Barang: <Text>{data.costumeName}</Text>
                     </Text>
                     <Text fontWeight="bold">
                       Tanggal Peminjaman: <Text>{pickupDate.toDateString()}</Text>
@@ -193,9 +301,7 @@ const FormPenyewaan = ({ route }) => {
                       size="sm"
                       action="positive"
                       borderWidth="$0"
-                      onPress={() => {
-                        navigation.navigate('Home')
-                      }}
+                      onPress={handlePostCostume}
                     >
                       <ButtonText>Konfirmasi</ButtonText>
                     </Button>

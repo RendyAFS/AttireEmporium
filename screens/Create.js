@@ -52,7 +52,6 @@ const Create = () => {
       setImage(result.assets[0].uri);
     }
   };
-  console.log('Test' + costumeCategory);
   useEffect(() => {
     // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
     getUserData();
@@ -65,7 +64,8 @@ const Create = () => {
         const userData = JSON.parse(userDataString);
         const uid = userData.credential.user.uid;
         const username = userData.username;
-
+        const number = userData.number;
+        const status = 'Tersedia';
         // Menambahkan UID pengguna ke data kostum
         const database = firebase.database();
         const newCostumeRef = database.ref('costumes/').push({
@@ -73,9 +73,11 @@ const Create = () => {
           costumeDescription,
           rentalPrice,
           costumeCategory,
+          status,
           uid,
           image,
           username,
+          number,
         });
 
         console.log('Posted costume with key:', newCostumeRef.key);
@@ -98,9 +100,8 @@ const Create = () => {
     const costumesRef = database.ref('costumes');
     costumesRef.on('value', (snapshot) => {
       const costumesData = snapshot.val();
-      // Update your component state or perform other actions with the data
     });
-    // Cleanup the listener when the component unmounts
+
     return () => costumesRef.off('value');
   }, []);
 
