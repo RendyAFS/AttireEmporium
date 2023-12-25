@@ -25,7 +25,8 @@ import {
   CloseIcon,
   Button,
   ButtonText,
-  Pressable
+  Pressable,
+  FlatList
 } from "@gluestack-ui/themed";
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
@@ -39,11 +40,17 @@ const Favorite = (props) => {
   const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
-
+  // const filteredData = useMemo(() => {
+  //   return costume.filter((item) =>
+  //     item.title.toLowerCase().includes(searchText.toLowerCase())
+  //   );
+  // }, [searchText]);
   useEffect(() => {
     getUserData();
     getCostume();
+    // fetchCostumeData();
   }, []);
+  console.log('ini kostumku :', costume)
   const getCostume = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -56,7 +63,7 @@ const Favorite = (props) => {
           const userUid = userData.credential.user.uid;
           console.log('User UID from AsyncStorage:', userUid);
 
-          const costumeRef = firebase.database().ref("costumes/");
+          const costumeRef = firebase.database().ref("favoriteCostume/");
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
 
@@ -87,63 +94,7 @@ const Favorite = (props) => {
     }
   };
 
-
-  // const getCostume = async () => {
-  //   try {
-  //     const userDataString = await AsyncStorage.getItem("user-data");
-
-  //     if (userDataString) {
-  //       const userData = JSON.parse(userDataString);
-
-  //       // Pastikan userData.credential ada sebelum mengakses propertinya
-  //       if (userData.credential && userData.credential.user) {
-  //         const userUid = userData.credential.user.uid;
-  //         console.log('User UID from AsyncStorage:', userUid);
-  //         const userFavRef = firebase.database().ref(`users/${userUid}/favoriteCostume/`);
-  //         const favSnapshot = await userFavRef.once("value");
-  //         const favData = favSnapshot.val();
-  //         console.log('Favorite Data:', favData);
-
-  //         const costumeRef = firebase.database().ref("costumes/");
-  //         const snapshot = await costumeRef.once("value");
-  //         const costumeData = snapshot.val();
-
-  //         if (costumeData) {
-  //           const allCostumes = Object.keys(costumeData).map((costumeId) => ({
-  //             costumeId,
-  //             ...costumeData[costumeId],
-  //           }));
-
-  //           // console.log('All Costumes:', allCostumes);
-
-  //           // Filter costumes based on favorite data
-  //           const userFavCostumes = allCostumes.filter(costume => favData && favData[costume.costumeId]);
-  //           console.log('User Favorite Costumes:', userFavCostumes);
-
-  //           setCostumeData(userFavCostumes);
-  //         } else {
-  //           setCostumeData([]);
-  //           return [];
-  //         }
-  //       } else {
-  //         console.log('Credential is null or does not have user property.');
-  //       }
-  //     } else {
-  //       console.log("User data not found in AsyncStorage");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching costumes data:", error);
-  //     setCostumeData([]);
-  //     return [];
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getUserData();
-  //   getCostume();
-  // }, [userData]);
-
-
+  console.log(costume)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -170,16 +121,12 @@ const Favorite = (props) => {
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{costume.costumeName}</Text>
       <Box flex={1} flexDirection='row'>
         <Text flex={3} marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
-        <Icon onPress={() => setShowModal(true)} ref={ref} flex={1} marginTop={12} marginRight={5} color='red' as={TrashIcon} size="md" />
+        {/* <Icon onPress={() => setShowModal(true)} ref={ref} flex={1} marginTop={12} marginRight={5} color='red' as={TrashIcon} size="md" /> */}
       </Box>
     </Pressable>
   );
   const [showModal, setShowModal] = useState(false)
 
-
-  useEffect(() => {
-    setEntries(datas);
-  }, []);
   return (
     <Box>
       <ScrollView bgColor='#f5f5f5'>
@@ -209,8 +156,18 @@ const Favorite = (props) => {
           style={{ marginBottom: 100 }}
 
         />
-      </ScrollView>
 
+      </ScrollView>
+      {/* <FlatList
+        data={costume}
+        keyExtractor={item => item.costumeId}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => <Itemku costume={item} />}
+        onEndReachedThreshold={0.1}
+        onEndReached={() => loadNext(ITEM_CNT)}
+        style={{ marginBottom: 100 }}
+      /> */}
       <Modal
         isOpen={showModal}
         onClose={() => {
