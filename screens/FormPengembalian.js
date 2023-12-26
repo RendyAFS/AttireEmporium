@@ -3,17 +3,71 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
-
-
+import firebase from "../firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const FormPengembalian = ({ route }) => {
+  const [userData, setUserData] = useState('');
+  const [rating, setRating] = useState(0);
+  const [deskripsi, setDeskripsi] = useState('');
   const data = (route.params.item[0]);
+
+
   console.log(route.params.item)
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  const [rating, setRating] = useState(0);
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData.credential.user.uid;
+
+        // Menampilkan UID ke konsol
+        console.log("User UID from AsyncStorage:", uid);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfrimButton = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        const uid = userData.credential.user.uid;
+        const username = userData.username;
+        const number = userData.number;
+        const costumeId = data.costumeId;
+        const review = 'Sudah direview';
+        const status = 'Tersedia'
+        // Menambahkan UID pengguna ke data kostum
+        const database = firebase.database();
+        const newRatingRef = database.ref(`costumes/${costumeId}/rating/${uid}`).update({
+          rating,
+          deskripsi
+        });
+        const UpdateBaru = database.ref(`costumes/${costumeId}/`).update({
+          status
+        });
+        const newDeskripsiRef = database.ref(`history/${costumeId}/`).update({
+          rating,
+          review
+        });
+        // Reset nilai form setelah posting
+        navigation.replace("Tabs");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
 
   const handleStarPress = (starIndex) => {
     setRating(starIndex + 1);
@@ -36,8 +90,8 @@ const FormPengembalian = ({ route }) => {
     return stars;
   };
 
+  console.log(rating)
 
-  
   return (
     <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={15}>
       <Box flex={1} bgColor="#fff" alignItems="center" marginTop={15}>
@@ -66,7 +120,7 @@ const FormPengembalian = ({ route }) => {
           <Box flexDirection="column">
             <Text marginTop={10} fontSize={18} fontWeight="bold">Rating</Text>
             <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
-          </Box>x
+          </Box>
 
 
           {/* Layout 2 */}
@@ -81,12 +135,14 @@ const FormPengembalian = ({ route }) => {
               borderColor="black"
               width={'100%'}
               marginTop={10}
+              onChangeText={(text) => setDeskripsi(text)}
             >
               <TextareaInput placeholder="Tambahkan Komentar..." role="dialog" />
             </Textarea>
             <Box flex={1} flexDirection="row" marginTop={15}>
               <Box flex={1}>
-                <Text onPress={() => navigation.navigate('History')}
+                <Text
+                  onPress={handleConfrimButton}
                   textAlign="center"
                   backgroundColor="#021C35"
                   paddingVertical={10}
@@ -94,7 +150,6 @@ const FormPengembalian = ({ route }) => {
                   borderRadius={8}
                   color="white"
                   fontWeight="bold"
-
                 >
                   Konfirmasi
                 </Text>

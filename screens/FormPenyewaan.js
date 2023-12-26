@@ -100,9 +100,11 @@ const FormPenyewaan = ({ route }) => {
         const statusRef = firebase.database().ref(`costumes/${data.costumeId}`);
         const snapshot = await statusRef.once("value");
         const existingCostume = snapshot.val();
+        const review = "Belum direview"
         // Menambahkan UID pengguna ke data kostum tanpa membuat ID unik
         const database = firebase.database();
         const historyRef = database.ref(`history/${costumeId}/`);
+        const rating = 0;
 
         // Set data directly without creating a unique ID
         historyRef.set({
@@ -111,6 +113,8 @@ const FormPenyewaan = ({ route }) => {
           peminjaman,
           pengembalian,
           toko,
+          review,
+          rating
         });
         if (existingCostume) {
           // Perbarui data kostum

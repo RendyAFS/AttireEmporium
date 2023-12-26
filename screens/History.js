@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useMemo,useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from '../firebase'
 
@@ -36,30 +36,30 @@ const History = () => {
   const getCostume = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
-  
+
       if (userDataString) {
         const userData = JSON.parse(userDataString);
-  
+
         // Pastikan userData.credential ada sebelum mengakses propertinya
         if (userData.credential && userData.credential.user) {
           const userUid = userData.credential.user.uid;
           console.log('User UID from AsyncStorage:', userUid);
-  
+
           const costumeRef = firebase.database().ref("history/");
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
-  
+
           if (costumeData) {
             const allCostumes = Object.keys(costumeData).map((costumeId) => ({
               costumeId,
               ...costumeData[costumeId],
             }));
-  
+
             console.log('All Costumes:', allCostumes);
-  
+
             const userCostumes = allCostumes.filter(costume => costume.uid === userUid);
             console.log('User Costumes:', userCostumes);
-  
+
             setCostumeData(userCostumes);
           } else {
             setCostumeData([]);
@@ -155,13 +155,27 @@ const History = () => {
                   </Box> */}
                 </Box>
               </Box>
-              <Box height={30} backgroundColor="#656351" borderBottomStartRadius={10} borderBottomEndRadius={10}>
+
+              <Box
+                height={30}
+                backgroundColor={item.review === "Belum direview" ? "#656351" : "green"}
+                borderBottomStartRadius={10}
+                borderBottomEndRadius={10}
+              >
                 <HStack justifyContent="center" alignItems="center">
-                  <Ionicons name="information-circle-outline" size={20} color="#fff" marginEnd={2} marginTop={3} />
-                  <Text color="#fff">Belum di Review</Text>
+                  {item.review === "Belum direview" ?
+                    <Ionicons
+                      name="information-circle-outline"
+                      size={20}
+                      color="#fff"
+                      marginEnd={2}
+                      marginTop={3}
+                    /> : <Ionicons name="ios-checkmark-circle-outline" size={20} color="#fff"
+                      marginEnd={2} marginTop={3} />}
+
+                  <Text color="#fff">{item.review}</Text>
                 </HStack>
               </Box>
-
             </Box>
           </Pressable>
         )}
