@@ -8,35 +8,35 @@ const ProfileRenter = () => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
   const navigation = useNavigation();
-  
+
 
   const getCostume = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
-  
+
       if (userDataString) {
         const userData = JSON.parse(userDataString);
-  
+
         // Pastikan userData.credential ada sebelum mengakses propertinya
         if (userData.credential && userData.credential.user) {
           const userUid = userData.credential.user.uid;
           console.log('User UID from AsyncStorage:', userUid);
-  
+
           const costumeRef = firebase.database().ref("costumes/");
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
-  
+
           if (costumeData) {
             const allCostumes = Object.keys(costumeData).map((costumeId) => ({
               costumeId,
               ...costumeData[costumeId],
             }));
-  
+
             console.log('All Costumes:', allCostumes);
-  
+
             const userCostumes = allCostumes.filter(costume => costume.uid === userUid);
             console.log('User Costumes:', userCostumes);
-  
+
             setCostumeData(userCostumes);
           } else {
             setCostumeData([]);
@@ -52,7 +52,7 @@ const ProfileRenter = () => {
       setCostumeData([]);
     }
   };
-  
+
 
 
   const Itemku = ({ costume }) => (
@@ -65,7 +65,7 @@ const ProfileRenter = () => {
             {costume.costumeName}
           </Text>
           <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
+          <Text fontSize={12} color={costume.status === 'Tersedia' ? 'green' : 'red'} paddingHorizontal={8} marginBottom={5}>{costume.status}</Text>
           <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
         </Box>
 
