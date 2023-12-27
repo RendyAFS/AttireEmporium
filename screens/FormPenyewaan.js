@@ -196,7 +196,12 @@ const FormPenyewaan = ({ route }) => {
                 </Text>
               </HStack>
               <Pressable onPress={() => setShowPickupDatePicker(true)}>
-                <Text padding={8} borderColor="black" borderWidth={1} borderRadius={5} marginBottom={20}>
+                <Text padding={8} borderWidth={1} borderRadius={5} marginBottom={20}
+                  borderBottomWidth={3}
+                  borderEndWidth={3}
+                  borderTopWidth={1}
+                  borderStartWidth={1}
+                  borderColor='#021C35'>
                   {pickupDate.toDateString()}
                 </Text>
               </Pressable>
@@ -225,8 +230,13 @@ const FormPenyewaan = ({ route }) => {
                   Tanggal Pengembalian:
                 </Text>
               </HStack>
-              <Pressable onPress={() => setShowReturnDatePicker(true)}>
-                <Text padding={8} borderColor="black" borderWidth={1} borderRadius={5} marginBottom={20}>
+              <Pressable onPress={() => setShowReturnDatePicker(true)} >
+                <Text padding={8} borderWidth={1} borderRadius={5} marginBottom={20}
+                  borderBottomWidth={3}
+                  borderEndWidth={3}
+                  borderTopWidth={1}
+                  borderStartWidth={1}
+                  borderColor='#021C35'>
                   {returnDate.toDateString()}
                 </Text>
               </Pressable>
