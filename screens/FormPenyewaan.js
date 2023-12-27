@@ -248,13 +248,12 @@ const FormPenyewaan = ({ route }) => {
               isInvalid={false}
               isDisabled={false}
               borderWidth={1}
-              borderColor="black"
+              borderColor='#021C35'
               width={'100%'}
               borderBottomWidth={3}
               borderEndWidth={3}
               borderTopWidth={1}
               borderStartWidth={1}
-              borderColor='#021C35'
             >
 
               <TextareaInput placeholder="Catatan Tambahan..." role="dialog" onChangeText={(text) => setDeskripsi(text)} />
