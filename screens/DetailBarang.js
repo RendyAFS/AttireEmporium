@@ -108,7 +108,7 @@ const DetailBarang = ({ route }) => {
         });
       }
 
-
+      navigation.replace("Tabs");
       // Alert.alert(
       //   'Tersimpan di Favorite!',
       //   'Barang telah ditambahkan ke daftar Favorite',
@@ -128,7 +128,9 @@ const DetailBarang = ({ route }) => {
     } catch (error) {
       console.error('Error processing favorite:', error);
     }
+    
     checkIsCostumeFavorite();
+    navigation.replace("Tabs");
   };
 
 

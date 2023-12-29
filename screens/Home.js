@@ -38,7 +38,7 @@ const Home = ({ route }) => {
     getCostume();
     // fetchCostumeData();
   }, []);
-  console.log(userData);
+  console.log(userData.username);
 
   // console.log('hasilnya yaaaaituuu '+ costume)
 
@@ -82,17 +82,15 @@ const Home = ({ route }) => {
       console.log(costumeData);
   
       if (costumeData) {
-        const costumeIds = Object.keys(costumeData);
-        console.log('Costume IDs:', costumeIds);
+        const availableCostumes = Object.entries(costumeData)
+          .filter(([_, costume]) => costume.status !== "Dipinjam" && costume.username !== userData.username)
+          .map(([costumeId, costume]) => ({ costumeId, ...costume }));
   
-        const allCostumes = costumeIds.map((costumeId) => {
-          console.log('ini kostumku', costumeData[costumeId]);
-          return { costumeId, ...costumeData[costumeId] };
-        });
+        console.log('Available Costumes:', availableCostumes);
   
-        setCostumeData(allCostumes);
+        setCostumeData(availableCostumes);
   
-        return allCostumes;
+        return availableCostumes;
       } else {
         setCostumeData([]);
         return [];
@@ -103,6 +101,7 @@ const Home = ({ route }) => {
       return [];
     }
   };
+  
   
 
   const getUserData = async () => {

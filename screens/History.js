@@ -33,6 +33,7 @@ const History = () => {
     getCostume();
     // fetchCostumeData();
   }, []);
+  console.log(costume)
   const getCostume = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -48,7 +49,7 @@ const History = () => {
           const costumeRef = firebase.database().ref("history/");
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
-
+          console.log('hello ',costumeData)
           if (costumeData) {
             const allCostumes = Object.keys(costumeData).map((costumeId) => ({
               costumeId,
@@ -124,7 +125,7 @@ const History = () => {
         keyExtractor={item => item.costumeId}
         renderItem={({ item }) => (
           <Pressable onPress={() => {
-            navigation.navigate('FormPengembalian', { item: costume })
+            navigation.navigate('FormPengembalian', { item: item  })
           }}>
             <Box paddingBottom={20} paddingHorizontal={8}>
 
@@ -136,7 +137,7 @@ const History = () => {
                         <Text fontSize={14}>{item.namakostum}</Text>
                       </Box>
                       <Box flex={3}>
-                        <Text fontWeight="bold" fontSize={14}>deskripsi</Text>
+                        <Text fontWeight="bold" fontSize={14}>{item.Deskripsi}</Text>
                       </Box>
                       <Box flex={2}>
                         <Text fontWeight="bold" fontSize={18}>{item.peminjaman}</Text>
