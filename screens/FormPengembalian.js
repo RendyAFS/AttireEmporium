@@ -9,10 +9,10 @@ const FormPengembalian = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [rating, setRating] = useState(0);
   const [deskripsi, setDeskripsi] = useState('');
-  const data = (route.params.item[0]);
+  const data = (route.params.item);
 
 
-  console.log(route.params.item)
+  console.log(route.prarms)
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
@@ -34,31 +34,43 @@ const FormPengembalian = ({ route }) => {
       console.error(error);
     }
   };
-
+  console.log(data)
   const handleConfrimButton = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
       if (userDataString) {
         const userData = JSON.parse(userDataString);
         const uid = userData.credential.user.uid;
-        const username = userData.username;
-        const number = userData.number;
         const costumeId = data.costumeId;
+        const Deskripsi = data.Deskripsi;
+        const idHistory = data.idHistory;
+        const namakostum = data.namakostum;
+        const peminjaman = data.peminjaman;
+        const pengembalian = data.pengembalian;
         const review = 'Sudah direview';
+        const toko = data.toko;
         const status = 'Tersedia'
-        // Menambahkan UID pengguna ke data kostum
-        const database = firebase.database();
-        const newRatingRef = database.ref(`costumes/${costumeId}/rating/${uid}`).update({
+        const ratingRef = firebase.database().ref(`history/${idHistory}`);
+        ratingRef.set({
+          uid,
+          costumeId,
           rating,
-          deskripsi
+          Deskripsi,
+          idHistory,
+          namakostum,
+          peminjaman,
+          pengembalian,
+          review,
+          toko
         });
-        const UpdateBaru = database.ref(`costumes/${costumeId}/`).update({
+        const updateRef = firebase.database().ref(`costumes/${costumeId}`);
+        updateRef.update({
           status
         });
-        const newDeskripsiRef = database.ref(`history/${costumeId}/`).update({
-          rating,
-          review
-        });
+
+        // Update history with rating and review
+
+
         // Reset nilai form setelah posting
         navigation.replace("Tabs");
       }
@@ -66,6 +78,7 @@ const FormPengembalian = ({ route }) => {
       console.error(error);
     }
   };
+
 
 
 

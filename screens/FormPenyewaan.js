@@ -100,22 +100,30 @@ const FormPenyewaan = ({ route }) => {
         const statusRef = firebase.database().ref(`costumes/${data.costumeId}`);
         const snapshot = await statusRef.once("value");
         const existingCostume = snapshot.val();
-        const review = "Belum direview"
-        // Menambahkan UID pengguna ke data kostum tanpa membuat ID unik
+        const review = "Belum direview";
+
+        // Menambahkan UID pengguna ke data kostum dengan ID unik
         const database = firebase.database();
-        const historyRef = database.ref(`history/${costumeId}/`);
+        const historyRef = database.ref(`history/`);
         const rating = 0;
 
-        // Set data directly without creating a unique ID
-        historyRef.set({
+        // Menggunakan push() untuk menambahkan ID unik ke setiap entri di history
+        const newHistoryEntryRef = historyRef.push();
+        const idHistory = newHistoryEntryRef.key;
+
+        newHistoryEntryRef.set({
+          costumeId,
           uid,
           namakostum,
           peminjaman,
           pengembalian,
           toko,
           review,
-          rating
+          rating,
+          idHistory,
+          Deskripsi
         });
+
         if (existingCostume) {
           // Perbarui data kostum
           const updatedCostume = {
@@ -137,6 +145,7 @@ const FormPenyewaan = ({ route }) => {
       console.error(error);
     }
   };
+
 
   // const confrimCostume = async () => {
   //   // const nomor = data.number

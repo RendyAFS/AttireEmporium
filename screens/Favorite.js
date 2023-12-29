@@ -45,11 +45,13 @@ const Favorite = (props) => {
   //     item.title.toLowerCase().includes(searchText.toLowerCase())
   //   );
   // }, [searchText]);
+
   useEffect(() => {
+    // This code will run every time the component is mounted
     getUserData();
     getCostume();
-    // fetchCostumeData();
   }, []);
+
   console.log('ini kostumku :', costume)
   const getCostume = async () => {
     try {
@@ -63,7 +65,7 @@ const Favorite = (props) => {
           const userUid = userData.credential.user.uid;
           console.log('User UID from AsyncStorage:', userUid);
 
-          const costumeRef = firebase.database().ref("favoriteCostume/");
+          const costumeRef = firebase.database().ref(`favoriteCostume/`);
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
 
@@ -128,6 +130,7 @@ const Favorite = (props) => {
   const [showModal, setShowModal] = useState(false)
 
   return (
+    // {costume ? ()}
     <Box>
       <ScrollView bgColor='#f5f5f5'>
         <Box bgColor='white' paddingVertical={10} rounded={5} >
@@ -144,18 +147,24 @@ const Favorite = (props) => {
             />
           </Input>
         </Box>
-        <MasonryList
-          data={costume}
-          keyExtractor={item => item.costumeId}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <Itemku costume={item} />}
-          onRefresh={() => refetch({ first: ITEM_CNT })}
-          onEndReachedThreshold={0.1}
-          onEndReached={() => loadNext(ITEM_CNT)}
-          style={{ marginBottom: 100 }}
+        {costume.length > 0 ? (
+          <MasonryList
+            data={costume}
+            keyExtractor={(item) => item.costumeId}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => <Itemku costume={item} />}
+            onRefresh={() => refetch({ first: ITEM_CNT })}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => loadNext(ITEM_CNT)}
+            style={{ marginBottom: 100 }}
+          />
+        ) : (
+          <Box marginTop={250} justifyContent='center' alignItems='center'>
+            <Text fontSize={13}>Tambahkan Favorite pada kostum yang kamu suka</Text>
+          </Box>
+        )}
 
-        />
 
       </ScrollView>
       {/* <FlatList
