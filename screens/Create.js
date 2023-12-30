@@ -42,8 +42,8 @@ const Create = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      // aspect: [4, 3],
+      quality: 0.7,
     });
 
     console.log(result);
@@ -245,7 +245,7 @@ const Create = () => {
         </Box>
         {/* Bagian Gambar Kostum */}
         <Box marginTop={20} justifyContent='center' alignItems='center'>
-          {image && <Image source={{ uri: image }} alignItems='center' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
+          {image && <Image source={{ uri: image }} alignItems='center'role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
 
         </Box>
 
