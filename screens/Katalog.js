@@ -22,13 +22,12 @@ import firebase from '../firebase'
 import { Entypo } from "@expo/vector-icons";
 
 const Katalog = () => {
-  console.log(datas)
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
   const [searchText, setSearchText] = useState('');
-
+  console.log(costume)
 
   useEffect(() => {
     getUserData();
@@ -54,19 +53,35 @@ const Katalog = () => {
     }
   };
 
-  // GetCostume
+  const getDownloadUrl = async (filename) => {
+    const storageRef = firebase.storage().ref();
+    const costumeImageRef = storageRef.child(filename);
+
+    try {
+      const downloadUrl = await costumeImageRef.getDownloadURL();
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error getting download URL:", error);
+      return ''; // Return an empty string or handle the error accordingly
+    }
+  };
+
   const getCostume = async () => {
     const costumeRef = firebase.database().ref("costumes/");
 
     try {
       const snapshot = await costumeRef.once("value");
       const costumeData = snapshot.val();
-      console.log(costumeData);
 
       if (costumeData) {
-        const availableCostumes = Object.entries(costumeData)
-          .filter(([_, costume]) => costume.status !== "Dipinjam" && costume.username !== userData.username)
-          .map(([costumeId, costume]) => ({ costumeId, ...costume }));
+        const availableCostumes = await Promise.all(
+          Object.entries(costumeData)
+            .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
+            .map(async ([costumeId, costume]) => {
+              const imageUrl = await getDownloadUrl(costume.filename);
+              return { costumeId, ...costume, imageUrl };
+            })
+        );
 
         console.log('Available Costumes:', availableCostumes);
 
@@ -85,14 +100,15 @@ const Katalog = () => {
   };
   const Itemku = ({ costume }) => {
     const { costumeName, costumeDescription } = costume;
-    
+
     const isMatch =
       costumeName.toLowerCase().includes(searchText.toLowerCase()) ||
       costumeDescription.toLowerCase().includes(searchText.toLowerCase());
-  
+
     return isMatch ? (
       <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}>
         <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
+          <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
           <Box p={5}>
             <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
               {costumeName}
@@ -111,8 +127,8 @@ const Katalog = () => {
       </Pressable>
     ) : null;
   };
-  
-  
+
+
   return (
     <Box>
       <ScrollView bgColor='#f5f5f5'>

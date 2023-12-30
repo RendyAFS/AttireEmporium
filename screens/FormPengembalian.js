@@ -112,14 +112,14 @@ const FormPengembalian = ({ route }) => {
           {/* Layout 2 */}
           <Box width={'auto'} height={300} bgColor="white" borderRadius={10}>
             <Box flex={1} flexDirection="column">
-              {/* <Image
-                source={{ uri: data.image }}
+              <Image
+                source={{ uri: data.imageUrl }}
                 width={'auto'} height={300}
                 borderRadius={10}
                 alt="img"
                 role="img"
                 resizeMode="cover"
-              /> */}
+              />
             </Box>
           </Box>
           <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.namakostum}</Text>

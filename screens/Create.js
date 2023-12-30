@@ -68,19 +68,29 @@ const Create = () => {
         const status = 'Tersedia';
         // Menambahkan UID pengguna ke data kostum
         const database = firebase.database();
-        const newCostumeRef = database.ref('costumes/').push({
-          costumeName,
-          costumeDescription,
-          rentalPrice,
-          costumeCategory,
-          status,
-          uid,
-          image,
-          username,
-          number,
-        });
+        const response = await fetch(image);
+        const blob = await response.blob();
+        const filename = image.substring(image.lastIndexOf('/') + 1);
+        const ref = firebase.storage().ref().child(filename);
+        try {
+          await ref.put(blob);
+          const newCostumeRef = database.ref('costumes/').push({
+            costumeName,
+            costumeDescription,
+            rentalPrice,
+            costumeCategory,
+            status,
+            uid,
+            filename,
+            username,
+            number,
+          });
+          console.log('Posted costume with key:', newCostumeRef.key);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+          throw error;
+        }
 
-        console.log('Posted costume with key:', newCostumeRef.key);
 
         // Reset nilai form setelah posting
         setCostumeName('');
