@@ -144,8 +144,8 @@ const History = () => {
                       </Box>
                     </Box>
                   </Box>
-                  {/* <Box flex={1} justifyContent="center">
-                    <Image source={{ uri: item.image }}
+                  <Box flex={1} justifyContent="center">
+                    <Image source={{ uri: item.imageUrl }}
                       resizeMode="cover"
                       width={'100%'}
                       height={'80%'}
@@ -153,7 +153,7 @@ const History = () => {
                       alt="img"
                       role="img"
                     />
-                  </Box> */}
+                  </Box>
                 </Box>
               </Box>
 

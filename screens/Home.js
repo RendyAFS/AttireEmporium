@@ -37,7 +37,7 @@ const Home = ({ route }) => {
     getUserData();
     getCostume();
     // fetchCostumeData();
-  }, []);
+  }, [route]);
   console.log(userData.username);
 
   // console.log('hasilnya yaaaaituuu '+ costume)
@@ -71,25 +71,42 @@ const Home = ({ route }) => {
   //   }
   // };
 
+  console.log('Kostum terfilter', costume)
 
+  const getDownloadUrl = async (filename) => {
+    const storageRef = firebase.storage().ref();
+    const costumeImageRef = storageRef.child(filename);
+
+    try {
+      const downloadUrl = await costumeImageRef.getDownloadURL();
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error getting download URL:", error);
+      return ''; // Return an empty string or handle the error accordingly
+    }
+  };
 
   const getCostume = async () => {
     const costumeRef = firebase.database().ref("costumes/");
-  
+
     try {
       const snapshot = await costumeRef.once("value");
       const costumeData = snapshot.val();
-      console.log(costumeData);
-  
+
       if (costumeData) {
-        const availableCostumes = Object.entries(costumeData)
-          .filter(([_, costume]) => costume.status !== "Dipinjam" && costume.username !== userData.username)
-          .map(([costumeId, costume]) => ({ costumeId, ...costume }));
-  
+        const availableCostumes = await Promise.all(
+          Object.entries(costumeData)
+            .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
+            .map(async ([costumeId, costume]) => {
+              const imageUrl = await getDownloadUrl(costume.filename);
+              return { costumeId, ...costume, imageUrl };
+            })
+        );
+
         console.log('Available Costumes:', availableCostumes);
-  
+
         setCostumeData(availableCostumes);
-  
+
         return availableCostumes;
       } else {
         setCostumeData([]);
@@ -101,8 +118,9 @@ const Home = ({ route }) => {
       return [];
     }
   };
-  
-  
+
+
+
 
   const getUserData = async () => {
     try {
@@ -123,9 +141,9 @@ const Home = ({ route }) => {
 
   const Itemku = ({ costume }) => (
 
-    <Pressable  onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
+    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
       <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
-        {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
+        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
         <Box p={5}>
           <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
             {costume.costumeName}
@@ -167,7 +185,7 @@ const Home = ({ route }) => {
       <ScrollView bgColor='white'>
         <Header title={"Header"} />
 
-        <Box  marginTop={10} rounded={5}>
+        <Box marginTop={10} rounded={5}>
           <Box p={20} >
             <LinearGradient
               // Background Linear Gradient
@@ -248,7 +266,7 @@ const Home = ({ route }) => {
             onRefresh={() => refetch({ first: ITEM_CNT })}
             onEndReachedThreshold={0.1}
             onEndReached={() => loadNext(ITEM_CNT)}
-            style={{marginBottom:100}}
+            style={{ marginBottom: 100 }}
           />
         </Box>
       </ScrollView>

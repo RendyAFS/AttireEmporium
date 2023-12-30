@@ -96,8 +96,9 @@ const FormPenyewaan = ({ route }) => {
         const peminjaman = pickupDate.toDateString();
         const pengembalian = returnDate.toDateString();
         const toko = data.username;
-        const nomor = data.number
         const statusRef = firebase.database().ref(`costumes/${data.costumeId}`);
+        const nomor = data.number
+        const imageUrl = data.imageUrl
         const snapshot = await statusRef.once("value");
         const existingCostume = snapshot.val();
         const review = "Belum direview";
@@ -121,7 +122,8 @@ const FormPenyewaan = ({ route }) => {
           review,
           rating,
           idHistory,
-          Deskripsi
+          Deskripsi,
+          imageUrl
         });
 
         if (existingCostume) {
@@ -184,13 +186,13 @@ const FormPenyewaan = ({ route }) => {
       <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.title}</Text>
       <Box flex={2} bgColor="#fff" alignItems="center" marginTop={8}>
         <Box width={'90%'}>
-          {/* <Image
-            source={{ uri: data.image }}
+          <Image
+            source={{ uri: data.imageUrl }}
             width={'100%'} height={'100%'}
             alt="img"
             resizeMode="cover"
             role="img"
-          /> */}
+          />
         </Box>
       </Box>
       <Box flex={3} backgroundColor="#fff">

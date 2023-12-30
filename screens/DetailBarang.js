@@ -136,7 +136,7 @@ const DetailBarang = ({ route }) => {
 
   return (
     <Box flex={1} alignItems='center' >
-      {/* <Image role='img' resizeMode='contain' source={{ uri: data.image }} alt='gambar barang' width={"100%"} height={300} /> */}
+      <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
       <Box backgroundColor='white' flex={5} width={"100%"} borderTopStartRadius={30} padding={15}>
         <Heading fontSize={24} marginTop={15} fontWeight="bold">
           {data.costumeName}
