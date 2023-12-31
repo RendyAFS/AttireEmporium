@@ -47,6 +47,7 @@ const FormPengembalian = ({ route }) => {
         const namakostum = data.namakostum;
         const peminjaman = data.peminjaman;
         const pengembalian = data.pengembalian;
+        const imageUrl = data.imageUrl;
         const review = 'Sudah direview';
         const toko = data.toko;
         const status = 'Tersedia'
@@ -55,6 +56,7 @@ const FormPengembalian = ({ route }) => {
           uid,
           costumeId,
           rating,
+          imageUrl,
           Deskripsi,
           idHistory,
           namakostum,
