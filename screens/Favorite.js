@@ -65,7 +65,7 @@ const Favorite = (props) => {
           const userUid = userData.credential.user.uid;
           console.log('User UID from AsyncStorage:', userUid);
 
-          const costumeRef = firebase.database().ref(`favoriteCostume/`);
+          const costumeRef = firebase.database().ref(`favoriteCostume/${userUid}`);
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
 
@@ -118,7 +118,7 @@ const Favorite = (props) => {
   const Itemku = ({ costume }) => (
 
     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
-      {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
+      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={costume.imageUrl} />
       <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{costume.costumeName}</Text>
       <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{costume.costumeName}</Text>
       <Box flex={1} flexDirection='row'>

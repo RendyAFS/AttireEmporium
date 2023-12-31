@@ -41,7 +41,7 @@ const DetailBarang = ({ route }) => {
       const costumeId = data.costumeId;
       const database = firebase.database();
 
-      const favoriteRef = database.ref(`favoriteCostume/${costumeId}`);
+      const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once('value');
 
       setIsCostumeFavorite(snapshot.exists());
@@ -88,9 +88,9 @@ const DetailBarang = ({ route }) => {
       const costumeCategory = data.costumeCategory;
       const status = data.status;
       const rentalPrice = data.rentalPrice;
-
+      const imageUrl = data.imageUrl;
       
-      const favoriteRef = database.ref(`favoriteCostume/${costumeId}`);
+      const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
 
       if (snapshot.exists()) {
@@ -98,7 +98,8 @@ const DetailBarang = ({ route }) => {
         favoriteRef.remove();
       } else {
         // If the costumeId doesn't exist, add it
-        database.ref(`favoriteCostume/${costumeId}`).set({
+        database.ref(`favoriteCostume/${uid}/${costumeId}`).set({
+          imageUrl,
           costumeName,
           costumeDescription,
           costumeCategory,
