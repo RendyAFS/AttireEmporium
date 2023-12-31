@@ -26,7 +26,7 @@ const Detail = ({ route }) => {
             // Hapus catatan dari database
             await costumeRef.remove();
             console.log("Note deleted successfully");
-            navigation.replace("Profile Renter");
+            navigation.replace("Tabs");
         } catch (error) {
             throw error;
         }
@@ -35,7 +35,7 @@ const Detail = ({ route }) => {
 
     return (
         <Box flex={1} alignItems='center' backgroundColor='white'  >
-            {/* <Image role='img' resizeMode='contain' source={{ uri: data.image }} alt='gambar barang' width={"100%"} height={300} /> */}
+            <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
             <Box flex={5} width={"100%"} borderTopStartRadius={30} padding={15}>
                 <Heading fontSize={24} marginTop={15} fontWeight="bold">
                     {data.costumeName}

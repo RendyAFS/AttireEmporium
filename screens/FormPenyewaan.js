@@ -182,8 +182,8 @@ const FormPenyewaan = ({ route }) => {
   // }
 
   return (
-    <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={15}>
-      <Text fontWeight="bold" fontSize={18} marginTop={15}>{data.title}</Text>
+    
+    <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={10}>
       <Box flex={2} bgColor="#fff" alignItems="center" marginTop={8}>
         <Box width={'90%'}>
           <Image
@@ -290,6 +290,7 @@ const FormPenyewaan = ({ route }) => {
               color="white"
               fontWeight="bold"
               marginTop={10}
+              fontSize={12}
             >
               Konfirmasi & Hubungi
             </Text>

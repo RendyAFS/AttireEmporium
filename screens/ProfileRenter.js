@@ -9,6 +9,20 @@ const ProfileRenter = () => {
   const [costume, setCostumeData] = useState([]);
   const navigation = useNavigation();
 
+  const getDownloadUrl = async (filename) => {
+    const storageRef = firebase.storage().ref();
+    const costumeImageRef = storageRef.child(filename);
+
+    try {
+      const downloadUrl = await costumeImageRef.getDownloadURL();
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error getting download URL:", error);
+      return ''; // Return an empty string or handle the error accordingly
+    }
+  };
+
+  console.log(costume)
 
   const getCostume = async () => {
     try {
@@ -37,7 +51,15 @@ const ProfileRenter = () => {
             const userCostumes = allCostumes.filter(costume => costume.uid === userUid);
             console.log('User Costumes:', userCostumes);
 
-            setCostumeData(userCostumes);
+            // Fetch image URLs for each costume
+            const costumesWithUrls = await Promise.all(
+              userCostumes.map(async (costume) => {
+                const imageUrl = await getDownloadUrl(costume.filename);
+                return { ...costume, imageUrl };
+              })
+            );
+              console.log(costumesWithUrls)
+            setCostumeData(costumesWithUrls);
           } else {
             setCostumeData([]);
           }
@@ -59,7 +81,7 @@ const ProfileRenter = () => {
 
     <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
       <Box backgroundColor='white' rounded={10} p={2} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
-        {/* <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={item.image} /> */}
+        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{uri: costume.imageUrl}} />
         <Box p={5}>
           <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
             {costume.costumeName}
