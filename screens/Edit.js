@@ -3,13 +3,14 @@ import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, Inp
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
+import * as ImagePicker from 'expo-image-picker';
 
 const EditItem = ({ route }) => {
   const data = route.params.data;
   const [costumeName, setCostumeName] = useState(data.costumeName);
   const [costumeDescription, setCostumeDescription] = useState(data.costumeDescription);
   const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
-  const [costumeImages, setCostumeImages] = useState([]);
+  const [image, setImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
   console.log(route.params);
@@ -18,10 +19,24 @@ const EditItem = ({ route }) => {
       costumeName,
       costumeDescription,
       rentalPrice,
-      costumeImages,
     });
   };
   console.log(data.costumeId)
+  const pickImage = async () => {
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      // aspect: [4, 3],
+      quality: 0.7,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
   const editCostume = async () => {
     try {
 
@@ -29,14 +44,17 @@ const EditItem = ({ route }) => {
       const costumeRef = firebase.database().ref(`costumes/${data.costumeId}`);
       const snapshot = await costumeRef.once("value");
       const existingCostume = snapshot.val();
-
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const filename = image.substring(image.lastIndexOf('/') + 1);
+      const ref = firebase.storage().ref().child(filename);
       if (existingCostume) {
         // Perbarui data kostum
         const updatedCostume = {
           costumeName,
           costumeDescription,
           rentalPrice,
-          costumeImages,
+          filename,
         };
 
         await costumeRef.update(updatedCostume);
@@ -114,11 +132,11 @@ const EditItem = ({ route }) => {
             />
           </Input>
         </VStack>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {costumeImages.map((image, index) => (
-            <Image role='img' key={index} source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 8, borderRadius: 8 }} />
-          ))}
-        </ScrollView>
+        <Box marginTop={20} justifyContent='center' alignItems='center'>
+          {image && <Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
+
+        </Box>
+
         <Pressable
           marginTop={20}
           justifyContent="center"
@@ -127,7 +145,7 @@ const EditItem = ({ route }) => {
           borderRadius={4}
           backgroundColor="#DF9B52"
           marginBottom={16}
-          onPress={handleImageSelection}
+          onPress={pickImage}
         >
           <Text color="white" fontWeight="bold">
             Add Image
