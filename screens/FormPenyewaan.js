@@ -284,13 +284,13 @@ const FormPenyewaan = ({ route }) => {
           <Center flex={1} flexDirection="row">
             <Text onPress={() => setShowModal(true)} ref={ref}
               backgroundColor="#021C35"
-              paddingHorizontal={115}
+              paddingHorizontal={125}
               paddingVertical={10}
               borderRadius={10}
               color="white"
               fontWeight="bold"
-              marginTop={10}
-              fontSize={12}
+              marginTop={0}
+              fontSize={16}
             >
               Konfirmasi & Hubungi
             </Text>
