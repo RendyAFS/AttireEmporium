@@ -1,79 +1,200 @@
-import React, { useState } from 'react';
-import { Box, Image, Button, Input, Heading, InputField } from "@gluestack-ui/themed";
+import React, { useState, useEffect } from 'react';
+import { Box, Image, Button, Input, Heading, InputField, ScrollView, Pressable, Text } from "@gluestack-ui/themed";
 import { Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-
+import firebase from "../firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from 'expo-image-picker';
 const EditProfile = () => {
-  const [fullName, setFullName] = useState("Javier Jibran");
-  const [address, setAddress] = useState("Lumajang");
-  const [phoneNumber, setPhoneNumber] = useState("081230038908");
-  const navigation = useNavigation(); 
+  const [username, setusername] = useState("");
+  const [number, setnumber] = useState("");
+  const navigation = useNavigation();
+  const [userData, setUserData] = useState('');
+  const [image, setImage] = useState(null);
+  const getUserData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("user-data");
+      console.log("Data from AsyncStorage:", userDataString)
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+        const uid = userData.credential.user.uid;
 
-  const handleSave = () => {
+        // Menampilkan UID ke konsol
+        console.log("User UID from AsyncStorage:", uid);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getDownloadUrl = async (filename) => {
+    const storageRef = firebase.storage().ref();
+    const costumeImageRef = storageRef.child(filename);
 
-    console.log("Data saved:", { fullName, address, phoneNumber });
+    try {
+      const downloadUrl = await costumeImageRef.getDownloadURL();
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error getting download URL:", error);
+      return ''; // Return an empty string or handle the error accordingly
+    }
+  };
 
+  const pickImage = async () => {
 
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      // aspect: [4, 3],
+      quality: 0.7,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  console.log('ini userdata', userData)
+  const handleSave = async () => {
+    const uid = userData?.credential?.user?.uid;
+    const userRef = firebase.database().ref(`users/${uid}`);
+  
+    try {
+      let updatedUserData = { ...userData }; // Use the existing user data by default
+  
+      if (image) {
+        const response = await fetch(image);
+        const blob = await response.blob();
+        const imageProfile = image.substring(image.lastIndexOf('/') + 1);
+        const ref = firebase.storage().ref().child(imageProfile);
+  
+        // Upload the new image to Firebase Storage
+        await ref.put(blob);
+  
+        // Get the download URL for the uploaded image
+        const downloadUrl = await getDownloadUrl(imageProfile);
+  
+        // Combine the existing user data with the new changes and image URL
+        updatedUserData = { ...userData, username, number, imageProfile: downloadUrl };
+  
+        // Update user data in Firebase Realtime Database
+        await userRef.update({
+          username,
+          number,
+          imageProfile: downloadUrl,
+        });
+  
+        // Set the retrieved download URL to the state
+        setImage(downloadUrl);
+      }
+  
+      // Save the updated user data to AsyncStorage
+      await AsyncStorage.setItem("user-data", JSON.stringify(updatedUserData));
+    } catch (error) {
+      console.error("Error saving data to AsyncStorage:", error);
+      // Handle the error appropriately
+    }
+  
     Alert.alert(
       "Profile Diubah !",
       "Perubahan pada profil Anda telah disimpan.",
       [
-        { text: "OK", onPress: () => navigation.navigate('Profile')}
+        { text: "OK", onPress: () => navigation.replace('Tabs') }
       ],
       { cancelable: false }
     );
   };
+  
 
+
+  useEffect(() => {
+    // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
+    getUserData();
+  }, []);
   return (
-    <Box flex={1} backgroundColor='#021C35'>
-      <Box flex={1} alignItems="center">
-        <Image
-          source={require("../assets/images/avatar.png")}
-          width={300}
-          height={300}
-          borderRadius={150}
-          marginBottom={10}
-          alt='profile'
-          rounded={50}
-          role='img'
-        />
-        <Heading color='white' fontSize={25}>{fullName}</Heading>
+    <ScrollView backgroundColor='white'>
+      <Box flex={1} >
+        <Box flex={1} alignItems="center">
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              width={200}
+              height={200}
+              marginBottom={2}
+              alt='profile'
+              rounded={100}
+              role='img'
+              marginTop={10}
+            />
+          ) : (
+            <Image
+              source={userData.imageProfile ? { uri: userData.imageProfile } : require("../assets/images/avatar.png")}
+              width={200}
+              height={200}
+              marginBottom={2}
+              alt='profile'
+              rounded={100}
+              role='img'
+              marginTop={10}
+            />
+          )}
+
+
+
+          <Heading color='white' fontSize={25}>{username}</Heading>
+          <Pressable borderWidth={1} p={4} rounded={5} onPress={pickImage} >
+            <Text fontWeight='bold'>Ubah Foto Profil</Text>
+          </Pressable>
+        </Box>
+
+        <Box flex={1} padding={20}>
+          <Heading>Informasi Profil</Heading>
+          <Text marginTop={10}>Username</Text>
+          <Input
+            marginTop={10}
+            borderWidth={1}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderColor='#021C35'
+            placeholder="Nama Lengkap"
+            rounded={7}
+
+          >
+            <InputField placeholder={userData.username} onChangeText={(text) => setusername(text)} />
+          </Input>
+          {/* <Text marginTop={10}>Email</Text>
+          <Input
+            marginTop={10}
+            borderWidth={1}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderColor='#021C35'
+            onChangeText={(text) => setAddress(text)}
+            rounded={7}
+          >
+            <InputField placeholder="Alamat Lengkap" />
+          </Input> */}
+          <Text marginTop={10}>Nomor HP</Text>
+          <Input
+            placeholder="Nomor Hp"
+            marginTop={10}
+            borderWidth={1}
+            borderBottomWidth={3}
+            borderEndWidth={3}
+            borderColor='#021C35'
+            rounded={7}
+
+
+          >
+            <InputField placeholder={userData.number} keyboardType="numeric" onChangeText={(text) => setnumber(text)} />
+          </Input>
+          <Button marginTop={20} backgroundColor="#021C35" height={50} rounded={10} onPress={handleSave}>
+            <Heading color="white">Simpan Perubahan</Heading>
+          </Button>
+        </Box>
       </Box>
-      <Box flex={1} padding={20} marginTop={50} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
-        <Input
-          marginTop={20}
-          borderWidth={0}
-          placeholder="Nama Lengkap"
-          backgroundColor="#f3f3f3"
-          rounded={10}
-          onChangeText={(text) => setFullName(text)}
-        >
-          <InputField placeholder="Username"  />
-        </Input>
-        <Input
-          marginTop={20}
-          borderWidth={0}
-          onChangeText={(text) => setAddress(text)}
-          backgroundColor="#f3f3f3"
-          rounded={10}
-        >
-          <InputField placeholder="Alamat Lengkap"  />
-        </Input>
-        <Input
-          placeholder="Nomor Hp"
-          marginTop={20}
-          borderWidth={0}
-          backgroundColor="#f3f3f3"
-          rounded={10}
-          onChangeText={(text) => setPhoneNumber(text)}
-        >
-          <InputField  placeholder="Nomor Hp" />
-        </Input>
-        <Button marginTop={50} backgroundColor="#DF9B52" rounded={10} onPress={handleSave}>
-          <Heading color="white">Save</Heading>
-        </Button>
-      </Box>
-    </Box>
+    </ScrollView>
   );
 }
 

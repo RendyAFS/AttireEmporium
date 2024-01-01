@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Image, Button, Heading, Text } from "@gluestack-ui/themed";
+import { Box, Image, Button, Heading, Text, HStack } from "@gluestack-ui/themed";
 import { Pressable, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import firebase from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Functional
@@ -83,13 +83,13 @@ const DetailBarang = ({ route }) => {
       const uid = userData.credential.user.uid;
       const costumeId = data.costumeId;
       const database = firebase.database();
-      const costumeName = data.costumeName;  
+      const costumeName = data.costumeName;
       const costumeDescription = data.costumeDescription;
       const costumeCategory = data.costumeCategory;
       const status = data.status;
       const rentalPrice = data.rentalPrice;
       const imageUrl = data.imageUrl;
-      
+
       const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
 
@@ -129,43 +129,54 @@ const DetailBarang = ({ route }) => {
     } catch (error) {
       console.error('Error processing favorite:', error);
     }
-    
+
     checkIsCostumeFavorite();
     navigation.replace("Tabs");
   };
 
-
   return (
-    <Box flex={1} alignItems='center' >
+    <Box flex={1} alignItems='center' backgroundColor='white' >
+
       <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
-      <Box backgroundColor='white' flex={5} width={"100%"} borderTopStartRadius={30} padding={15}>
-        <Heading fontSize={24} marginTop={15} fontWeight="bold">
-          {data.costumeName}
-        </Heading>
-        <Text fontSize={18} color="#777" marginTop={8}>
-          Rp {data.rentalPrice}
+      <Box backgroundColor='white' flex={5} width={"100%"} padding={20}>
+        <HStack>
+          <Box flex={1}>
+            <Text fontSize={20} marginTop={5} >
+              {data.costumeName}
+            </Text>
+          </Box>
+          <Box width={'auto'} >
+            <Pressable onPress={() => showFavoritePopup()}>
+              {isCostumeFavorite ? (
+                <Ionicons name="heart" size={30} color="red" marginBottom={5} />
+              ) : (
+                <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
+              )}
+            </Pressable>
+          </Box>
+        </HStack>
+        <Text fontSize={20} fontWeight='bold' marginTop={10}>
+          Rp {data.rentalPrice},- / Hari
         </Text>
+        <Pressable onPress={() => navigation.replace("Toko", { data: data })}>
+          <Text fontSize={15} marginTop={20} marginBottom={10} color='#596A7A'>
+            <FontAwesome5 name="store" size={13} color="#596A7A" />  {data.username}
+          </Text>
+        </Pressable>
+
         <Text fontSize={18} color="#02E107" marginTop={2}>
           {data.status}
         </Text>
-        <Box width={'auto'} marginTop={1}>
-          <Pressable onPress={() => showFavoritePopup()}>
-            {isCostumeFavorite ? (
-              <Ionicons name="heart" size={30} color="red" marginBottom={5} />
-            ) : (
-              <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
-            )}
-          </Pressable>
-        </Box>
-        <Text fontSize={20} marginTop={15} fontWeight="bold">Deskripsi Barang : </Text>
-        <Text fontSize={16}>
+
+        <Text fontSize={18} marginTop={40} fontWeight="bold">Deskripsi Barang : </Text>
+        <Text fontSize={16} marginTop={10}>
           {data.costumeDescription}
         </Text>
       </Box>
-      <Box width={"100%"} alignItems='center' backgroundColor='#313C47' paddingBottom={20} paddingTop={10}>
+      <Box width={"100%"} alignItems='center' backgroundColor='transparent' paddingBottom={20} paddingTop={10}>
         <Pressable onPress={() => navigation.navigate('FormPenyewaan', { data: data })} >
-          <Text marginTop={10} backgroundColor='#DF9B52' paddingVertical={10} paddingHorizontal={60} color='white' fontWeight='bold' borderRadius={10}>
-            Pesan Sekarang
+          <Text marginTop={10} backgroundColor='#021C35' paddingVertical={10} paddingHorizontal={100} color='white' fontWeight='bold' borderRadius={10}>
+            Pesan Sekarang!
           </Text>
         </Pressable>
       </Box>

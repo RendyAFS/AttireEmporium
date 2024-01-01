@@ -46,17 +46,44 @@ const Profile = () => {
       console.error(error);
     }
   };
+  console.log(userData)
   return (
-    <ScrollView>
-      <Box flex={1} bgColor='#DF9B52' alignItems='center'>
+    <ScrollView bgColor='white'>
+      <Box flex={1} bgColor='#021C35' alignItems='center'>
         <Box flex={1} alignItems="center">
-          <Heading marginTop={30}>PROFILE</Heading>
-          <Image role="img" alt="20" width={120} height={120} rounded={50} marginTop={10} source={require('../assets/images/avatar.png')} />
+          {userData.imageProfile ? (
+            <Image
+              role="img"
+              alt="Profile Image"
+              width={120}
+              height={120}
+              rounded={100}
+              marginTop={50}
+              source={{ uri: userData.imageProfile }}
+              borderWidth={1}
+              borderColor="white"
+            />
+          ) : (
+            <Image
+              role="img"
+              alt="Default Avatar"
+              width={120}
+              height={120}
+              rounded={100}
+              marginTop={50}
+              source={require('../assets/images/avatar.png')}
+            />
+          )}
         </Box>
-        <Box flex={2} marginTop={20} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
+        <Heading color="white" fontSize={20} marginTop={20}>{userData.username}</Heading>
+        <Box borderBottomWidth={2} borderColor="white" height={20} width={70} />
+        <Text fontSize={18} color="#DCB894" marginTop={20} >{userData.number}</Text>
+        <Box flex={2} marginTop={20} height={'100%'} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
+
           <Box alignItems="center" marginTop={20}>
             <Heading color="#545454" fontSize={25}>{userData.username}</Heading>
           </Box>
+
           <HStack marginTop={30}>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
               <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
@@ -97,20 +124,6 @@ const Profile = () => {
               <Text>Sign Out</Text>
             </Pressable>
           </HStack>
-          <Box marginTop={30} >
-            <VStack marginStart={20} >
-              <Text fontWeight="bold" fontSize={20}>Nama Lengkap :</Text>
-              <Text fontSize={15}>Denny Daffa Rizaldy</Text>
-            </VStack>
-            <VStack marginStart={20} marginTop={25}>
-              <Text fontWeight="bold" fontSize={20}>No Handphone :</Text>
-              <Text fontSize={15}>08651236213</Text>
-            </VStack>
-            <VStack marginStart={20} marginTop={25}>
-              <Text fontWeight="bold" fontSize={20}>Kota :</Text>
-              <Text fontSize={15}>Surabaya</Text>
-            </VStack>
-          </Box>
 
           {/* <Pressable onPress={() => navigation.navigate('FormPenyewaan')} >
           <Text>Form Penyewaan</Text>

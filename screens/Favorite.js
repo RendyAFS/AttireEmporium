@@ -26,11 +26,12 @@ import {
   Button,
   ButtonText,
   Pressable,
-  FlatList
+  HStack
 } from "@gluestack-ui/themed";
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import datas from '../data/datas';
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 import firebase from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Favorite = (props) => {
@@ -117,13 +118,23 @@ const Favorite = (props) => {
 
   const Itemku = ({ costume }) => (
 
-    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })} backgroundColor='white' width={'95%'} marginBottom={8} rounded={3} marginLeft={4} marginRight={10} >
-      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={costume.imageUrl} />
-      <Text fontSize={16} fontWeight='bold' marginLeft={5} marginVertical={8}>{costume.costumeName}</Text>
-      <Text fontSize={12} color={'#777'} paddingHorizontal={10} marginBottom={8}>{costume.costumeName}</Text>
-      <Box flex={1} flexDirection='row'>
-        <Text flex={3} marginLeft={5} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
-        {/* <Icon onPress={() => setShowModal(true)} ref={ref} flex={1} marginTop={12} marginRight={5} color='red' as={TrashIcon} size="md" /> */}
+    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })} backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1} >
+      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
+      <Box p={5}>
+        <HStack >
+          <Box>
+            <Text flex={2} fontSize={13} marginLeft={8} >
+              {costume.costumeName}
+            </Text>
+          </Box>
+          <Box position='absolute' right={8}>
+            <Text flex={1} fontSize={12} color='#777'>
+              <FontAwesome name="star" size={12} color="#FFE81A" /> 4
+            </Text>
+          </Box>
+        </HStack>
+        <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
+        <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
       </Box>
     </Pressable>
   );
@@ -131,21 +142,13 @@ const Favorite = (props) => {
 
   return (
     // {costume ? ()}
-    <Box>
-      <ScrollView bgColor='#f5f5f5'>
+    <Box bgColor='white' flex={1}>
+      <ScrollView >
         <Box bgColor='white' paddingVertical={10} rounded={5} >
-          <Heading flex={1} marginStart={30} color={'#DF9B52'}>FAVORITE</Heading>
+          <Heading flex={1} marginStart={30} color={'#021C35'}>FAVORITE</Heading>
         </Box>
 
         <Box alignItems='center' padding={10}>
-          <Input width={"80%"} borderColor='orange'>
-            <InputSlot pl='$3'>
-              <InputIcon as={SearchIcon} />
-            </InputSlot>
-            <InputField
-              placeholder="Search..."
-            />
-          </Input>
         </Box>
         {costume.length > 0 ? (
           <MasonryList

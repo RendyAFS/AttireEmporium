@@ -16,6 +16,7 @@ import EditItem from "./Edit";
 import ProfileRenter from "./ProfileRenter";
 import Test from "./test";
 import Detail from "./Detail";
+import Toko from "./Toko";
 export {
   Home,
   History,
@@ -34,5 +35,6 @@ export {
   EditItem,
   ProfileRenter,
   Test,
-  Detail
+  Detail,
+  Toko
 };

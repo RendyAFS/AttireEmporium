@@ -21,7 +21,7 @@ import datas from '../data/datas';
 import firebase from '../firebase'
 import { Entypo } from "@expo/vector-icons";
 
-const Katalog = () => {
+const Katalog = ({route}) => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
@@ -31,9 +31,14 @@ const Katalog = () => {
 
   useEffect(() => {
     getUserData();
-    getCostume();
-    // fetchCostumeData();
+    if (route.params && route.params.category) {
+      getCostume(route.params.category);
+    } else {
+      // Handle the case when category is not provided, fetch all costumes
+      getCostume();
+    }
   }, []);
+  
 
 
   const getUserData = async () => {
@@ -66,27 +71,33 @@ const Katalog = () => {
     }
   };
 
-  const getCostume = async () => {
+  const getCostume = async (selectedCategory) => {
     const costumeRef = firebase.database().ref("costumes/");
-
+  
     try {
       const snapshot = await costumeRef.once("value");
       const costumeData = snapshot.val();
-
+  
       if (costumeData) {
         const availableCostumes = await Promise.all(
           Object.entries(costumeData)
-            .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
+            .filter(([_, costume]) => {
+              return (
+                costume.username !== userData.username &&
+                costume.status !== "Dipinjam" &&
+                (!selectedCategory || costume.costumeCategory === selectedCategory)
+              );
+            })
             .map(async ([costumeId, costume]) => {
               const imageUrl = await getDownloadUrl(costume.filename);
               return { costumeId, ...costume, imageUrl };
             })
         );
-
+  
         console.log('Available Costumes:', availableCostumes);
-
+  
         setCostumeData(availableCostumes);
-
+  
         return availableCostumes;
       } else {
         setCostumeData([]);
@@ -98,6 +109,8 @@ const Katalog = () => {
       return [];
     }
   };
+  
+  
   const Itemku = ({ costume }) => {
     const { costumeName, costumeDescription } = costume;
 
