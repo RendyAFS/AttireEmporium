@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, ButtonText, Image, Text } from '@gluestack-ui/themed';
+import { Box, Image, Text } from '@gluestack-ui/themed';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -26,7 +26,9 @@ const Splash = () => {
         }
     };
     return (
-        
+        <Box>
+
+        </Box>
 
     );
 
