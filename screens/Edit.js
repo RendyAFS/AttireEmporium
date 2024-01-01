@@ -49,6 +49,7 @@ const EditItem = ({ route }) => {
       const filename = image.substring(image.lastIndexOf('/') + 1);
       const ref = firebase.storage().ref().child(filename);
       if (existingCostume) {
+        await ref.put(blob);
         // Perbarui data kostum
         const updatedCostume = {
           costumeName,

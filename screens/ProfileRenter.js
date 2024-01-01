@@ -58,7 +58,7 @@ const ProfileRenter = () => {
                 return { ...costume, imageUrl };
               })
             );
-              console.log(costumesWithUrls)
+            console.log(costumesWithUrls)
             setCostumeData(costumesWithUrls);
           } else {
             setCostumeData([]);
@@ -81,7 +81,8 @@ const ProfileRenter = () => {
 
     <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
       <Box backgroundColor='white' rounded={10} p={2} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
-        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{uri: costume.imageUrl}} />
+        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
+
         <Box p={5}>
           <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
             {costume.costumeName}

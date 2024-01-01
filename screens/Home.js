@@ -15,7 +15,7 @@ import {
 } from "@gluestack-ui/themed";
 import Header from '../components/header';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { Dimensions, StyleSheet, Platform } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
@@ -119,9 +119,6 @@ const Home = ({ route }) => {
     }
   };
 
-
-
-
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -145,15 +142,21 @@ const Home = ({ route }) => {
       <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
         <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
         <Box p={5}>
-          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
-            {costume.costumeName}
-          </Text>
-
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}><Entypo name="shop" size={15} color="black" /> {costume.username}</Text>
-          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
+          <HStack >
+            <Box>
+              <Text flex={2} fontSize={13}  marginLeft={8} >
+                {costume.costumeName}
+              </Text>
+            </Box>
+            <Box position='absolute' right={8}>
+              <Text flex={1} fontSize={12} color='#777'>
+                <FontAwesome name="star" size={12} color="#FFE81A" /> 4
+              </Text>
+            </Box>
+          </HStack>
+          <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
+          <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username} | Surabaya</Text> 
         </Box>
-
       </Box>
     </Pressable>
   );
@@ -161,7 +164,7 @@ const Home = ({ route }) => {
     return (
       <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
         <ParallaxImage
-          source={{ uri: item.image }}
+          source={{ uri: item.imageUrl }}
           containerStyle={{
             flex: 1,
             marginBottom: Platform.select({ ios: 0, android: 1 }),
@@ -174,7 +177,7 @@ const Home = ({ route }) => {
         />
         <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
           fontWeight='bold' numberOfLines={2}>
-          {item.title}
+          {item.costumeName}
         </Text>
       </Pressable>
     );
@@ -224,7 +227,7 @@ const Home = ({ route }) => {
             sliderWidth={screenWidth}
             sliderHeight={screenWidth}
             itemWidth={screenWidth - 50}
-            data={entries}
+            data={costume}
             renderItem={renderItem}
             hasParallaxImages={true}
             autoplay={true}
