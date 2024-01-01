@@ -17,7 +17,7 @@ import ProfileRenter from "./ProfileRenter";
 import Test from "./test";
 import Detail from "./Detail";
 import Toko from "./Toko";
-import SplashScreen from "./SplashScreens";
+import SplashScreens from "./SplashScreens";
 export {
   Home,
   History,
@@ -38,5 +38,5 @@ export {
   Test,
   Detail,
   Toko,
-  SplashScreen
+  SplashScreens
 };
