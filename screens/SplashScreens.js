@@ -1,23 +1,22 @@
-import React from 'react';
-import { Box, Image, Text } from '@gluestack-ui/themed';
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import firebase from "../firebase";
+import React, { useEffect, useState } from 'react';
+import { Box, Image } from '@gluestack-ui/themed';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firebase from '../firebase';
 
 const Splash = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation();
+
     useEffect(() => {
         getUser();
     }, []);
+
     const getUser = async () => {
         try {
-            // Ambil data dari AsyncStorage
-            const userData = await AsyncStorage.getItem("user-data");
+            const userData = await AsyncStorage.getItem('user-data');
             if (userData !== null) {
-                // Diarahkan ke Halaman Home
-                navigation.replace("Tabs");
+                navigation.replace('Tabs');
             } else {
                 setIsLoading(false);
             }
@@ -25,12 +24,20 @@ const Splash = () => {
             console.error(e);
         }
     };
+
     return (
-        <Box>
-
+        <Box flex={1} justifyContent="center" alignItems="center" backgroundColor="white">
+            <Box width="80%" height={150}>
+                <Image
+                    role='img'
+                    alt='gambar'
+                    resizeMode='contain'
+                    source={require('../assets/logo.png')}
+                    style={{ flex: 1, width: '100%', height: '100%' }}
+                />
+            </Box>
         </Box>
-
     );
-
 };
+
 export default Splash;
