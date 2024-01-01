@@ -69,8 +69,11 @@ const FormPengembalian = ({ route }) => {
         updateRef.update({
           status
         });
+        const rateRef = firebase.database().ref(`costumes/${costumeId}/rating`);
+        rateRef.push({
+          rating
+        });
 
-        // Update history with rating and review
 
 
         // Reset nilai form setelah posting
@@ -131,13 +134,17 @@ const FormPengembalian = ({ route }) => {
             <Text fontSize={18} fontWeight="bold"> - </Text>
             <Text fontSize={18} fontWeight="bold">{data.pengembalian}</Text>
           </HStack>
-
-          <Box flexDirection="column">
+          <Box flexDirection="column" marginBottom={10}>
             <Text marginTop={10} fontSize={18} fontWeight="bold">Rating</Text>
-            <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
+            {data.review === "Belum direview" ?
+
+
+              <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
+              :
+                <Text flexDirection="row"  textAlign="center">Terima Kasih Sudah Meminjam</Text>
+              }
+
           </Box>
-
-
           {/* Layout 2 */}
           <Box paddingHorizontal={10} backgroundColor="white" marginTop={0} height={'100%'} borderTopEndRadius={10} borderTopStartRadius={10}>
             <Text fontSize={18} fontWeight="bold">Komentar</Text>

@@ -16,7 +16,7 @@ const Create = () => {
   const [image, setImage] = useState(null);
   const [userData, setUserData] = useState('');
   const navigation = useNavigation();
-  const getUserData = async () => {
+  const getUserData = async () => { 
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
       console.log("Data from AsyncStorage:", userDataString)
