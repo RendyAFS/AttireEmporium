@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail, Toko } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail, Toko, SplashScreens } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -90,13 +90,14 @@ const App = () => {
   return (
     <GluestackUIProvider config={config}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="GetInto1">
+        <Stack.Navigator initialRouteName="SplashScreens">
           <Stack.Screen name="Tabs" component={Tabs} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="FormPenyewaan" component={FormPenyewaan} options={{ title: 'Penyewaan barang', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="FormPengembalian" component={FormPengembalian} options={{ title: 'Pengembalian barang', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Register" component={Register} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Login" component={Login} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Katalog" component={Katalog} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="SplashScreens" component={SplashScreens} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="GetInto1" component={GetInto1} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="GetInto2" component={GetInto2} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ statusBarColor: 'white', statusBarStyle: 'dark' }} />
