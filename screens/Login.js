@@ -115,9 +115,10 @@ const Login = () => {
                 borderTopWidth={1}
                 borderStartWidth={1}
                 rounded={7}
+                marginBottom={10}
                 borderColor='#021C35'
               >
-                <InputField value={email} type="text" placeholder="Username" onChangeText={(value) => setEmail(value)} />
+                <InputField value={email} type="text" placeholder="Email" onChangeText={(value) => setEmail(value)} />
               </Input>
             </VStack>
             <VStack space="md">

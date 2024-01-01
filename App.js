@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail, Toko } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,11 +18,11 @@ const Tabs = () => {
           let iconName;
           switch (route.name) {
             case 'Home':
-              iconName = focused ? 'shopping' : 'shopping-outline';
+              iconName = focused ? 'home' : 'home-outline';
               return (
-                <MaterialCommunityIcons
+                <Ionicons
                   name={iconName}
-                  size={35}
+                  size={33}
                   color={focused ? '#021C35' : '#021C35'}
                 />
               );
@@ -100,12 +100,14 @@ const App = () => {
           <Stack.Screen name="GetInto1" component={GetInto1} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="GetInto2" component={GetInto2} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} />
+          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ title: 'Ubah Profile', statusBarColor: 'white', statusBarStyle: 'dark' }}  />
+          {/* <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} /> */}
           <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Detail" component={Detail} options={{ title: 'Detail Kostum', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Test" component={Test} options={{ title: 'Debug', statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="Toko" component={Toko} options={{  title: 'Toko', statusBarColor: 'white', statusBarStyle: 'dark' }} />
 
 
           {/* <Stack.Screen

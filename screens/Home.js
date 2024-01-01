@@ -29,7 +29,6 @@ const { width: screenWidth } = Dimensions.get('window');
 const Home = ({ route }) => {
 
   const navigation = useNavigation();
-  const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
 
@@ -118,7 +117,7 @@ const Home = ({ route }) => {
       return [];
     }
   };
-
+  console.log(userData)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -144,7 +143,7 @@ const Home = ({ route }) => {
         <Box p={5}>
           <HStack >
             <Box>
-              <Text flex={2} fontSize={13}  marginLeft={8} >
+              <Text flex={2} fontSize={13} marginLeft={8} >
                 {costume.costumeName}
               </Text>
             </Box>
@@ -155,7 +154,7 @@ const Home = ({ route }) => {
             </Box>
           </HStack>
           <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
-          <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username} | Surabaya</Text> 
+          <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
         </Box>
       </Box>
     </Pressable>
@@ -199,22 +198,26 @@ const Home = ({ route }) => {
             >
               <Box width={'100%'} height={120} rounded={10}>
                 <HStack justifyContent='center' alignItems='center' >
-                  <VStack marginStart={10} marginEnd={140} marginTop={20}>
+                  <VStack marginStart={30} marginEnd={100} marginTop={20}>
                     <Text color='white' fontSize={15}>Selamat Datang</Text>
                     <Heading color='white' fontSize={20}>{userData.username}</Heading>
                   </VStack>
                   <Box marginTop={15}>
                     <Pressable onPress={() => navigation.navigate('Profile')}>
-                      <Avatar size="lg" >
+                      <Avatar size="lg">
+
                         <Image
-                          source={require("../assets/images/avatar.png")}
+                          source={userData.imageProfile ? { uri: userData.imageProfile } : require("../assets/images/avatar.png")}
                           width={'100%'}
                           height={'100%'}
-                          alt="CNN Logo"
-
+                          alt="Profile Image"
+                          rounded={100}
                           role="img"
                         />
+
                       </Avatar>
+
+
                     </Pressable>
                   </Box>
                 </HStack>
@@ -222,7 +225,7 @@ const Home = ({ route }) => {
               </Box>
             </LinearGradient>
           </Box>
-          <Carousel
+          {/* <Carousel
             marginTop={10}
             sliderWidth={screenWidth}
             sliderHeight={screenWidth}
@@ -232,26 +235,39 @@ const Home = ({ route }) => {
             hasParallaxImages={true}
             autoplay={true}
             loop={true}
-          />
+          /> */}
         </Box>
         <Box paddingVertical={10} rounded={5} >
-          <Heading flex={1} marginStart={20} color={'#DF9B52'}>CATEGORIES</Heading>
+          <Heading flex={1} marginStart={20} color={'#021C35'}>Kategori</Heading>
           <Box>
-            <ScrollView horizontal marginStart={20} paddingVertical={10} showsHorizontalScrollIndicator={false}>
-              <Box p={10} marginEnd={10} bgColor='black' width={250} height={100} rounded={10}>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='red' width={250} height={100} rounded={10}>
-                <Text>Text</Text>
-              </Box>
-              <Box p={10} marginEnd={10} bgColor='purple' width={250} height={100} rounded={10}>
-                <Text>Text</Text>
-              </Box>
+            <ScrollView horizontal marginStart={20} paddingVertical={10}
+              showsHorizontalScrollIndicator={false}>
+              <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Helloween' })}>
+                <LinearGradient
+                  colors={['#0174BE', '#021C35']}
+                  style={{ width: 250, height: 100, borderRadius: 10, padding: 10, marginEnd: 10, justifyContent: 'center', alignItems: 'flex-end' }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Text marginEnd={10} color='white' fontWeight='bold' fontSize={20}>Helloween</Text>
+                </LinearGradient>
+              </Pressable>
+
+              <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Batik' })}>
+                <LinearGradient
+                  // Background Linear Gradient
+                  colors={['#0174BE', '#021C35']}
+                  style={{ width: 250, height: 100, borderRadius: 10, padding: 10, marginEnd: 10, justifyContent: 'center', alignItems: 'flex-end' }}
+
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Text marginEnd={10} color='white' fontWeight='bold' fontSize={20}>Batik</Text>
+                </LinearGradient>
+              </Pressable>
             </ScrollView>
           </Box>
         </Box>
         <Box paddingVertical={10} rounded={5} >
-          <Heading flex={1} marginStart={20} color={'#DF9B52'}>RECOMENDATIONS</Heading>
+          <Heading flex={1} marginStart={20} color={'#021C35'}>Katalog</Heading>
         </Box>
         {/* <Box flex={1} flexDirection='row' marginBottom={15} padding={10}>
         {ENTRIES1.slice(0, 2).map(item => (

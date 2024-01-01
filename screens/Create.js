@@ -149,7 +149,7 @@ const Create = () => {
             />
           </Input>
         </VStack>
-        <VStack space="md" marginTop={30}>
+        <VStack space="md" marginTop={10}>
           <Input
             backgroundColor={theme.inputBackgroundColor}
             borderColor='#021C35'
@@ -167,7 +167,7 @@ const Create = () => {
             />
           </Input>
         </VStack>
-        <VStack space="md" marginTop={20}>
+        <VStack space="md" marginTop={10}>
           {/* <Input
             backgroundColor={theme.inputBackgroundColor}
             borderBottomWidth={3}
@@ -223,21 +223,8 @@ const Create = () => {
                 <SelectDragIndicatorWrapper>
                   <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
-                <SelectItem label="Baju Japir" value="Japir" />
-                <SelectItem label="Ara Ara ALbar" value="Albar" />
-                <SelectItem
-                  label="Cross Platform Development Process"
-                  value="Cross Platform Development Process"
-                />
-                <SelectItem
-                  label="UI Designing"
-                  value="ui"
-                  isDisabled={true}
-                />
-                <SelectItem
-                  label="Backend Development"
-                  value="backend"
-                />
+                <SelectItem label="Helloween" value="Helloween" />
+                <SelectItem label="Batik" value="Batik" />
               </SelectContent>
             </SelectPortal>
           </Select>
