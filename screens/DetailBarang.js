@@ -16,7 +16,7 @@ const DetailBarang = ({ route }) => {
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
-      console.log("Data from AsyncStorage:", userDataString);
+      // console.log("Data from AsyncStorage:", userDataString);
       if (userDataString) {
         const userData = JSON.parse(userDataString);
         setUserData(userData);
@@ -76,8 +76,8 @@ const DetailBarang = ({ route }) => {
   //   }
   // };
 
-  console.log(data)
-  console.log(userData)
+  // console.log(data)
+  // console.log(userData)
   const showFavoritePopup = async () => {
     try {
       const uid = userData.credential.user.uid;
@@ -86,9 +86,11 @@ const DetailBarang = ({ route }) => {
       const costumeName = data.costumeName;
       const costumeDescription = data.costumeDescription;
       const costumeCategory = data.costumeCategory;
+      const number = data.number;
       const status = data.status;
       const rentalPrice = data.rentalPrice;
       const imageUrl = data.imageUrl;
+      const username = data.username;
 
       const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
@@ -105,7 +107,9 @@ const DetailBarang = ({ route }) => {
           costumeCategory,
           status,
           rentalPrice,
-          uid
+          uid,
+          number,
+          username
         });
       }
 

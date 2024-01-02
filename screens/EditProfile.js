@@ -57,20 +57,20 @@ const EditProfile = () => {
   };
   console.log('ini userdata', userData)
   const handleSave = async () => {
-    const uid = userData?.credential?.user?.uid;
-    const userRef = firebase.database().ref(`users/${uid}`);
-  
     try {
+      const uid = userData?.credential?.user?.uid;
+      const userRef = firebase.database().ref(`users/${uid}`);
+  
       let updatedUserData = { ...userData }; // Use the existing user data by default
   
       if (image) {
         const response = await fetch(image);
         const blob = await response.blob();
         const imageProfile = image.substring(image.lastIndexOf('/') + 1);
-        const ref = firebase.storage().ref().child(imageProfile);
+        const storageRef = firebase.storage().ref().child(imageProfile);
   
         // Upload the new image to Firebase Storage
-        await ref.put(blob);
+        await storageRef.put(blob);
   
         // Get the download URL for the uploaded image
         const downloadUrl = await getDownloadUrl(imageProfile);
@@ -87,25 +87,36 @@ const EditProfile = () => {
   
         // Set the retrieved download URL to the state
         setImage(downloadUrl);
+      } else {
+        // Update only username and number if no new image is selected
+        updatedUserData = { ...userData, username, number };
+  
+        // Update user data in Firebase Realtime Database
+        await userRef.update({
+          username,
+          number,
+        });
       }
   
       // Save the updated user data to AsyncStorage
       await AsyncStorage.setItem("user-data", JSON.stringify(updatedUserData));
+  
+      Alert.alert(
+        "Profile Diubah !",
+        "Perubahan pada profil Anda telah disimpan.",
+        [
+          { text: "OK", onPress: () => navigation.replace('Tabs') }
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
-      console.error("Error saving data to AsyncStorage:", error);
+      console.error("Error saving data:", error);
       // Handle the error appropriately
     }
-  
-    Alert.alert(
-      "Profile Diubah !",
-      "Perubahan pada profil Anda telah disimpan.",
-      [
-        { text: "OK", onPress: () => navigation.replace('Tabs') }
-      ],
-      { cancelable: false }
-    );
   };
   
+
+
 
 
   useEffect(() => {
