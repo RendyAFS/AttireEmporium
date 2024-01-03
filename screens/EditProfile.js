@@ -5,12 +5,15 @@ import { useNavigation } from "@react-navigation/native";
 import firebase from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'expo-image-picker';
-const EditProfile = () => {
-  const [username, setusername] = useState("");
-  const [number, setnumber] = useState("");
+const EditProfile = ({ route }) => {
+  const data = route.params.dataku;
+  const [username, setusername] = useState(data.username);
+  const [number, setnumber] = useState(data.number);
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(data.imageProfile);
+
+  console.log(data);
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -55,7 +58,7 @@ const EditProfile = () => {
       setImage(result.assets[0].uri);
     }
   };
-  console.log('ini userdata', userData)
+  // console.log('ini userdata', userData)
   const handleSave = async () => {
     try {
       const uid = userData?.credential?.user?.uid;
@@ -116,9 +119,6 @@ const EditProfile = () => {
   };
   
 
-
-
-
   useEffect(() => {
     // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
     getUserData();
@@ -140,7 +140,7 @@ const EditProfile = () => {
             />
           ) : (
             <Image
-              source={userData.imageProfile ? { uri: userData.imageProfile } : require("../assets/images/avatar.png")}
+              source={data.imageProfile ? { uri: data.imageProfile } : require("../assets/images/avatar.png")}
               width={200}
               height={200}
               marginBottom={2}
@@ -172,7 +172,7 @@ const EditProfile = () => {
             rounded={7}
 
           >
-            <InputField placeholder={userData.username} onChangeText={(text) => setusername(text)} />
+            <InputField placeholder={userData.username} value={username} onChangeText={(text) => setusername(text)} />
           </Input>
           {/* <Text marginTop={10}>Email</Text>
           <Input
@@ -198,7 +198,7 @@ const EditProfile = () => {
 
 
           >
-            <InputField placeholder={userData.number} keyboardType="numeric" onChangeText={(text) => setnumber(text)} />
+            <InputField placeholder={userData.number} value={number} keyboardType="numeric" onChangeText={(text) => setnumber(text)} />
           </Input>
           <Button marginTop={20} backgroundColor="#021C35" height={50} rounded={10} onPress={handleSave}>
             <Heading color="white">Simpan Perubahan</Heading>
