@@ -18,6 +18,8 @@ import Test from "./test";
 import Detail from "./Detail";
 import Toko from "./Toko";
 import SplashScreens from "./SplashScreens";
+import Sop1 from "./Sop1";
+import Aturan from "./Aturan";
 export {
   Home,
   History,
@@ -38,5 +40,7 @@ export {
   Test,
   Detail,
   Toko,
-  SplashScreens
+  SplashScreens,
+  Sop1,
+  Aturan,
 };
