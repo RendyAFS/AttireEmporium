@@ -43,7 +43,7 @@ const GetInto1 = () => {
       </Box>
       <Button
         backgroundColor='#021C35'
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.replace('Login')}
         height={40}
         width={"75%"}
         marginTop={20}

@@ -21,7 +21,7 @@ const Splash = () => {
             if (userData) {
                 navigation.replace('Tabs');
             } else {
-                navigation.replace('GetInto1');
+                navigation.replace('Sop1');
             }
         } catch (e) {
             console.error(e);
