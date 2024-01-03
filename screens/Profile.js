@@ -78,68 +78,75 @@ const Profile = () => {
         <Heading color="white" fontSize={20} marginTop={20}>{userData.username}</Heading>
         <Box borderBottomWidth={2} borderColor="white" height={20} width={70} />
         <Text fontSize={18} color="#DCB894" marginTop={20} >{userData.number}</Text>
-        <Box flex={2} marginTop={20} height={'100%'} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
+        <Box flex={2} marginTop={80} height={'100%'} width={"100%"} borderTopLeftRadius={50} borderTopRightRadius={50} backgroundColor="white">
 
-          <Box alignItems="center" marginTop={20}>
+          {/* <Box alignItems="center" marginTop={20}>
             <Heading color="#545454" fontSize={25}>{userData.username}</Heading>
-          </Box>
+          </Box> */}
 
           <HStack marginTop={30}>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Profile Renter')} >
-              <Box backgroundColor="#eafbff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="store" size={50} color="#0D98BA" />
-              </Box>
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/Toko.png')}
+              />
               <Text>Proflie Renter</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Favorite')} >
-              <Box backgroundColor="#f3e9ff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialIcons name="favorite" size={50} color="#A15DEA" />
-              </Box>
-              <Text>Favorite</Text>
-            </Pressable>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile')} >
-              <Box backgroundColor="#fff2e3" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialCommunityIcons name="account-edit" size={50} color="#DF9B52" />
-              </Box>
-              <Text>Edit Profile</Text>
-            </Pressable>
-          </HStack>
-          <HStack marginTop={30}>
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
-              <Box backgroundColor="#e0fff0" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <FontAwesome name="plus-square" size={50} color="#88D8B0" />
-              </Box>
-              <Text>Create Item</Text>
-            </Pressable>
-            {/* <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Item')} >
-              <Box backgroundColor="#eaefff" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <MaterialCommunityIcons name="store-edit" size={50} color="#748CE1" />
-              </Box>
-              <Text>Edit Item</Text>
-            </Pressable> */}
-            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
-              <Box backgroundColor="#ffe4f1" width={80} height={80} rounded={50} alignItems="center" justifyContent="center">
-                <Entypo name="log-out" size={40} color="#da5393" />
-              </Box>
-              <Text>Sign Out</Text>
-            </Pressable>
-          </HStack>
 
-          {/* <Pressable onPress={() => navigation.navigate('FormPenyewaan')} >
-          <Text>Form Penyewaan</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('FormPengembalian')} >
-          <Text>Form Pengembalian</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('Register')} >
-          <Text>Register</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('Login')} >
-          <Text>Login</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('GetInto1')} >
-          <Text>GetInto1</Text>
-        </Pressable> */}
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile')} >
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/UbahProfile.png')}
+              />
+              <Text>Ubah Profile</Text>
+            </Pressable>
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/TambahProduk.png')}
+              />
+              <Text>Tambah Produk</Text>
+            </Pressable>
+          </HStack>
+          <HStack marginTop={30} >
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('S.O.P')}>
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/SOP.png')}
+              />
+              <Text>S.O.P</Text>
+            </Pressable>
+            <Pressable flex={1} alignItems="center">
+              {/* SPA */}
+            </Pressable>
+            <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/Keluar.png')}
+              />
+              <Text>Keluar</Text>
+            </Pressable>
+          </HStack>
         </Box>
       </Box>
     </ScrollView>

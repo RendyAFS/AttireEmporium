@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { GluestackUIProvider, Text, } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail, Toko, SplashScreens } from "./screens/";
+import { Home, History, Favorite, Profile, FormPenyewaan, FormPengembalian, Register, Login, Katalog, GetInto1, GetInto2, DetailBarang, EditProfile, CreateItem, EditItem, ProfileRenter, Test,Detail, Toko, SplashScreens, Aturan } from "./screens/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -102,6 +102,7 @@ const App = () => {
           <Stack.Screen name="GetInto2" component={GetInto2} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Edit Profile" component={EditProfile} options={{ title: 'Ubah Profile', statusBarColor: 'white', statusBarStyle: 'dark' }}  />
+          <Stack.Screen name="S.O.P" component={Aturan} options={{ title: 'S.O.P', statusBarColor: 'white', statusBarStyle: 'dark' }}  />
           {/* <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} /> */}
           <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
