@@ -31,6 +31,7 @@ const DetailBarang = ({ route }) => {
     }
   };
 
+  console.log('ini dataku',userData)
   const checkIsCostumeFavorite = async () => {
     try {
       if (!userDataLoaded) {

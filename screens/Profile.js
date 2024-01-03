@@ -97,7 +97,7 @@ const Profile = () => {
               <Text>Proflie Renter</Text>
             </Pressable>
 
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile')} >
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile' , {dataku : userData})} >
               <Image
                 role="img"
                 alt="Default Avatar"
@@ -109,7 +109,7 @@ const Profile = () => {
               <Text>Ubah Profile</Text>
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
-              <Image
+            <Image
                 role="img"
                 alt="Default Avatar"
                 width={75}
