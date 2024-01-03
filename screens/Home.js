@@ -184,7 +184,7 @@ const Home = ({ route }) => {
   return (
     <Box >
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />
-      <ScrollView bgColor='white'>
+      <ScrollView bgColor='white' width={'100%'} height={'100%'}>
         <Header title={"Header"} />
 
         <Box marginTop={10} rounded={5}>
@@ -196,7 +196,7 @@ const Home = ({ route }) => {
 
               end={{ x: 1, y: 2 }}
             >
-              <Box width={'100%'} height={120} rounded={10}>
+              <Box width={'100%'} height={'auto'} rounded={10}>
                 <HStack justifyContent='center' alignItems='center' >
                   <VStack marginStart={30} marginEnd={100} marginTop={20}>
                     <Text color='white' fontSize={15}>Selamat Datang</Text>
