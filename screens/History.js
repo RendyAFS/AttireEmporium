@@ -96,7 +96,7 @@ const History = () => {
   };
 
   return (
-    <Box padding={10} flex={1} backgroundColor="white">
+    <Box padding={10} flex={1} backgroundColor="white" width={'100%'} height={'100%'}>
       <Box marginTop={10} paddingtop={10} >
         <Center >
           <Box flexDirection="row" alignItems="center" width={'95%'} borderWidth={2} borderColor="rgba(2, 28, 53, 0.6)" borderRadius={8}>
