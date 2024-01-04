@@ -7,7 +7,17 @@ import {
     EyeOffIcon,
     EyeIcon,
     HStack,
-    Image
+    Image,
+    Modal,
+    ModalBackdrop,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Center,
+    Icon,
+    CloseIcon,
 } from '@gluestack-ui/themed'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
@@ -19,7 +29,10 @@ const Register = () => {
     const [number, setNumber] = useState('');
     const [uid, setUid] = useState('');
     const [password, setPassword] = useState('');
-
+    const [showModal, setShowModal] = useState(false)
+    const [errorText, setErrorText] = useState('');
+    console.log(showModal)
+    const ref = React.useRef(null)
 
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {
@@ -27,6 +40,12 @@ const Register = () => {
     };
     const navigation = useNavigation();
     const handleRegister = () => {
+        if (!email || !username || !password) {
+            setShowModal(true)
+            setErrorText("Email, username, and password are required")
+            return;
+        }
+
         const database = firebase.database();
 
         firebase
@@ -52,6 +71,7 @@ const Register = () => {
                 console.error(error);
             });
     };
+
 
 
     const saveUserData = async (email, username, number, password, credential) => {
@@ -179,9 +199,41 @@ const Register = () => {
 
                 </VStack>
             </Box>
-
-
-
+            <Modal
+                isOpen={showModal}
+                onClose={() => {
+                    setShowModal(false)
+                }}
+                finalFocusRef={ref}
+            >
+                <ModalBackdrop />
+                <ModalContent>
+                    <ModalHeader>
+                        <Heading size="lg">Error</Heading>
+                        <ModalCloseButton>
+                            <Icon as={CloseIcon} />
+                        </ModalCloseButton>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Text>
+                            {errorText}
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            action="secondary"
+                            mr="$3"
+                            onPress={() => {
+                                setShowModal(false)
+                            }}
+                        >
+                            <ButtonText>Ok</ButtonText>
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
@@ -312,4 +364,4 @@ export default Register
 //     );
 // };
 
-// export default Register;
+// export default Register;
