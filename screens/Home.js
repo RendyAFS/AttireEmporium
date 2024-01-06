@@ -98,7 +98,27 @@ const Home = ({ route }) => {
             .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
             .map(async ([costumeId, costume]) => {
               const imageUrl = await getDownloadUrl(costume.filename);
-              return { costumeId, ...costume, imageUrl };
+        
+              // Hitung rata-rata rating
+              const ratings = costume.rating || {};
+              let totalRating = 0;
+              let numberOfRatings = 0;
+        
+              if (typeof ratings === 'object') {
+                for (const ratingId in ratings) {
+                  if (ratings.hasOwnProperty(ratingId)) {
+                    const ratingValue = ratings[ratingId]?.rating;
+                    if (typeof ratingValue === 'number') {
+                      totalRating += ratingValue;
+                      numberOfRatings++;
+                    }
+                  }
+                }
+              }
+        
+              const averageRating = numberOfRatings > 0 ? (totalRating / numberOfRatings).toFixed(1) : '0';
+        
+              return { costumeId, ...costume, imageUrl, averageRating };
             })
         );
 
@@ -135,6 +155,7 @@ const Home = ({ route }) => {
     }
   };
 
+
   const Itemku = ({ costume }) => (
 
     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
@@ -149,7 +170,7 @@ const Home = ({ route }) => {
             </Box>
             <Box position='absolute' right={8}>
               <Text flex={1} fontSize={12} color='#777'>
-                <FontAwesome name="star" size={12} color="#FFE81A" /> 4
+                <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
               </Text>
             </Box>
           </HStack>
@@ -160,6 +181,7 @@ const Home = ({ route }) => {
     </Pressable>
   );
   const renderItem = ({ item }, parallaxProps) => {
+
     return (
       <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
         <ParallaxImage
@@ -237,31 +259,17 @@ const Home = ({ route }) => {
             loop={true}
           /> */}
         </Box>
-        <Box paddingVertical={10} rounded={5} >
+        <Box paddingVertical={5} rounded={5} >
           <Heading flex={1} marginStart={20} color={'#021C35'}>Kategori</Heading>
           <Box>
             <ScrollView horizontal marginStart={20} paddingVertical={10}
               showsHorizontalScrollIndicator={false}>
               <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Helloween' })}>
-                <LinearGradient
-                  colors={['#0174BE', '#021C35']}
-                  style={{ width: 250, height: 100, borderRadius: 10, padding: 10, marginEnd: 10, justifyContent: 'center', alignItems: 'flex-end' }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  <Text marginEnd={10} color='white' fontWeight='bold' fontSize={20}>Helloween</Text>
-                </LinearGradient>
+                <Image w={230} alt='halloweeen' marginEnd={10} height={100} source={require("../assets/images/banner2.png")} />
               </Pressable>
 
               <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Batik' })}>
-                <LinearGradient
-                  // Background Linear Gradient
-                  colors={['#0174BE', '#021C35']}
-                  style={{ width: 250, height: 100, borderRadius: 10, padding: 10, marginEnd: 10, justifyContent: 'center', alignItems: 'flex-end' }}
-
-                  end={{ x: 1, y: 1 }}
-                >
-                  <Text marginEnd={10} color='white' fontWeight='bold' fontSize={20}>Batik</Text>
-                </LinearGradient>
+                <Image w={230} alt='batik' marginEnd={10} height={100} source={require("../assets/images/banner1.png")} />
               </Pressable>
             </ScrollView>
           </Box>

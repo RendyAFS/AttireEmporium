@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const FormPengembalian = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [rating, setRating] = useState(0);
-  const [deskripsi, setDeskripsi] = useState('');
+  const [komentar, setKomentar] = useState('');
   const data = (route.params.item);
 
 
@@ -71,8 +71,12 @@ const FormPengembalian = ({ route }) => {
         });
         const rateRef = firebase.database().ref(`costumes/${costumeId}/rating`);
         rateRef.push({
-          rating
+          rating,
         });
+        const komentarRef = firebase.database().ref(`costumes/${costumeId}/komentar`);
+        komentarRef.push({
+          komentar
+        })
 
 
 
@@ -109,6 +113,7 @@ const FormPengembalian = ({ route }) => {
   };
 
   console.log(rating)
+  console.log(komentar)
 
   return (
     <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={15}>
@@ -141,8 +146,8 @@ const FormPengembalian = ({ route }) => {
 
               <Box flexDirection="row" justifyContent="center">{renderStars()}</Box>
               :
-                <Text flexDirection="row"  textAlign="center">Terima Kasih Sudah Meminjam</Text>
-              }
+              <Text flexDirection="row" textAlign="center">Terima Kasih Sudah Meminjam</Text>
+            }
 
           </Box>
           {/* Layout 2 */}
@@ -157,9 +162,9 @@ const FormPengembalian = ({ route }) => {
               borderColor="black"
               width={'100%'}
               marginTop={10}
-              onChangeText={(text) => setDeskripsi(text)}
+
             >
-              <TextareaInput placeholder="Tambahkan Komentar..." role="dialog" />
+              <TextareaInput placeholder="Tambahkan Komentar..." role="dialog" onChangeText={(text) => setKomentar(text)} />
             </Textarea>
             <Box flex={1} flexDirection="row" marginTop={15}>
               <Box flex={1}>

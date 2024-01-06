@@ -7,7 +7,17 @@ import {
     EyeOffIcon,
     EyeIcon,
     HStack,
-    Image
+    Image,
+    Modal,
+    ModalBackdrop,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Center,
+    Icon,
+    CloseIcon,
 } from '@gluestack-ui/themed'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
@@ -19,7 +29,10 @@ const Register = () => {
     const [number, setNumber] = useState('');
     const [uid, setUid] = useState('');
     const [password, setPassword] = useState('');
-
+    const [showModal, setShowModal] = useState(false)
+    const [errorText, setErrorText] = useState('');
+    console.log(showModal)
+    const ref = React.useRef(null)
 
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {
@@ -27,6 +40,12 @@ const Register = () => {
     };
     const navigation = useNavigation();
     const handleRegister = () => {
+        if (!email || !username || !password) {
+            setShowModal(true)
+            setErrorText("Email, username, and password are required")
+            return;
+        }
+
         const database = firebase.database();
 
         firebase
@@ -52,6 +71,7 @@ const Register = () => {
                 console.error(error);
             });
     };
+
 
 
     const saveUserData = async (email, username, number, password, credential) => {
@@ -179,137 +199,43 @@ const Register = () => {
 
                 </VStack>
             </Box>
-
-
-
+            <Modal
+                isOpen={showModal}
+                onClose={() => {
+                    setShowModal(false)
+                }}
+                finalFocusRef={ref}
+            >
+                <ModalBackdrop />
+                <ModalContent>
+                    <ModalHeader>
+                        <Heading size="lg">Error</Heading>
+                        <ModalCloseButton>
+                            <Icon as={CloseIcon} />
+                        </ModalCloseButton>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Text>
+                            {errorText}
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            action="secondary"
+                            mr="$3"
+                            onPress={() => {
+                                setShowModal(false)
+                            }}
+                        >
+                            <ButtonText>Ok</ButtonText>
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
 
 export default Register
-
-
-// import React, { useState } from "react";
-// import {
-//     Box,
-//     VStack,
-//     Input,
-//     InputField,
-//     Button,
-//     ButtonText,
-//     Divider,
-//     Text,
-//     InputSlot,
-//     InputIcon,
-//     EyeOffIcon,
-//     EyeIcon,
-//     Heading,
-//     HStack,
-// } from "@gluestack-ui/themed";
-// import { useNavigation } from "@react-navigation/native";
-// import firebase from "../firebase";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// const Register = () => {
-//     const [name, setName] = useState("");
-//     const [username, setUsername] = useState("");
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-
-//     const [showPassword, setShowPassword] = useState(false);
-//     const navigation = useNavigation();
-
-//     const handleTogglePassword = () => {
-//         setShowPassword((prev) => !prev);
-//     };
-
-//     const handleRegister = () => {
-//         firebase
-//             .auth()
-//             .createUserWithEmailAndPassword(email, password)
-//             .then((userCredential) => {
-//                 // Panggil method untuk menyimpan data ke AsyncStorage
-//                 saveUserData(name, username, email, password, userCredential);
-//             })
-//             .catch((error) => {
-//                 console.error(error);
-//             });
-//     }
-
-//     const saveUserData = async (email, password, credential) => {
-//         const userData = { email, password, credential };
-//         try {
-//             // Menyimpan data User ke AsyncStorage
-//             await AsyncStorage.setItem("user-data", JSON.stringify(userData));
-//             // Diarahkan ke Halaman Home
-//             navigation.replace("Home");
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-
-//     return (
-//         <Box flex={1} justifyContent="center" backgroundColor="#021C35">
-//             <VStack
-//                 width="100%"
-//                 backgroundColor="white"
-//                 padding={30}
-//                 rounded={30}
-
-//             >
-//                 <VStack space="xl">
-//                     <Heading>REGISTER</Heading>
-//                     <VStack space="md" width="100%">
-//                         <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-//                             <InputField type="text" placeholder="Nama" />
-//                         </Input>
-//                     </VStack>
-//                     <VStack space="md" width="100%">
-//                         <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-//                             <InputField placeholder="Username" />
-//                         </Input>
-//                     </VStack>
-//                     <VStack space="md" width="100%">
-//                         <Input backgroundColor="#f3f3f3" borderWidth={0} rounded={10}>
-//                             <InputField placeholder="Email" onChangeText={(email) => setEmail(email)} />
-//                         </Input>
-//                     </VStack>
-//                     <VStack space="md" width="100%">
-//                         <Input borderWidth={0} backgroundColor="#f3f3f3" rounded={10}>
-//                             <InputField placeholder="Password" type={showPassword ? "password" : "password"} onChange={(password) => setPassword(password)} />
-//                             <InputSlot pr="$3" onPress={handleTogglePassword}>
-//                                 <InputIcon
-//                                     as={showPassword ? EyeIcon : EyeOffIcon}
-//                                     color={'blue'}
-//                                 />
-//                             </InputSlot>
-//                         </Input>
-//                     </VStack>
-//                     <Button
-//                         backgroundColor="#DF9B52"
-//                         marginTop={10}
-//                         rounded={10}
-//                         onPress={() => {handleRegister()}}
-//                     >
-//                         <ButtonText color="$white">Register</ButtonText>
-//                     </Button>
-//                     <HStack alignItems="center" my={3}>
-//                         <Divider color="gray" thickness={1} flex={1} />
-//                         <Text color="gray" fontSize={16} px={3}>
-//                             or
-//                         </Text>
-//                         <Divider color="gray" thickness={1} flex={1} />
-//                     </HStack>
-//                     <Button
-//                         backgroundColor="#021C35"
-//                         onPress={() => navigation.navigate('Login')}
-//                         rounded={10}
-//                     >
-//                         <ButtonText color="$white">Login</ButtonText>
-//                     </Button>
-//                 </VStack>
-//             </VStack>
-//         </Box>
-//     );
-// };
-
-// export default Register;
