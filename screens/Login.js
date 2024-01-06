@@ -14,18 +14,19 @@ import {
   Image,
   HStack,
   Divider,
-
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
+import Errormodal from "../components/errormodal";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-
+  const [showModal, setShowModal] = useState(false)
+  const [errorModalText, setErrorModalText] = useState('');
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -68,12 +69,11 @@ const Login = () => {
         console.error('Data pengguna tidak ditemukan di Firebase Realtime Database.');
       }
     } catch (error) {
+
+      setShowModal(true)
       console.error(error.message);
     }
   };
-
-
-
 
 
   const saveUserData = async (email, password, credential, uid, userDataFromDatabase) => {
@@ -84,6 +84,7 @@ const Login = () => {
       // Diarahkan ke Home
       navigation.replace("Tabs", { email: email });
     } catch (error) {
+
       console.error(error);
     }
   };
@@ -92,10 +93,12 @@ const Login = () => {
 
   return (
     <Box flex={1} backgroundColor="#021C35" >
+      <Errormodal showModal={showModal} setShowModal={setShowModal}/>
       <Box alignItems="center" justifyContent="center" flex={1}>
         <Image role="img" alt="hello" width={220} height={310} resizeMode="cover" source={require('../assets/images/Logo.png')} />
       </Box>
       <Box justifyContent="center" alignItems="center">
+
         <Box
           width="90%"
           backgroundColor="white"
@@ -103,6 +106,7 @@ const Login = () => {
           rounded={20}
           marginBottom={20}
         >
+
           <VStack space="l">
             <Box alignItems="center">
               <Text fontWeight="bold" fontSize={20}>Masuk Akun</Text>
@@ -169,4 +173,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default Login;
