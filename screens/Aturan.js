@@ -41,7 +41,7 @@ Panduan bagi penyewa dan pemilik kostum penting untuk memastikan transaksi yang 
                             <CheckboxIcon as={CheckIcon} />
                         </CheckboxIndicator>
                         <Text fontWeight='bold' textAlign='justify'>
-                            Saya setuju dengan aturan diatas, tidak akan melanggar satu aturan pun dan akan menerima hukuman jika melanggar.
+                            Saya setuju dengan aturan diatas, tidak akan melanggar satu aturan pun dan akan menerima sanksi jika melanggar.
                         </Text>
                     </Checkbox>
 
