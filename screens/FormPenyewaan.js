@@ -23,7 +23,7 @@ import {
   CalendarDaysIcon,
   HStack,
 } from "@gluestack-ui/themed";
-import DateTimePicker from '@react-native-community/datetimepicker';
+  import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Linking } from "react-native";
 import { config } from "@gluestack-ui/config";

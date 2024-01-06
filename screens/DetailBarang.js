@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Image, Button, Heading, Text, HStack } from "@gluestack-ui/themed";
+import { Box, Image, Button, Heading, Text, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
 import { Pressable, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import firebase from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Functional
@@ -12,6 +12,7 @@ const DetailBarang = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [isCostumeFavorite, setIsCostumeFavorite] = useState(false);
   const data = route.params.item;
+  const comments = data.komentar ? Object.values(data.komentar) : [];
   console.log(data)
   const getUserData = async () => {
     try {
@@ -31,7 +32,7 @@ const DetailBarang = ({ route }) => {
     }
   };
 
-  console.log('ini dataku',userData)
+  console.log('ini dataku', userData)
   const checkIsCostumeFavorite = async () => {
     try {
       if (!userDataLoaded) {
@@ -140,44 +141,85 @@ const DetailBarang = ({ route }) => {
   };
 
   return (
-    <Box flex={1} alignItems='center' backgroundColor='white' >
 
-      <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
-      <Box backgroundColor='white' flex={5} width={"100%"} padding={20}>
-        <HStack>
-          <Box flex={1}>
-            <Text fontSize={20} marginTop={5} >
-              {data.costumeName}
+    <Box flex={1} backgroundColor='white' >
+      <ScrollView>
+        <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
+        <Box backgroundColor='white' flex={5} width={"100%"} padding={20}>
+          <HStack>
+            <Box flex={1}>
+              <Text fontSize={20} marginTop={5} >
+                {data.costumeName}
+              </Text>
+            </Box>
+            <Box width={'auto'} >
+              <Pressable onPress={() => showFavoritePopup()}>
+                {isCostumeFavorite ? (
+                  <Ionicons name="heart" size={30} color="red" marginBottom={5} />
+                ) : (
+                  <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
+                )}
+              </Pressable>
+            </Box>
+          </HStack>
+          <HStack>
+            <Box flex={1}>
+              <Text fontSize={20} fontWeight='bold' marginTop={10}>
+                Rp {data.rentalPrice},- / Hari
+              </Text>
+            </Box>
+            <Box>
+              <Text mt={10}>
+                <FontAwesome name="star" size={19} color="#FFE81A" /> {data.averageRating}
+              </Text>
+            </Box>
+          </HStack>
+
+          <Pressable onPress={() => navigation.replace("Toko", { data: data })}>
+            <Text fontSize={15} marginTop={20} marginBottom={10} color='#596A7A'>
+              <FontAwesome5 name="store" size={13} color="#596A7A" />  {data.username}
             </Text>
-          </Box>
-          <Box width={'auto'} >
-            <Pressable onPress={() => showFavoritePopup()}>
-              {isCostumeFavorite ? (
-                <Ionicons name="heart" size={30} color="red" marginBottom={5} />
-              ) : (
-                <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
-              )}
-            </Pressable>
-          </Box>
-        </HStack>
-        <Text fontSize={20} fontWeight='bold' marginTop={10}>
-          Rp {data.rentalPrice},- / Hari
-        </Text>
-        <Pressable onPress={() => navigation.replace("Toko", { data: data })}>
-          <Text fontSize={15} marginTop={20} marginBottom={10} color='#596A7A'>
-            <FontAwesome5 name="store" size={13} color="#596A7A" />  {data.username}
+          </Pressable>
+          <Text fontSize={18} color="#02E107" marginTop={2}>
+            {data.status}
           </Text>
-        </Pressable>
-
-        <Text fontSize={18} color="#02E107" marginTop={2}>
-          {data.status}
-        </Text>
-
-        <Text fontSize={18} marginTop={40} fontWeight="bold">Deskripsi Barang : </Text>
-        <Text fontSize={16} marginTop={10}>
-          {data.costumeDescription}
-        </Text>
-      </Box>
+          <Text fontSize={18} marginTop={40} fontWeight="bold">Deskripsi Barang : </Text>
+          <Text fontSize={16} marginTop={10}>
+            {data.costumeDescription}
+          </Text>
+          <Text fontSize={18} marginTop={40} fontWeight="bold">Komentar : </Text>
+          <Box mt={20}>
+            {comments.length > 0 ? (
+              comments.map((comment, index) => (
+                <Box
+                  key={index}
+                  mb={15}
+                  borderWidth={1}
+                  borderBottomWidth={4}
+                  borderEndWidth={4}
+                  rounded={7}
+                  hardShadow='1'
+                  p={10}
+                  backgroundColor='white'
+                >
+                  <VStack>
+                    <Box>
+                      <Text fontWeight='bold' fontSize={16}>
+                        Anonimus:
+                      </Text>
+                    </Box>
+                    <Box mb={10}>
+                      <Text marginStart={10}>{comment.komentar}</Text>
+                    </Box>
+                  </VStack>
+                </Box>
+              ))
+            ) : (
+              <Text>Tidak Ada Komentar</Text>
+            )}
+          </Box>
+        </Box>
+      </ScrollView>
       <Box width={"100%"} alignItems='center' backgroundColor='transparent' paddingBottom={20} paddingTop={10}>
         <Pressable onPress={() => navigation.navigate('FormPenyewaan', { data: data })} >
           <Text marginTop={10} backgroundColor='#021C35' paddingVertical={10} paddingHorizontal={100} color='white' fontWeight='bold' borderRadius={10}>
