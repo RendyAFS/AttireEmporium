@@ -25,9 +25,8 @@ const Aturan = () => {
                 <Text fontSize={25} fontWeight='bold' padding={5}>
                     Aturan Attire Emporium
                 </Text>
-                <Text marginTop={15} textAlign='justify'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla efficitur tristique ex a venenatis. Ut nec cursus nisl, vitae tincidunt ex. Donec rhoncus ipsum at vulputate porttitor. Pellentesque massa justo, venenatis sed nunc lobortis, finibus elementum magna. Duis bibendum a ex nec vulputate. Donec id neque nulla. Praesent semper mollis nulla, a faucibus est. Cras eu volutpat enim.
-                    Donec rutrum mattis ligula ac accumsan. Nunc auctor ultricies fringilla. Nulla vulputate et neque id vehicula. In in risus a nisi elementum pellentesque. Suspendisse cursus ante at fermentum suscipit. Curabitur fringilla urna at imperdiet rutrum. Maecenas tincidunt augue id odio facilisis, id sodales tortor interdum. Nunc ultrices magna sit amet neque auctor molestie. Maecenas in dolor sit amet lorem congue pharetra. Nunc ipsum tellus, tristique ac vestibulum eu, egestas vel elit.
+                <Text marginTop={15} textAlign='justify'>               
+Panduan bagi penyewa dan pemilik kostum penting untuk memastikan transaksi yang lancar. Penyewa harus komunikasi melalui saluran aman, tentukan detail pengiriman, lakukan pemeriksaan bersama, dan lakukan pembayaran sesuai. Pemilik kostum harus berikan informasi jelas, atur jaminan, dan pastikan keamanan pembayaran, serta serahkan kostum dalam kondisi baik dengan petunjuk penggunaan. Kedua belah pihak sebaiknya melakukan pemeriksaan bersama saat pengembalian untuk mencatat kondisi kostum. Dengan mematuhi panduan ini, transaksi penyewaan kostum dapat berjalan dengan lancar dan tanpa masalah.
                 </Text>
                 <VStack justifyContent='center' alignItems='center' marginTop={15}>
                     <Checkbox
