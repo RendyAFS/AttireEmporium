@@ -96,8 +96,7 @@ const Profile = () => {
               />
               <Text>Proflie Renter</Text>
             </Pressable>
-
-            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile' , {dataku : userData})} >
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Edit Profile', { dataku: userData })} >
               <Image
                 role="img"
                 alt="Default Avatar"
@@ -109,7 +108,7 @@ const Profile = () => {
               <Text>Ubah Profile</Text>
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Create Item')} >
-            <Image
+              <Image
                 role="img"
                 alt="Default Avatar"
                 width={75}
@@ -132,8 +131,16 @@ const Profile = () => {
               />
               <Text>S.O.P</Text>
             </Pressable>
-            <Pressable flex={1} alignItems="center">
-              {/* SPA */}
+            <Pressable flex={1} alignItems="center" onPress={() => navigation.navigate('Cek Resi')}>
+              <Image
+                role="img"
+                alt="Default Avatar"
+                width={75}
+                height={75}
+                rounded={100}
+                source={require('../assets/icons/CekResi.png')}
+              />
+              <Text >Cek Resi</Text>
             </Pressable>
             <Pressable flex={1} alignItems="center" onPress={logoutHandler} >
               <Image

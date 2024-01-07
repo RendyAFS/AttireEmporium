@@ -20,6 +20,7 @@ import Toko from "./Toko";
 import SplashScreens from "./SplashScreens";
 import Sop1 from "./Sop1";
 import Aturan from "./Aturan";
+import CekResi from "./CekResi";
 export {
   Home,
   History,
@@ -43,4 +44,5 @@ export {
   SplashScreens,
   Sop1,
   Aturan,
+  CekResi
 };
