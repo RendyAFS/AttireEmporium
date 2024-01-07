@@ -129,7 +129,7 @@ const Favorite = (props) => {
           </Box>
           <Box position='absolute' right={8}>
             <Text flex={1} fontSize={12} color='#777'>
-              <FontAwesome name="star" size={12} color="#FFE81A" /> 4
+              <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
             </Text>
           </Box>
         </HStack>
