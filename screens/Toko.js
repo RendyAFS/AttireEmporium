@@ -10,7 +10,7 @@ const Toko = ({ route }) => {
     const [tokoData, setTokoData] = useState([]);
     const navigation = useNavigation();
     const data = route.params.data;
-    console.log('nabilaku ', data);
+    console.log( data);
     const getDownloadUrl = async (filename) => {
         const storageRef = firebase.storage().ref();
         const costumeImageRef = storageRef.child(filename);
@@ -115,10 +115,10 @@ const Toko = ({ route }) => {
     const Itemku = ({ costume }) => (
 
         <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
-            <Box backgroundColor='white' rounded={10} p={2} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
+            <Box backgroundColor='white' rounded={10} p={2} height={260} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
                 <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
                 <Box p={5}>
-                    <Text fontSize={16} marginLeft={8} marginVertical={2}>
+                    <Text fontSize={12} marginLeft={8} marginVertical={2}>
                         {costume.costumeName}
                     </Text>
                     <Text marginLeft={8} fontSize={15} fontWeight='bold' marginVertical={1} color={'#021C35'}>Rp {costume.rentalPrice},- / Hari</Text>
@@ -160,7 +160,7 @@ const Toko = ({ route }) => {
             <VStack flex={1} marginTop={40} padding={16}>
                 <VStack alignItems='center'>
                     <Image role='img' source={tokoData.imageProfile ? { uri: tokoData.imageProfile } : require("../assets/images/avatar.png")} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
-                    <Text fontWeight='bold' fontSize={20}>{tokoData.username}</Text>
+                    <Text fontWeight='bold' fontSize={20}>{data.username}</Text>
                 </VStack>
                 {/* <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Informasi Pengguna</Text>
                 <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>

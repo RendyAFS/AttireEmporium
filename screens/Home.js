@@ -265,11 +265,11 @@ const Home = ({ route }) => {
             <ScrollView horizontal marginStart={20} paddingVertical={10}
               showsHorizontalScrollIndicator={false}>
               <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Helloween' })}>
-                <Image w={230} alt='halloweeen' marginEnd={10} height={100} source={require("../assets/images/banner2.png")} />
+                <Image w={230} alt='halloweeen' marginEnd={10} height={100} role='helloworld' source={require("../assets/images/banner2.png")} />
               </Pressable>
 
               <Pressable onPress={() => navigation.navigate('Katalog', { category: 'Batik' })}>
-                <Image w={230} alt='batik' marginEnd={10} height={100} source={require("../assets/images/banner1.png")} />
+                <Image w={230} alt='batik' marginEnd={10} height={100} role='helloworld' source={require("../assets/images/banner1.png")} />
               </Pressable>
             </ScrollView>
           </Box>

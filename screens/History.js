@@ -33,6 +33,11 @@ const History = () => {
     getCostume();
     // fetchCostumeData();
   }, []);
+  const filteredData = useMemo(() => {
+    return costume.filter((item) =>
+      item.namakostum.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [searchText, costume]);
   console.log(costume)
   const getCostume = async () => {
     try {
@@ -121,8 +126,8 @@ const History = () => {
       </Box>
       <FlatList
         style={{ marginBottom: 105 }}
-        data={costume}
-        keyExtractor={item => item.costumeId}
+        data={filteredData}
+        keyExtractor={(item) => item.costumeId}
         renderItem={({ item }) => (
           <Pressable onPress={() => {
             navigation.navigate('FormPengembalian', { item: item  })
