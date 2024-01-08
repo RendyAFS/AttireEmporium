@@ -100,8 +100,9 @@ const ProfileRenter = () => {
     getUserData();
     getCostume();
   }, []);
+  
 
-
+  console.log('ini userdataku ', userData.imageProfile)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -124,7 +125,10 @@ const ProfileRenter = () => {
     <ScrollView backgroundColor='white'>
       <VStack flex={1} padding={16}>
         <VStack alignItems='center'>
-          <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
+          {userData.imageProfile ?
+            (<Image role='img' source={{uri:userData.imageProfile}} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />) 
+            :
+            (<Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />)}
         </VStack>
         <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
           <Text fontSize={16} fontWeight='bold' color='#000000'>Nama:</Text>
@@ -134,8 +138,8 @@ const ProfileRenter = () => {
           <Text fontSize={16} fontWeight='bold' color='#000000'>Email:</Text>
           <Text fontSize={16} color='#333333'>{userData.email}</Text>
         </VStack>
-        <HStack flex={1} justifyContent='center'> 
-          <Text fontSize={22} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
+        <HStack flex={1} justifyContent='center'>
+          <Text fontSize={13} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
         </HStack>
         <MasonryList
           data={costume}
