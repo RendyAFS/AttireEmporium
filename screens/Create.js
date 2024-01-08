@@ -16,7 +16,7 @@ const Create = () => {
   const [image, setImage] = useState(null);
   const [userData, setUserData] = useState('');
   const navigation = useNavigation();
-  const getUserData = async () => { 
+  const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
       console.log("Data from AsyncStorage:", userDataString)
@@ -128,12 +128,13 @@ const Create = () => {
   return (
     <VStack flex={1} backgroundColor={'white'} padding={16}>
       {/* Konten halaman */}
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <ScrollView contentContainerStyle={{ padding: 16 }} showsVerticalScrollIndicator={false} >
         {/* Bagian Detail Kostum */}
         <Text fontSize={18} fontWeight="bold" marginBottom={8} color={theme.titleColor}>
-          Detail Kostum {userData.username}
+          Tambahkan Item
         </Text>
         <VStack space="md" marginTop={30}>
+          <Text>Nama Kostum</Text>
           <Input
             backgroundColor={theme.inputBackgroundColor}
             borderBottomWidth={3}
@@ -150,6 +151,7 @@ const Create = () => {
           </Input>
         </VStack>
         <VStack space="md" marginTop={10}>
+          <Text>Deskripsi</Text>
           <Input
             backgroundColor={theme.inputBackgroundColor}
             borderColor='#021C35'
@@ -184,6 +186,7 @@ const Create = () => {
 
             />
           </Input> */}
+          <Text>Harga Rental</Text>
           <Input
             backgroundColor={theme.inputBackgroundColor}
             borderBottomWidth={3}
@@ -201,7 +204,7 @@ const Create = () => {
           </Input>
         </VStack>
         <Box marginTop={10}>
-
+          <Text mb={10}>Nama Kostum</Text>
           <Select
             borderBottomWidth={3}
             borderTopWidth={1}
@@ -232,7 +235,7 @@ const Create = () => {
         </Box>
         {/* Bagian Gambar Kostum */}
         <Box marginTop={20} justifyContent='center' alignItems='center'>
-          {image && <Image source={{ uri: image }} alignItems='center'role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
+          {image && <Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
 
         </Box>
 
@@ -259,7 +262,7 @@ const Create = () => {
           height={50}
 
           borderRadius={4}
-          backgroundColor={'#DF9B52'}
+          backgroundColor={'#021C35'}
           onPress={handlePostCostume}
         >
           <Text color="white" fontWeight="bold">

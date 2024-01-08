@@ -26,7 +26,10 @@ const Detail = ({ route }) => {
             // Hapus catatan dari database
             await costumeRef.remove();
             console.log("Note deleted successfully");
-            navigation.replace("Tabs");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Tabs" }],
+            });
         } catch (error) {
             throw error;
         }

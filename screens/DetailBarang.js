@@ -104,7 +104,7 @@ const DetailBarang = ({ route }) => {
         favoriteRef.remove();
       } else {
         // If the costumeId doesn't exist, add it
-        database.ref(`favoriteCostume/${uid}/${costumeId}`).set({
+        const favoriteData = {
           imageUrl,
           costumeName,
           costumeDescription,
@@ -115,8 +115,14 @@ const DetailBarang = ({ route }) => {
           number,
           username,
           averageRating,
-          komentar
-        });
+        };
+
+        // Pengecekan untuk memastikan komentar tidak undefined
+        if (komentar !== undefined) {
+          favoriteData.komentar = komentar;
+        }
+
+        database.ref(`favoriteCostume/${uid}/${costumeId}`).set(favoriteData);
       }
 
       navigation.replace("Tabs");

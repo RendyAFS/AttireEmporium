@@ -60,7 +60,10 @@ const EditItem = ({ route }) => {
 
         await costumeRef.update(updatedCostume);
         console.log("Costume updated successfully");
-        navigation.replace("Tabs");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Tabs" }],
+        });
       } else {
         console.log("Costume not found");
       }

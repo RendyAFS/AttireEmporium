@@ -101,16 +101,16 @@ const App = () => {
           <Stack.Screen name="SplashScreens" component={SplashScreens} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="GetInto1" component={GetInto1} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="GetInto2" component={GetInto2} options={{ ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ title: 'Ubah Profile', statusBarColor: 'white', statusBarStyle: 'dark' }}  />
-          <Stack.Screen name="S.O.P" component={Aturan} options={{ title: 'S.O.P', statusBarColor: 'white', statusBarStyle: 'dark' }}  />
+          <Stack.Screen name="DetailBarang" component={DetailBarang} options={{ title:'Detail Barang',statusBarColor: 'white', statusBarStyle: 'dark',headerShadowVisible: false }} />
+          <Stack.Screen name="Edit Profile" component={EditProfile} options={{ title: 'Ubah Profile', statusBarColor: 'white', statusBarStyle: 'dark',headerShadowVisible: false }}  />
+          <Stack.Screen name="S.O.P" component={Aturan} options={{ title: 'S.O.P', statusBarColor: 'white', statusBarStyle: 'dark' ,headerShadowVisible: false}}  />
           {/* <Stack.Screen name="Edit Profile" component={EditProfile} options={{ headerStyle: { backgroundColor: "#021C35" }, headerTintColor: 'white', statusBarColor: '#021C35' }} /> */}
-          <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item', statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter', statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="Create Item" component={CreateItem} options={{ title: 'Tambah Item', statusBarColor: 'white', statusBarStyle: 'dark',headerShadowVisible: false }} />
+          <Stack.Screen name="Edit Item" component={EditItem} options={{ title: 'Edit Item', statusBarColor: 'white', statusBarStyle: 'dark',headerShadowVisible: false }} />
+          <Stack.Screen name="Profile Renter" component={ProfileRenter} options={{ title: 'Profile Renter', statusBarColor: 'white', statusBarStyle: 'dark' ,headerShadowVisible: false}} />
           <Stack.Screen name="Detail" component={Detail} options={{ title: 'Detail Kostum', statusBarColor: 'white', statusBarStyle: 'dark' }} />
           <Stack.Screen name="Test" component={Test} options={{ title: 'Debug', statusBarColor: 'white', statusBarStyle: 'dark' }} />
-          <Stack.Screen name="Toko" component={Toko} options={{  title: 'Toko', statusBarColor: 'white', statusBarStyle: 'dark' }} />
+          <Stack.Screen name="Toko" component={Toko} options={{  title: 'Toko', statusBarColor: 'white', statusBarStyle: 'dark' ,headerShadowVisible: false}} />
           <Stack.Screen name="Cek Resi" component={CekResi} options={{  ...noHead, statusBarColor: 'white', statusBarStyle: 'dark' }} />
 
 
