@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView } from "@gluestack-ui/themed";
+import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView, HStack } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
@@ -121,12 +121,11 @@ const ProfileRenter = () => {
 
 
   return (
-    <ScrollView>
+    <ScrollView backgroundColor='white'>
       <VStack flex={1} padding={16}>
         <VStack alignItems='center'>
           <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
         </VStack>
-        <Text fontSize={18} fontWeight='bold' marginBottom={8} color='#FF6347'>Informasi Pengguna</Text>
         <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
           <Text fontSize={16} fontWeight='bold' color='#000000'>Nama:</Text>
           <Text fontSize={16} color='#333333'>{userData.username}</Text>
@@ -135,7 +134,9 @@ const ProfileRenter = () => {
           <Text fontSize={16} fontWeight='bold' color='#000000'>Email:</Text>
           <Text fontSize={16} color='#333333'>{userData.email}</Text>
         </VStack>
-        <Text fontSize={18} fontWeight='bold' marginBottom={8} marginTop={10} color='#FF6347'>Kostumku</Text>
+        <HStack flex={1} justifyContent='center'> 
+          <Text fontSize={22} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
+        </HStack>
         <MasonryList
           data={costume}
           keyExtractor={item => item.costumeId}
