@@ -19,9 +19,9 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import datas from '../data/datas';
 import firebase from '../firebase'
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Katalog = ({route}) => {
+const Katalog = ({ route }) => {
   const navigation = useNavigation();
   const [entries, setEntries] = useState(datas);
   const [userData, setUserData] = useState('');
@@ -38,7 +38,7 @@ const Katalog = ({route}) => {
       getCostume();
     }
   }, []);
-  
+
 
 
   const getUserData = async () => {
@@ -71,33 +71,47 @@ const Katalog = ({route}) => {
     }
   };
 
-  const getCostume = async (selectedCategory) => {
+  const getCostume = async () => {
     const costumeRef = firebase.database().ref("costumes/");
-  
+
     try {
       const snapshot = await costumeRef.once("value");
       const costumeData = snapshot.val();
-  
+
       if (costumeData) {
         const availableCostumes = await Promise.all(
           Object.entries(costumeData)
-            .filter(([_, costume]) => {
-              return (
-                costume.username !== userData.username &&
-                costume.status !== "Dipinjam" &&
-                (!selectedCategory || costume.costumeCategory === selectedCategory)
-              );
-            })
+            .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
             .map(async ([costumeId, costume]) => {
               const imageUrl = await getDownloadUrl(costume.filename);
-              return { costumeId, ...costume, imageUrl };
+
+              // Hitung rata-rata rating
+              const ratings = costume.rating || {};
+              let totalRating = 0;
+              let numberOfRatings = 0;
+
+              if (typeof ratings === 'object') {
+                for (const ratingId in ratings) {
+                  if (ratings.hasOwnProperty(ratingId)) {
+                    const ratingValue = ratings[ratingId]?.rating;
+                    if (typeof ratingValue === 'number') {
+                      totalRating += ratingValue;
+                      numberOfRatings++;
+                    }
+                  }
+                }
+              }
+
+              const averageRating = numberOfRatings > 0 ? (totalRating / numberOfRatings).toFixed(1) : '0';
+
+              return { costumeId, ...costume, imageUrl, averageRating };
             })
         );
-  
+
         console.log('Available Costumes:', availableCostumes);
-  
+
         setCostumeData(availableCostumes);
-  
+
         return availableCostumes;
       } else {
         setCostumeData([]);
@@ -109,8 +123,7 @@ const Katalog = ({route}) => {
       return [];
     }
   };
-  
-  
+
   const Itemku = ({ costume }) => {
     const { costumeName, costumeDescription } = costume;
 
@@ -119,22 +132,24 @@ const Katalog = ({route}) => {
       costumeDescription.toLowerCase().includes(searchText.toLowerCase());
 
     return isMatch ? (
-      <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}>
+      <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
         <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
           <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
           <Box p={5}>
-            <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
-              {costumeName}
-            </Text>
-            <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>
-              {costumeDescription}
-            </Text>
-            <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>
-              <Entypo name="shop" size={15} color="black" /> {costume.username}
-            </Text>
-            <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>
-              Rp {costume.rentalPrice}
-            </Text>
+            <HStack >
+              <Box>
+                <Text flex={2} fontSize={13} marginLeft={8} >
+                  {costume.costumeName}
+                </Text>
+              </Box>
+              <Box position='absolute' right={8}>
+                <Text flex={1} fontSize={12} color='#777'>
+                  <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
+                </Text>
+              </Box>
+            </HStack>
+            <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
+            <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
           </Box>
         </Box>
       </Pressable>
