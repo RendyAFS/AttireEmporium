@@ -31,12 +31,14 @@ const Home = ({ route }) => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
-
+  const [isMounting, setIsMounting] = useState(true);
   useEffect(() => {
     getUserData();
-    getCostume();
-    // fetchCostumeData();
-  }, [route]);
+    if (isMounting) {
+      getCostume();
+      setIsMounting(false);
+    }
+  }, [isMounting]);
   console.log(userData.username);
 
   // console.log('hasilnya yaaaaituuu '+ costume)
@@ -98,12 +100,12 @@ const Home = ({ route }) => {
             .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
             .map(async ([costumeId, costume]) => {
               const imageUrl = await getDownloadUrl(costume.filename);
-        
+
               // Hitung rata-rata rating
               const ratings = costume.rating || {};
               let totalRating = 0;
               let numberOfRatings = 0;
-        
+
               if (typeof ratings === 'object') {
                 for (const ratingId in ratings) {
                   if (ratings.hasOwnProperty(ratingId)) {
@@ -115,9 +117,9 @@ const Home = ({ route }) => {
                   }
                 }
               }
-        
+
               const averageRating = numberOfRatings > 0 ? (totalRating / numberOfRatings).toFixed(1) : '0';
-        
+
               return { costumeId, ...costume, imageUrl, averageRating };
             })
         );
@@ -180,29 +182,29 @@ const Home = ({ route }) => {
       </Box>
     </Pressable>
   );
-  const renderItem = ({ item }, parallaxProps) => {
+  // const renderItem = ({ item }, parallaxProps) => {
 
-    return (
-      <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
-        <ParallaxImage
-          source={{ uri: item.imageUrl }}
-          containerStyle={{
-            flex: 1,
-            marginBottom: Platform.select({ ios: 0, android: 1 }),
-            backgroundColor: 'white',
-            borderRadius: 8,
-          }}
-          style={{ ...StyleSheet.absoluteFillObject }}
-          parallaxFactor={0.4}
-          {...parallaxProps}
-        />
-        <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
-          fontWeight='bold' numberOfLines={2}>
-          {item.costumeName}
-        </Text>
-      </Pressable>
-    );
-  };
+  //   return (
+  //     <Pressable onPress={() => navigation.navigate('DetailBarang', { item: item })} width={screenWidth - 50} height={screenWidth - 100}>
+  //       <ParallaxImage
+  //         source={{ uri: item.imageUrl }}
+  //         containerStyle={{
+  //           flex: 1,
+  //           marginBottom: Platform.select({ ios: 0, android: 1 }),
+  //           backgroundColor: 'white',
+  //           borderRadius: 8,
+  //         }}
+  //         style={{ ...StyleSheet.absoluteFillObject }}
+  //         parallaxFactor={0.4}
+  //         {...parallaxProps}
+  //       />
+  //       <Text position={'absolute'} bottom={20} left={10} color='white' fontSize={16}
+  //         fontWeight='bold' numberOfLines={2}>
+  //         {item.costumeName}
+  //       </Text>
+  //     </Pressable>
+  //   );
+  // };
   return (
     <Box >
       <StatusBar backgroundColor={'#ffff'} barStyle={'dark-content'} />

@@ -7,6 +7,7 @@ import firebase from '../firebase'
 const ProfileRenter = () => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
+  const [isMounting, setIsMounting] = useState(true); // State variable to track mounting
   const navigation = useNavigation();
 
   const getDownloadUrl = async (filename) => {

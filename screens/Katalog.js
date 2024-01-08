@@ -27,7 +27,7 @@ const Katalog = ({ route }) => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
   const [searchText, setSearchText] = useState('');
-  console.log(costume)
+  console.log(costume.costumeCategory)
 
   useEffect(() => {
     getUserData();
@@ -71,7 +71,7 @@ const Katalog = ({ route }) => {
     }
   };
 
-  const getCostume = async () => {
+  const getCostume = async (category) => {
     const costumeRef = firebase.database().ref("costumes/");
 
     try {
@@ -81,23 +81,26 @@ const Katalog = ({ route }) => {
       if (costumeData) {
         const availableCostumes = await Promise.all(
           Object.entries(costumeData)
-            .filter(([_, costume]) => costume.username !== userData.username && costume.status !== "Dipinjam")
+            .filter(([_, costume]) => {
+              // Check if the costume matches the category filter
+              if (!category || costume.costumeCategory === category) {
+                return costume.username !== userData.username && costume.status !== "Dipinjam";
+              }
+              return false;
+            })
             .map(async ([costumeId, costume]) => {
               const imageUrl = await getDownloadUrl(costume.filename);
 
-              // Hitung rata-rata rating
               const ratings = costume.rating || {};
               let totalRating = 0;
               let numberOfRatings = 0;
 
-              if (typeof ratings === 'object') {
-                for (const ratingId in ratings) {
-                  if (ratings.hasOwnProperty(ratingId)) {
-                    const ratingValue = ratings[ratingId]?.rating;
-                    if (typeof ratingValue === 'number') {
-                      totalRating += ratingValue;
-                      numberOfRatings++;
-                    }
+              for (const ratingId in ratings) {
+                if (ratings.hasOwnProperty(ratingId)) {
+                  const ratingValue = ratings[ratingId]?.rating;
+                  if (typeof ratingValue === 'number') {
+                    totalRating += ratingValue;
+                    numberOfRatings++;
                   }
                 }
               }
@@ -123,6 +126,8 @@ const Katalog = ({ route }) => {
       return [];
     }
   };
+
+
 
   const Itemku = ({ costume }) => {
     const { costumeName, costumeDescription } = costume;
