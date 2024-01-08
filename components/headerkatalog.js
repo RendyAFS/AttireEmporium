@@ -19,16 +19,17 @@ const HeaderKatalog = (props) => {
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
       <Box bg={"white"} p={"5"} height={60}>
         <HStack marginTop={10}>
-          <Box width={"95%"} marginStart={10}>
+          <Box width={"95%"} marginStart={10} >
             <Input
               variant="outline"
               size="sm"
               isDisabled={false}
               isInvalid={false}
               isReadOnly={false}
-              backgroundColor="#F5F5F5"
+              backgroundColor="#FFF"
               marginTop={2}
-              borderWidth={1}
+              borderWidth={2}
+              borderColor="#000"
             >
               <InputField
                 marginStart={20}
@@ -38,7 +39,7 @@ const HeaderKatalog = (props) => {
             </Input>
 
             <Box position="absolute" marginLeft={7} marginTop={7}>
-              <Ionicons name="search" size={24} color="#DF9B52" />
+              <Ionicons name="search" size={24} color="#000" />
             </Box>
           </Box>
 
