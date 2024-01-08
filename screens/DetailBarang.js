@@ -94,6 +94,7 @@ const DetailBarang = ({ route }) => {
       const imageUrl = data.imageUrl;
       const username = data.username;
       const averageRating = data.averageRating;
+      const komentar = data.komentar;
 
       const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
@@ -113,7 +114,8 @@ const DetailBarang = ({ route }) => {
           uid,
           number,
           username,
-          averageRating
+          averageRating,
+          komentar
         });
       }
 

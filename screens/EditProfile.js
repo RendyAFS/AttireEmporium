@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 const EditProfile = ({ route }) => {
   const data = route.params.dataku;
   const [username, setusername] = useState(data.username);
+  const [email, setemail] = useState(data.email);
   const [number, setnumber] = useState(data.number);
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');

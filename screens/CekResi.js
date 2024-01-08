@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 import React, { useState } from 'react'
 import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { Box, Text, Select, SelectTrigger, SelectIcon, SelectInput, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Input, InputField, Button, ButtonText, FlatList, Heading, VStack, ScrollView } from '@gluestack-ui/themed'
+import { Box, Text, Select, SelectTrigger, SelectIcon, SelectInput, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Input, InputField, Button, ButtonText, FlatList, Heading, VStack, ScrollView, SelectScrollView } from '@gluestack-ui/themed'
 import kurirlist from '../data/kurirlist';
 const CekResi = () => {
     const [Kurir, setKurir] = useState('')
@@ -79,9 +79,12 @@ const CekResi = () => {
                                         <SelectDragIndicatorWrapper>
                                             <SelectDragIndicator />
                                         </SelectDragIndicatorWrapper>
-                                        {kurirlist.map((courier) => (
-                                            <SelectItem key={courier.code} label={courier.description} value={courier.code} />
-                                        ))}
+                                        <SelectScrollView>
+                                            {kurirlist.map((courier) => (
+                                                <SelectItem key={courier.code} label={courier.description} value={courier.code} />
+                                            ))}
+                                        </SelectScrollView>
+
                                     </SelectContent>
                                 </SelectPortal>
                             </Select>
