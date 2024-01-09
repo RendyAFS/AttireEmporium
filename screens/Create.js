@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Text, Input, InputField, Pressable, Image, ScrollView, Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectItem, Box, SelectDragIndicator } from '@gluestack-ui/themed';
+import { VStack, Text, Input, InputField, Pressable, Image, ScrollView, Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectItem, Box, SelectDragIndicator, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center, Heading, Icon, CloseIcon, Button, ButtonText } from '@gluestack-ui/themed';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { useTheme } from '@gluestack-ui/themed';
 import firebase from "../firebase";
@@ -16,6 +16,8 @@ const Create = () => {
   const [image, setImage] = useState(null);
   const [userData, setUserData] = useState('');
   const navigation = useNavigation();
+  const [showModal, setShowModal] = useState(false)
+  const ref = React.useRef(null)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -58,6 +60,10 @@ const Create = () => {
   }, []);
   // Fungsi untuk menangani proses posting kostum
   const handlePostCostume = async () => {
+    if (!costumeName || !costumeDescription || !costumeCategory) {
+      setShowModal(true);
+      return;
+    }
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
       if (userDataString) {
@@ -147,6 +153,7 @@ const Create = () => {
               placeholder="Nama Kostum"
               value={costumeName}
               onChangeText={(text) => setCostumeName(text)}
+              maxLength={20}
             />
           </Input>
         </VStack>
@@ -269,6 +276,48 @@ const Create = () => {
             Post Costume
           </Text>
         </Pressable>
+        <Center h={300}>
+          <Modal
+            isOpen={showModal}
+            onClose={() => {
+              setShowModal(false)
+            }}
+            finalFocusRef={ref}
+          >
+            <ModalBackdrop />
+            <ModalContent borderWidth={1} borderColor='black'
+              borderRightWidth={4}
+              borderBottomWidth={4} rounded={7}>
+              <ModalHeader>
+                <Heading size="lg">Gagal input data</Heading>
+                <ModalCloseButton>
+                  <Icon as={CloseIcon} />
+                </ModalCloseButton>
+              </ModalHeader>
+              <ModalBody>
+                <Text>
+                  Harap input data dengan benar dan jangan biarkan kosong seperti pikiran
+                </Text>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  size="sm"
+                
+                  borderColor='black'
+                  backgroundColor='white'
+                  borderWidth={1}
+                  borderRightWidth={3}
+                  borderBottomWidth={3}
+                  onPress={() => {
+                    setShowModal(false)
+                  }}
+                >
+                  <ButtonText color='black'>Oke, mengerti</ButtonText>
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Center>
       </ScrollView>
     </VStack>
   );

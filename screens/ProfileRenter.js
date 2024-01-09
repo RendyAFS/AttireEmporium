@@ -85,10 +85,9 @@ const ProfileRenter = () => {
         <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
 
         <Box p={5}>
-          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
+          <Text fontSize={13} fontWeight='bold' marginLeft={8} marginVertical={8}>
             {costume.costumeName}
           </Text>
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
           <Text fontSize={12} color={costume.status === 'Tersedia' ? 'green' : 'red'} paddingHorizontal={8} marginBottom={5}>{costume.status}</Text>
           <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
         </Box>
