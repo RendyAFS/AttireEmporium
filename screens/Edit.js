@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center } from '@gluestack-ui/themed';
+import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center, Button, ButtonText, Heading, Icon, CloseIcon } from '@gluestack-ui/themed';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
@@ -14,7 +14,9 @@ const EditItem = ({ route }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation();
+  const ref = React.useRef(null)
   console.log('ini dataku ', route.params);
+
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -39,6 +41,10 @@ const EditItem = ({ route }) => {
     }
   };
   const editCostume = async () => {
+    if (!costumeName || !costumeDescription || !image) {
+      setShowModal(true);
+      return;
+    }
     try {
 
       // Perbarui catatan berdasarkan costumeId
@@ -166,59 +172,50 @@ const EditItem = ({ route }) => {
             Edit Costume
           </Text>
         </Pressable>
+        <Center h={300}>
+          <Modal
+            isOpen={showModal}
+            onClose={() => {
+              setShowModal(false)
+            }}
+            finalFocusRef={ref}
+          >
+            <ModalBackdrop />
+            <ModalContent borderWidth={1} borderColor='black'
+              borderRightWidth={4}
+              borderBottomWidth={4} rounded={7}>
+              <ModalHeader>
+                <Heading size="lg">Gagal input data</Heading>
+                <ModalCloseButton>
+                  <Icon as={CloseIcon} />
+                </ModalCloseButton>
+              </ModalHeader>
+              <ModalBody>
+                <Text>
+                  Harap input data dengan benar dan jangan biarkan kosong seperti pikiran
+                </Text>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  size="sm"
+
+                  borderColor='black'
+                  backgroundColor='white'
+                  borderWidth={1}
+                  borderRightWidth={3}
+                  borderBottomWidth={3}
+                  onPress={() => {
+                    setShowModal(false)
+                  }}
+                >
+                  <ButtonText color='black'>Oke, mengerti</ButtonText>
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Center>
       </ScrollView>
-      <Center h={300}>
-        <Button onPress={() => setShowModal(true)} ref={ref}>
-          <ButtonText>Show Modal</ButtonText>
-        </Button>
-        <Modal
-          isOpen={showModal}
-          onClose={() => {
-            setShowModal(false)
-          }}
-          finalFocusRef={ref}
-        >
-          <ModalBackdrop />
-          <ModalContent>
-            <ModalHeader>
-              <Heading size="lg">Engage with Modals</Heading>
-              <ModalCloseButton>
-                <Icon as={CloseIcon} />
-              </ModalCloseButton>
-            </ModalHeader>
-            <ModalBody>
-              <Text>
-                Elevate user interactions with our versatile modals. Seamlessly
-                integrate notifications, forms, and media displays. Make an impact
-                effortlessly.
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                variant="outline"
-                size="sm"
-                action="secondary"
-                mr="$3"
-                onPress={() => {
-                  setShowModal(false)
-                }}
-              >
-                <ButtonText>Cancel</ButtonText>
-              </Button>
-              <Button
-                size="sm"
-                action="positive"
-                borderWidth="$0"
-                onPress={() => {
-                  setShowModal(false)
-                }}
-              >
-                <ButtonText>Explore</ButtonText>
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Center>
+
     </Box>
   );
 };
