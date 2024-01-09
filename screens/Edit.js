@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
+import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center } from '@gluestack-ui/themed';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
@@ -10,10 +10,11 @@ const EditItem = ({ route }) => {
   const [costumeName, setCostumeName] = useState(data.costumeName);
   const [costumeDescription, setCostumeDescription] = useState(data.costumeDescription);
   const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(data.imageUrl);
   const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation();
-  console.log(route.params);
+  console.log('ini dataku ', route.params);
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -77,15 +78,12 @@ const EditItem = ({ route }) => {
   };
 
   const theme = useTheme();
-
+  console.log(data.imageUrl)
   return (
     <Box flex={1} backgroundColor="white" padding={16}>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#DF9B52">
-          Costume Details
-        </Text>
+      <ScrollView contentContainerStyle={{ padding: 16 }} showsVerticalScrollIndicator={false}>
         <VStack space="md" width="100%">
-          <Text>Nama</Text>
+          <Text>Nama Kostum</Text>
           <Input
             borderBottomWidth={3}
             borderEndWidth={3}
@@ -93,11 +91,13 @@ const EditItem = ({ route }) => {
             borderStartWidth={1}
             rounded={7}
             borderColor='#021C35'
+
           >
             <InputField
               placeholder="Costume Name"
               value={costumeName}
               onChangeText={(text) => setCostumeName(text)}
+              maxLength={20}
             />
           </Input>
         </VStack>
@@ -137,8 +137,7 @@ const EditItem = ({ route }) => {
           </Input>
         </VStack>
         <Box marginTop={20} justifyContent='center' alignItems='center'>
-          {image && <Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
-
+          {data.imageUrl ? (<Image source={{ uri: data.imageUrl }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />) : (<Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />)}
         </Box>
 
         <Pressable
@@ -152,7 +151,7 @@ const EditItem = ({ route }) => {
           onPress={pickImage}
         >
           <Text color="white" fontWeight="bold">
-            Add Image
+            Pilih Gambar
           </Text>
         </Pressable>
         <Pressable
@@ -160,7 +159,7 @@ const EditItem = ({ route }) => {
           alignItems="center"
           height={50}
           borderRadius={4}
-          backgroundColor="#DF9B52"
+          backgroundColor="#021C35"
           onPress={editCostume}
         >
           <Text color="white" fontWeight="bold">
@@ -168,6 +167,58 @@ const EditItem = ({ route }) => {
           </Text>
         </Pressable>
       </ScrollView>
+      <Center h={300}>
+        <Button onPress={() => setShowModal(true)} ref={ref}>
+          <ButtonText>Show Modal</ButtonText>
+        </Button>
+        <Modal
+          isOpen={showModal}
+          onClose={() => {
+            setShowModal(false)
+          }}
+          finalFocusRef={ref}
+        >
+          <ModalBackdrop />
+          <ModalContent>
+            <ModalHeader>
+              <Heading size="lg">Engage with Modals</Heading>
+              <ModalCloseButton>
+                <Icon as={CloseIcon} />
+              </ModalCloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <Text>
+                Elevate user interactions with our versatile modals. Seamlessly
+                integrate notifications, forms, and media displays. Make an impact
+                effortlessly.
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                variant="outline"
+                size="sm"
+                action="secondary"
+                mr="$3"
+                onPress={() => {
+                  setShowModal(false)
+                }}
+              >
+                <ButtonText>Cancel</ButtonText>
+              </Button>
+              <Button
+                size="sm"
+                action="positive"
+                borderWidth="$0"
+                onPress={() => {
+                  setShowModal(false)
+                }}
+              >
+                <ButtonText>Explore</ButtonText>
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Center>
     </Box>
   );
 };

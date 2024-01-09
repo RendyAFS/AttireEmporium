@@ -49,11 +49,6 @@ const Detail = ({ route }) => {
                 <Text fontSize={18} color="#02E107" marginTop={2}>
                     Tersedia
                 </Text>
-                <Box width={'auto'} marginTop={1}>
-                    <Pressable onPress={() => showFavoritePopup()}>
-                        <Ionicons name="heart-outline" size={30} color="red" marginBottom={5} />
-                    </Pressable>
-                </Box>
                 <Text fontSize={20} marginTop={15} fontWeight="bold">Deskripsi Barang : </Text>
                 <Text fontSize={16}>
                     {data.costumeDescription}

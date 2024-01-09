@@ -54,7 +54,7 @@ const History = () => {
           const costumeRef = firebase.database().ref("history/");
           const snapshot = await costumeRef.once("value");
           const costumeData = snapshot.val();
-          console.log('hello ',costumeData)
+          console.log('hello ', costumeData)
           if (costumeData) {
             const allCostumes = Object.keys(costumeData).map((costumeId) => ({
               costumeId,
@@ -124,68 +124,75 @@ const History = () => {
         </Center>
         <Text fontSize={18} marginTop={30} marginBottom={10} marginStart={10} fontWeight="bold"> Riwayat Barang </Text>
       </Box>
-      <FlatList
-        style={{ marginBottom: 105 }}
-        data={filteredData}
-        keyExtractor={(item) => item.costumeId}
-        renderItem={({ item }) => (
-          <Pressable onPress={() => {
-            navigation.navigate('FormPengembalian', { item: item  })
-          }}>
-            <Box paddingBottom={20} paddingHorizontal={8}>
+      {costume.length > 0 ?
+        (<FlatList
+          style={{ marginBottom: 105 }}
+          data={filteredData}
+          keyExtractor={(item) => item.costumeId}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => {
+              navigation.navigate('FormPengembalian', { item: item })
+            }}>
+              <Box paddingBottom={20} paddingHorizontal={8}>
 
-              <Box width={'auto'} paddingHorizontal={12} paddingVertical={4} height={120} bgColor="#EAEAEA" borderTopStartRadius={10} borderTopEndRadius={10}>
-                <Box flex={1} flexDirection="row">
-                  <Box flex={2} flexDirection="column" padding={5}>
-                    <Box flex={1}>
+                <Box width={'auto'} paddingHorizontal={12} paddingVertical={4} height={120} bgColor="#EAEAEA" borderTopStartRadius={10} borderTopEndRadius={10}>
+                  <Box flex={1} flexDirection="row">
+                    <Box flex={2} flexDirection="column" padding={5}>
                       <Box flex={1}>
-                        <Text fontSize={14}>{item.namakostum}</Text>
-                      </Box>
-                      <Box flex={3}>
-                        <Text fontWeight="bold" fontSize={14}>{item.Deskripsi}</Text>
-                      </Box>
-                      <Box flex={2}>
-                        <Text fontWeight="bold" fontSize={18}>{item.peminjaman}</Text>
+                        <Box flex={1}>
+                          <Text fontSize={14}>{item.namakostum}</Text>
+                        </Box>
+                        <Box flex={3}>
+                          <Text fontWeight="bold" fontSize={14}>{item.Deskripsi}</Text>
+                        </Box>
+                        <Box flex={2}>
+                          <Text fontWeight="bold" fontSize={18}>{item.peminjaman}</Text>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                  <Box flex={1} justifyContent="center">
-                    <Image source={{ uri: item.imageUrl }}
-                      resizeMode="cover"
-                      width={'100%'}
-                      height={'80%'}
-                      borderRadius={6}
-                      alt="img"
-                      role="img"
-                    />
+                    <Box flex={1} justifyContent="center">
+                      <Image source={{ uri: item.imageUrl }}
+                        resizeMode="cover"
+                        width={'100%'}
+                        height={'80%'}
+                        borderRadius={6}
+                        alt="img"
+                        role="img"
+                      />
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
 
-              <Box
-                height={30}
-                backgroundColor={item.review === "Belum direview" ? "#656351" : "green"}
-                borderBottomStartRadius={10}
-                borderBottomEndRadius={10}
-              >
-                <HStack justifyContent="center" alignItems="center">
-                  {item.review === "Belum direview" ?
-                    <Ionicons
-                      name="information-circle-outline"
-                      size={20}
-                      color="#fff"
-                      marginEnd={2}
-                      marginTop={3}
-                    /> : <Ionicons name="ios-checkmark-circle-outline" size={20} color="#fff"
-                      marginEnd={2} marginTop={3} />}
+                <Box
+                  height={30}
+                  backgroundColor={item.review === "Belum direview" ? "#656351" : "green"}
+                  borderBottomStartRadius={10}
+                  borderBottomEndRadius={10}
+                >
+                  <HStack justifyContent="center" alignItems="center">
+                    {item.review === "Belum direview" ?
+                      <Ionicons
+                        name="information-circle-outline"
+                        size={20}
+                        color="#fff"
+                        marginEnd={2}
+                        marginTop={3}
+                      /> : <Ionicons name="ios-checkmark-circle-outline" size={20} color="#fff"
+                        marginEnd={2} marginTop={3} />}
 
-                  <Text color="#fff">{item.review}</Text>
-                </HStack>
+                    <Text color="#fff">{item.review}</Text>
+                  </HStack>
+                </Box>
               </Box>
-            </Box>
-          </Pressable>
+            </Pressable>
+          )}
+        />) : (
+          <Box alignItems="center" marginTop={200}>
+            <Text>Setiap Kenangan akan ditampung disini</Text>
+          </Box>
+
         )}
-      />
+
     </Box >
   );
 }
