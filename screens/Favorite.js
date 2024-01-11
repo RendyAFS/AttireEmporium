@@ -154,7 +154,7 @@ const Favorite = (props) => {
 
 
       </ScrollView>
-      {/* <FlatList
+      <FlatList
         data={costume}
         keyExtractor={item => item.costumeId}
         numColumns={2}
@@ -163,7 +163,7 @@ const Favorite = (props) => {
         onEndReachedThreshold={0.1}
         onEndReached={() => loadNext(ITEM_CNT)}
         style={{ marginBottom: 100 }}
-      /> */}
+      />
       <Modal
         isOpen={showModal}
         onClose={() => {
