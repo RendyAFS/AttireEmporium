@@ -94,6 +94,7 @@ const DetailBarang = ({ route }) => {
       const imageUrl = data.imageUrl;
       const username = data.username;
       const averageRating = data.averageRating;
+      const komentar = data.komentar;
 
       const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
@@ -103,7 +104,7 @@ const DetailBarang = ({ route }) => {
         favoriteRef.remove();
       } else {
         // If the costumeId doesn't exist, add it
-        database.ref(`favoriteCostume/${uid}/${costumeId}`).set({
+        const favoriteData = {
           imageUrl,
           costumeName,
           costumeDescription,
@@ -113,8 +114,15 @@ const DetailBarang = ({ route }) => {
           uid,
           number,
           username,
-          averageRating
-        });
+          averageRating,
+        };
+
+        // Pengecekan untuk memastikan komentar tidak undefined
+        if (komentar !== undefined) {
+          favoriteData.komentar = komentar;
+        }
+
+        database.ref(`favoriteCostume/${uid}/${costumeId}`).set(favoriteData);
       }
 
       navigation.replace("Tabs");

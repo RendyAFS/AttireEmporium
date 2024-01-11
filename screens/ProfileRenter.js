@@ -7,6 +7,7 @@ import firebase from '../firebase'
 const ProfileRenter = () => {
   const [userData, setUserData] = useState('');
   const [costume, setCostumeData] = useState([]);
+  const [isMounting, setIsMounting] = useState(true); // State variable to track mounting
   const navigation = useNavigation();
 
   const getDownloadUrl = async (filename) => {z
@@ -84,10 +85,9 @@ const ProfileRenter = () => {
         <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
 
         <Box p={5}>
-          <Text fontSize={16} fontWeight='bold' marginLeft={8} marginVertical={8}>
+          <Text fontSize={13} fontWeight='bold' marginLeft={8} marginVertical={8}>
             {costume.costumeName}
           </Text>
-          <Text fontSize={12} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.costumeDescription}</Text>
           <Text fontSize={12} color={costume.status === 'Tersedia' ? 'green' : 'red'} paddingHorizontal={8} marginBottom={5}>{costume.status}</Text>
           <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
         </Box>
@@ -100,8 +100,9 @@ const ProfileRenter = () => {
     getUserData();
     getCostume();
   }, []);
+  
 
-
+  console.log('ini userdataku ', userData.imageProfile)
   const getUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem("user-data");
@@ -124,7 +125,10 @@ const ProfileRenter = () => {
     <ScrollView backgroundColor='white'>
       <VStack flex={1} padding={16}>
         <VStack alignItems='center'>
-          <Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />
+          {userData.imageProfile ?
+            (<Image role='img' source={{uri:userData.imageProfile}} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />) 
+            :
+            (<Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />)}
         </VStack>
         <VStack borderBottomWidth={3} borderColor='#DDDDDD' paddingVertical={8}>
           <Text fontSize={16} fontWeight='bold' color='#000000'>Nama:</Text>
@@ -134,8 +138,8 @@ const ProfileRenter = () => {
           <Text fontSize={16} fontWeight='bold' color='#000000'>Email:</Text>
           <Text fontSize={16} color='#333333'>{userData.email}</Text>
         </VStack>
-        <HStack flex={1} justifyContent='center'> 
-          <Text fontSize={22} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
+        <HStack flex={1} justifyContent='center'>
+          <Text fontSize={13} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
         </HStack>
         <MasonryList
           data={costume}

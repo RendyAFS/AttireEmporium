@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView } from "@gluestack-ui/themed";
+import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView, HStack } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 import firebase from '../firebase'
 const Toko = ({ route }) => {
     const [userData, setUserData] = useState('');
@@ -10,7 +12,7 @@ const Toko = ({ route }) => {
     const [tokoData, setTokoData] = useState([]);
     const navigation = useNavigation();
     const data = route.params.data;
-    console.log( data);
+    console.log(data);
     const getDownloadUrl = async (filename) => {
         const storageRef = firebase.storage().ref();
         const costumeImageRef = storageRef.child(filename);
@@ -23,21 +25,21 @@ const Toko = ({ route }) => {
             return ''; // Return an empty string or handle the error accordingly
         }
     };
-
+    console.log(costume.averageRating);
     // console.log(costume)
 
     const getCostume = async () => {
         try {
             const userDataString = await AsyncStorage.getItem("user-data");
-            const uidtoko = data.uid
+            const uidtoko = data.uid;
+
             if (userDataString) {
                 const userData = JSON.parse(userDataString);
 
                 // Pastikan userData.credential ada sebelum mengakses propertinya
                 if (userData.credential && userData.credential.user) {
                     const userUid = userData.credential.user.uid;
-                    // console.log('User UID from AsyncStorage:', userUid);
-                    const uidtoko = data.uid
+                    const uidtoko = data.uid;
                     const costumeRef = firebase.database().ref("costumes/");
                     const snapshot = await costumeRef.once("value");
                     const costumeData = snapshot.val();
@@ -57,10 +59,29 @@ const Toko = ({ route }) => {
                         const costumesWithUrls = await Promise.all(
                             userCostumes.map(async (costume) => {
                                 const imageUrl = await getDownloadUrl(costume.filename);
-                                return { ...costume, imageUrl };
+
+                                // Calculate average rating
+                                const ratings = costume.rating || {};
+                                let totalRating = 0;
+                                let numberOfRatings = 0;
+
+                                for (const ratingId in ratings) {
+                                    if (ratings.hasOwnProperty(ratingId)) {
+                                        const ratingValue = ratings[ratingId]?.rating;
+                                        if (typeof ratingValue === 'number') {
+                                            totalRating += ratingValue;
+                                            numberOfRatings++;
+                                        }
+                                    }
+                                }
+
+                                const averageRating = numberOfRatings > 0 ? (totalRating / numberOfRatings).toFixed(1) : '0';
+
+                                return { ...costume, imageUrl, averageRating };
                             })
                         );
-                        console.log(costumesWithUrls)
+
+                        console.log(costumesWithUrls);
                         setCostumeData(costumesWithUrls);
                     } else {
                         setCostumeData([]);
@@ -76,6 +97,7 @@ const Toko = ({ route }) => {
             setCostumeData([]);
         }
     };
+
     const getTokoData = async () => {
         try {
             const userDataString = await AsyncStorage.getItem("user-data");
@@ -114,18 +136,25 @@ const Toko = ({ route }) => {
 
     const Itemku = ({ costume }) => (
 
-        <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
-            <Box backgroundColor='white' rounded={10} p={2} height={260} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
-                <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
+        <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
+            <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
+                <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
                 <Box p={5}>
-                    <Text fontSize={12} marginLeft={8} marginVertical={2}>
-                        {costume.costumeName}
-                    </Text>
-                    <Text marginLeft={8} fontSize={15} fontWeight='bold' marginVertical={1} color={'#021C35'}>Rp {costume.rentalPrice},- / Hari</Text>
-                    <Text fontSize={12} color={costume.status === 'Tersedia' ? 'green' : 'red'} paddingHorizontal={8} marginBottom={5}>{costume.status}</Text>
-
+                    <HStack >
+                        <Box>
+                            <Text flex={2} fontSize={13} marginLeft={8} >
+                                {costume.costumeName}
+                            </Text>
+                        </Box>
+                        <Box position='absolute' right={8}>
+                            <Text flex={1} fontSize={12} color='#777'>
+                                <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
+                            </Text>
+                        </Box>
+                    </HStack>
+                    <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
+                    <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
                 </Box>
-
             </Box>
         </Pressable>
     );
@@ -156,7 +185,7 @@ const Toko = ({ route }) => {
 
 
     return (
-        <ScrollView  backgroundColor='white'>
+        <ScrollView backgroundColor='white'>
             <VStack flex={1} marginTop={40} padding={16}>
                 <VStack alignItems='center'>
                     <Image role='img' source={tokoData.imageProfile ? { uri: tokoData.imageProfile } : require("../assets/images/avatar.png")} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />

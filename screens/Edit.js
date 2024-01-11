@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme } from '@gluestack-ui/themed';
+import { Box, Text, Pressable, Image, ScrollView, VStack, Input, InputField, InputSlot, InputIcon, useTheme, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center, Button, ButtonText, Heading, Icon, CloseIcon } from '@gluestack-ui/themed';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
@@ -10,10 +10,13 @@ const EditItem = ({ route }) => {
   const [costumeName, setCostumeName] = useState(data.costumeName);
   const [costumeDescription, setCostumeDescription] = useState(data.costumeDescription);
   const [rentalPrice, setRentalPrice] = useState(data.rentalPrice);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(data.imageUrl);
   const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false)
   const navigation = useNavigation();
-  console.log(route.params);
+  const ref = React.useRef(null)
+  console.log('ini dataku ', route.params);
+
   const handleEditCostume = () => {
     console.log('Editing costume:', {
       costumeName,
@@ -38,6 +41,10 @@ const EditItem = ({ route }) => {
     }
   };
   const editCostume = async () => {
+    if (!costumeName || !costumeDescription || !image) {
+      setShowModal(true);
+      return;
+    }
     try {
 
       // Perbarui catatan berdasarkan costumeId
@@ -60,7 +67,10 @@ const EditItem = ({ route }) => {
 
         await costumeRef.update(updatedCostume);
         console.log("Costume updated successfully");
-        navigation.replace("Tabs");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Tabs" }],
+        });
       } else {
         console.log("Costume not found");
       }
@@ -74,15 +84,12 @@ const EditItem = ({ route }) => {
   };
 
   const theme = useTheme();
-
+  console.log(data.imageUrl)
   return (
     <Box flex={1} backgroundColor="white" padding={16}>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <Text fontSize={18} fontWeight="bold" marginBottom={8} color="#DF9B52">
-          Costume Details
-        </Text>
+      <ScrollView contentContainerStyle={{ padding: 16 }} showsVerticalScrollIndicator={false}>
         <VStack space="md" width="100%">
-          <Text>Nama</Text>
+          <Text>Nama Kostum</Text>
           <Input
             borderBottomWidth={3}
             borderEndWidth={3}
@@ -90,11 +97,13 @@ const EditItem = ({ route }) => {
             borderStartWidth={1}
             rounded={7}
             borderColor='#021C35'
+
           >
             <InputField
               placeholder="Costume Name"
               value={costumeName}
               onChangeText={(text) => setCostumeName(text)}
+              maxLength={20}
             />
           </Input>
         </VStack>
@@ -134,8 +143,7 @@ const EditItem = ({ route }) => {
           </Input>
         </VStack>
         <Box marginTop={20} justifyContent='center' alignItems='center'>
-          {image && <Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />}
-
+          {data.imageUrl ? (<Image source={{ uri: data.imageUrl }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />) : (<Image source={{ uri: image }} alignItems='center' role='img' alt='gambarkostum' style={{ width: 200, height: 200 }} />)}
         </Box>
 
         <Pressable
@@ -149,7 +157,7 @@ const EditItem = ({ route }) => {
           onPress={pickImage}
         >
           <Text color="white" fontWeight="bold">
-            Add Image
+            Pilih Gambar
           </Text>
         </Pressable>
         <Pressable
@@ -157,14 +165,57 @@ const EditItem = ({ route }) => {
           alignItems="center"
           height={50}
           borderRadius={4}
-          backgroundColor="#DF9B52"
+          backgroundColor="#021C35"
           onPress={editCostume}
         >
           <Text color="white" fontWeight="bold">
             Edit Costume
           </Text>
         </Pressable>
+        <Center h={300}>
+          <Modal
+            isOpen={showModal}
+            onClose={() => {
+              setShowModal(false)
+            }}
+            finalFocusRef={ref}
+          >
+            <ModalBackdrop />
+            <ModalContent borderWidth={1} borderColor='black'
+              borderRightWidth={4}
+              borderBottomWidth={4} rounded={7}>
+              <ModalHeader>
+                <Heading size="lg">Gagal input data</Heading>
+                <ModalCloseButton>
+                  <Icon as={CloseIcon} />
+                </ModalCloseButton>
+              </ModalHeader>
+              <ModalBody>
+                <Text>
+                  Harap input data dengan benar dan jangan biarkan kosong seperti pikiran
+                </Text>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  size="sm"
+
+                  borderColor='black'
+                  backgroundColor='white'
+                  borderWidth={1}
+                  borderRightWidth={3}
+                  borderBottomWidth={3}
+                  onPress={() => {
+                    setShowModal(false)
+                  }}
+                >
+                  <ButtonText color='black'>Oke, mengerti</ButtonText>
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Center>
       </ScrollView>
+
     </Box>
   );
 };
