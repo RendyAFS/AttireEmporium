@@ -10,7 +10,7 @@ const ProfileRenter = () => {
   const [isMounting, setIsMounting] = useState(true); // State variable to track mounting
   const navigation = useNavigation();
 
-  const getDownloadUrl = async (filename) => {
+  const getDownloadUrl = async (filename) => {z
     const storageRef = firebase.storage().ref();
     const costumeImageRef = storageRef.child(filename);
 
