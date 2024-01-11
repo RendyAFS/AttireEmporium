@@ -150,23 +150,7 @@ const Favorite = (props) => {
 
         <Box alignItems='center' padding={10}>
         </Box>
-        {costume.length > 0 ? (
-          <MasonryList
-            data={costume}
-            keyExtractor={(item) => item.costumeId}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <Itemku costume={item} />}
-            onRefresh={() => refetch({ first: ITEM_CNT })}
-            onEndReachedThreshold={0.1}
-            onEndReached={() => loadNext(ITEM_CNT)}
-            style={{ marginBottom: 100 }}
-          />
-        ) : (
-          <Box marginTop={250} justifyContent='center' alignItems='center'>
-            <Text fontSize={13}>Tambahkan Favorite pada kostum yang kamu suka</Text>
-          </Box>
-        )}
+
 
 
       </ScrollView>
