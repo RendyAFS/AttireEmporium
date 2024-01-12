@@ -3,11 +3,10 @@ import { Box, Text, VStack, Pressable } from '@gluestack-ui/themed'; // Sesuaika
 import { Checkbox, CheckboxIndicator, CheckboxIcon } from '@gluestack-ui/themed'; // Sesuaikan dengan import komponen Checkbox dari library Anda
 import { CheckIcon } from '@gluestack-ui/themed'; // Sesuaikan dengan import ikon dari library Anda
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Sop1 = () => {
     const navigation = useNavigation();
     const [isChecked, setIsChecked] = useState(false); // State untuk nilai checkbox, diatur menjadi false agar tidak tercentang secara awal
-
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked); // Mengubah nilai checkbox saat diklik
     };
@@ -26,8 +25,8 @@ const Sop1 = () => {
                     Aturan Attire Emporium
                 </Text>
                 <Text marginTop={15} textAlign='justify'>
-               
-Panduan bagi penyewa dan pemilik kostum penting untuk memastikan transaksi yang lancar. Penyewa harus komunikasi melalui saluran aman, tentukan detail pengiriman, lakukan pemeriksaan bersama, dan lakukan pembayaran sesuai. Pemilik kostum harus berikan informasi jelas, atur jaminan, dan pastikan keamanan pembayaran, serta serahkan kostum dalam kondisi baik dengan petunjuk penggunaan. Kedua belah pihak sebaiknya melakukan pemeriksaan bersama saat pengembalian untuk mencatat kondisi kostum. Dengan mematuhi panduan ini, transaksi penyewaan kostum dapat berjalan dengan lancar dan tanpa masalah.
+
+                    Panduan bagi penyewa dan pemilik kostum penting untuk memastikan transaksi yang lancar. Penyewa harus komunikasi melalui saluran aman, tentukan detail pengiriman, lakukan pemeriksaan bersama, dan lakukan pembayaran sesuai. Pemilik kostum harus berikan informasi jelas, atur jaminan, dan pastikan keamanan pembayaran, serta serahkan kostum dalam kondisi baik dengan petunjuk penggunaan. Kedua belah pihak sebaiknya melakukan pemeriksaan bersama saat pengembalian untuk mencatat kondisi kostum. Dengan mematuhi panduan ini, transaksi penyewaan kostum dapat berjalan dengan lancar dan tanpa masalah.
                 </Text>
                 <VStack justifyContent='center' alignItems='center' marginTop={15}>
                     <Checkbox

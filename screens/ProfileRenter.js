@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView, HStack } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MasonryList from '@react-native-seoul/masonry-list';
+// import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons";
 import firebase from '../firebase'
 const ProfileRenter = () => {
   const [userData, setUserData] = useState('');
@@ -10,7 +11,7 @@ const ProfileRenter = () => {
   const [isMounting, setIsMounting] = useState(true); // State variable to track mounting
   const navigation = useNavigation();
 
-  const getDownloadUrl = async (filename) => {z
+  const getDownloadUrl = async (filename) => {
     const storageRef = firebase.storage().ref();
     const costumeImageRef = storageRef.child(filename);
 
@@ -78,29 +79,57 @@ const ProfileRenter = () => {
 
 
 
-  const Itemku = ({ costume }) => (
-
-    <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
-      <Box backgroundColor='white' rounded={10} p={2} borderTopWidth={1} borderStartWidth={1} borderEndWidth={5} borderBottomWidth={5} marginStart={3} >
-        <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl || '' }} />
-
-        <Box p={5}>
-          <Text fontSize={13} fontWeight='bold' marginLeft={8} marginVertical={8}>
-            {costume.costumeName}
-          </Text>
-          <Text fontSize={12} color={costume.status === 'Tersedia' ? 'green' : 'red'} paddingHorizontal={8} marginBottom={5}>{costume.status}</Text>
-          <Text marginLeft={8} marginVertical={8} color={'#DF9B52'}>Rp {costume.rentalPrice}</Text>
+  const Itemku = ({ costume }) => {
+    const MAX_NAME_LENGTH = 13;
+    const NamaDisingkat = costume.costumeName.length > MAX_NAME_LENGTH
+      ? `${costume.costumeName.substring(0, MAX_NAME_LENGTH)}...`
+      : costume.costumeName;
+    return (
+      <Pressable onPress={() => navigation.navigate('Detail', { item: costume })}   >
+        <Box
+          backgroundColor="white"
+          rounded={10}
+          width="100%"
+          paddingVertical={10}
+          paddingHorizontal={20}
+          hardShadow={1}
+        >
+          <Image
+            role="img"
+            alt="gambar"
+            resizeMode="cover"
+            width="100%"
+            height={150}
+            source={{ uri: costume.imageUrl }}
+          />
+          <Box p={5}>
+            <HStack>
+              <Text flex={4} fontSize={12}>
+                {NamaDisingkat}
+              </Text>
+              <Text marginStart={90} position='absolute' fontSize={12} color="#777">
+                <FontAwesome name="star" size={10} color="#FFE81A" /> {costume.averageRating}
+              </Text>
+            </HStack>
+            <Text fontSize={14} marginTop={5} marginBottom={5} fontWeight="bold">
+              Rp {costume.rentalPrice},- / Hari
+            </Text>
+            {costume.status === "Dipinjam" ? (<Text fontSize={13} color="red">
+              {costume.status}
+            </Text>) : (<Text fontSize={13} color="green">
+              {costume.status}
+            </Text>)}
+          </Box>
         </Box>
-
-      </Box>
-    </Pressable>
-  );
+      </Pressable>
+    );
+  }
 
   useEffect(() => {
     getUserData();
     getCostume();
   }, []);
-  
+
 
   console.log('ini userdataku ', userData.imageProfile)
   const getUserData = async () => {
@@ -126,7 +155,7 @@ const ProfileRenter = () => {
       <VStack flex={1} padding={16}>
         <VStack alignItems='center'>
           {userData.imageProfile ?
-            (<Image role='img' source={{uri:userData.imageProfile}} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />) 
+            (<Image role='img' source={{ uri: userData.imageProfile }} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />)
             :
             (<Image role='img' source={require('../assets/images/avatar.png')} alt='avatar' width={150} height={150} borderRadius={75} marginBottom={16} borderWidth={5} borderColor='#DF9B52' />)}
         </VStack>
@@ -141,7 +170,7 @@ const ProfileRenter = () => {
         <HStack flex={1} justifyContent='center'>
           <Text fontSize={13} fontWeight='bold' marginBottom={8} marginTop={20} color='#fff' paddingHorizontal={150} paddingVertical={10} borderRadius={10} backgroundColor='#000'>Kostumku</Text>
         </HStack>
-        <MasonryList
+        {/* <MasonryList
           data={costume}
           keyExtractor={item => item.costumeId}
           numColumns={2}
@@ -150,8 +179,22 @@ const ProfileRenter = () => {
           onRefresh={() => refetch({ first: ITEM_CNT })}
           onEndReachedThreshold={0.1}
           onEndReached={() => loadNext(ITEM_CNT)}
-        />
+        /> */}
+        <Box justifyContent='center'>
+          <HStack
+            flexDirection="row"
+            flexWrap="wrap"
+            p={10}
+            marginBottom={10}
+            space="xl"
 
+            alignItems="center"
+          >
+            {costume.map((item) => (
+              <Itemku key={item.costumeId} costume={item} navigation={navigation} />
+            ))}
+          </HStack>
+        </Box>
 
       </VStack>
     </ScrollView>

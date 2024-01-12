@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Box, Image } from '@gluestack-ui/themed';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const Splash = () => {
     const navigation = useNavigation();
 
@@ -12,7 +11,6 @@ const Splash = () => {
         }, 2000);
 
         return () => clearTimeout(timeout);
-
     }, []);
 
     const getUser = async () => {
@@ -21,7 +19,7 @@ const Splash = () => {
             if (userData) {
                 navigation.replace('Tabs');
             } else {
-                navigation.replace('Sop1');
+                navigation.replace('GetInto1');
             }
         } catch (e) {
             console.error(e);

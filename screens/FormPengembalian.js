@@ -1,8 +1,7 @@
-import { Heading, Box, Text, Pressable, Image, Textarea, TextareaInput, VStack, HStack } from "@gluestack-ui/themed";
+import { Box, Text, Pressable, Image, Textarea, TextareaInput, HStack } from "@gluestack-ui/themed";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
 import firebase from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const FormPengembalian = ({ route }) => {

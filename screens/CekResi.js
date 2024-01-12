@@ -1,11 +1,12 @@
-import { View } from 'react-native'
 import React, { useState } from 'react'
-import { Entypo, FontAwesome } from "@expo/vector-icons";
-import { Box, Text, Select, SelectTrigger, SelectIcon, SelectInput, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Input, InputField, Button, ButtonText, FlatList, Heading, VStack, ScrollView, SelectScrollView } from '@gluestack-ui/themed'
+import { Entypo } from "@expo/vector-icons";
+import { Box, Text, Select, SelectTrigger, SelectIcon, SelectInput, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Input, InputField, Button, ButtonText, Heading, VStack, ScrollView, SelectScrollView, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Center, Icon, CloseIcon } from '@gluestack-ui/themed'
 import kurirlist from '../data/kurirlist';
 const CekResi = () => {
     const [Kurir, setKurir] = useState('')
     const [Nomor, setNomor] = useState('')
+    const [showModal, setShowModal] = useState(false)
+    const ref = React.useRef(null)
     const [trackingData, setTrackingData] = useState(null);
     console.log(Kurir)
     console.log(Nomor)
@@ -13,6 +14,10 @@ const CekResi = () => {
     console.log(trackingData)
 
     const handleAddButtonPress = async () => {
+        if (!Kurir || !Nomor ) {
+            setShowModal(true);
+            return;
+        }
         try {
             // Construct API URL with the selected courier and AWB number
             const apiUrl = `https://api.binderbyte.com/v1/track?api_key=b261e39611d360130783b9b57b3e8517c23ec3603538849243768c4c7aad7a45&courier=${Kurir}&awb=${Nomor}`;
@@ -133,6 +138,48 @@ const CekResi = () => {
                         )}
                     </Box>
                 </Box>
+                <Center h={300}>
+                    <Modal
+                        isOpen={showModal}
+                        onClose={() => {
+                            setShowModal(false)
+                        }}
+                        finalFocusRef={ref}
+                    >
+                        <ModalBackdrop />
+                        <ModalContent borderWidth={1} borderColor='black'
+                            borderRightWidth={4}
+                            borderBottomWidth={4} rounded={7}>
+                            <ModalHeader>
+                                <Heading size="lg">Data belum terisi</Heading>
+                                <ModalCloseButton>
+                                    <Icon as={CloseIcon} />
+                                </ModalCloseButton>
+                            </ModalHeader>
+                            <ModalBody>
+                                <Text>
+                                    Isi Resi dan Kurir dengan benar , jangan biarkan kosong seperti hati ini
+                                </Text>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button
+                                    size="sm"
+
+                                    borderColor='black'
+                                    backgroundColor='white'
+                                    borderWidth={1}
+                                    borderRightWidth={3}
+                                    borderBottomWidth={3}
+                                    onPress={() => {
+                                        setShowModal(false)
+                                    }}
+                                >
+                                    <ButtonText color='black'>Oke, mengerti</ButtonText>
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </Center>
 
             </Box>
         </ScrollView>

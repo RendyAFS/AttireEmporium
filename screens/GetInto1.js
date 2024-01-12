@@ -8,23 +8,7 @@ import firebase from "../firebase";
 const GetInto1 = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  useEffect(() => {
-    getUser();
-  }, []);
-  const getUser = async () => {
-    try {
-      // Ambil data dari AsyncStorage
-      const userData = await AsyncStorage.getItem("user-data");
-      if (userData !== null) {
-        // Diarahkan ke Halaman Home
-        navigation.replace("Tabs");
-      } else {
-        setIsLoading(false);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
   return (
     <Box backgroundColor='#eee' justifyContent='center' alignItems='center'>
       <Box Width={'100%'}>

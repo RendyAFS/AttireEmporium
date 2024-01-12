@@ -19,8 +19,6 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
 import Errormodal from "../components/Errormodal";
-import 'react-native-gesture-handler';
-///
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,31 +26,57 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false)
+  const [errorModalText, setErrorModalText] = useState('');
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
-  //
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+  // const getUser = async () => {
+  //   try {
+  //     // Ambil data dari AsyncStorage
+  //     const userData = await AsyncStorage.getItem("user-data");
+  //     if (userData !== null) {
+  //       // Diarahkan ke Halaman Home
+  //       navigation.replace("Tabs");
+  //     } else {
+  //       setIsLoading(false);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
   const loginHandler = async () => {
     try {
-      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password); //memanggil usercredential berdasarkan email dan password
-      const userEmail = userCredential.user.email; // memasukkan email pada usercredential kedalam variabel userEmail
-      const userRef = firebase.database().ref('users'); //mengakses node user pada firebase
-      const snapshot = await userRef.orderByChild('email').equalTo(userEmail).once('value'); //mengurutkan  userEmail dari inputan dengan email pada firebase 
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      const userEmail = userCredential.user.email;
+
+      // Ambil data pengguna dari database berdasarkan alamat email
+      const userRef = firebase.database().ref('users');
+      const snapshot = await userRef.orderByChild('email').equalTo(userEmail).once('value');
+      console.log('ini snapshot ',snapshot);
       const userDataFromDatabase = snapshot.val();
+
+      console.log('userDataFromDatabase:', userDataFromDatabase);
+
       if (userDataFromDatabase) {
         // Dapatkan kunci pengguna (UID) dari hasil query
         const uid = Object.keys(userDataFromDatabase)[0];
-        console.log(uid)
+        console.log('UID from database:', uid);
+
         // Simpan data pengguna ke AsyncStorage atau lakukan tindakan lain
         saveUserData(email, password, userCredential, uid, userDataFromDatabase[uid]);
       } else {
         console.error('Data pengguna tidak ditemukan di Firebase Realtime Database.');
       }
     } catch (error) {
+
       setShowModal(true)
       console.error(error.message);
     }
   };
+
 
   const saveUserData = async (email, password, credential, uid, userDataFromDatabase) => {
     const userData = { email, password, credential, uid: userDataFromDatabase.uid, ...userDataFromDatabase };
@@ -66,6 +90,8 @@ const Login = () => {
       console.error(error);
     }
   };
+
+
 
   return (
     <Box flex={1} backgroundColor="#021C35" >
@@ -98,7 +124,7 @@ const Login = () => {
                 marginBottom={10}
                 borderColor='#021C35'
               >
-                <InputField value={email} type="text" placeholder="Email" onChangeText={(value) => setEmail(value)} />
+                <InputField value={email} type="text" placeholder="Email" onChangeText={(value) => setEmail(value)} placeholderTextColor={"grey"} />
               </Input>
             </VStack>
             <VStack space="md">
@@ -109,7 +135,7 @@ const Login = () => {
                 borderStartWidth={1}
                 rounded={7}
                 borderColor='#021C35'>
-                <InputField value={password} placeholder="Password" type={showPassword ? "text" : "password"} onChangeText={(value) => setPassword(value)} />
+                <InputField value={password} placeholder="Password" type={showPassword ? "text" : "password"} onChangeText={(value) => setPassword(value)} placeholderTextColor={"grey"}/>
                 <InputSlot pr="$3" onPress={handleTogglePassword}>
                   <InputIcon
                     as={showPassword ? EyeIcon : EyeOffIcon}

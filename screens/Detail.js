@@ -1,9 +1,7 @@
 import React from 'react';
 import { Box, Image, Button, Heading, Text, Pressable, Modal, ModalBackdrop, ModalContent, ModalHeader, ModalBody, ModalFooter, ButtonText, ModalCloseButton } from "@gluestack-ui/themed";
-import { Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons';
-import { useState, useRef } from 'react';
+import { useState} from 'react';
 import firebase from "../firebase";
 const Detail = ({ route }) => {
     const navigation = useNavigation();
@@ -46,9 +44,13 @@ const Detail = ({ route }) => {
                 <Text fontSize={18} color="#777" marginTop={8}>
                     Rp {data.rentalPrice}
                 </Text>
-                <Text fontSize={18} color="#02E107" marginTop={2}>
-                    Tersedia
-                </Text>
+                {data.status === 'dipinjam' ? (<Text fontSize={18} color="red" marginTop={2}>
+                    {data.status}
+                </Text>) :
+                    (<Text fontSize={18} color="green" marginTop={2}>
+                        {data.status}
+                    </Text>)
+                }
                 <Text fontSize={20} marginTop={15} fontWeight="bold">Deskripsi Barang : </Text>
                 <Text fontSize={16}>
                     {data.costumeDescription}

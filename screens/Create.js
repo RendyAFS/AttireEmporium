@@ -40,27 +40,26 @@ const Create = () => {
 
   };
   const pickImage = async () => {
-
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      // aspect: [4, 3],
       quality: 0.7,
     });
-
+  
     console.log(result);
-
+  
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
+  
   useEffect(() => {
     // Panggil fungsi untuk mengambil email setiap kali komponen di-mount
     getUserData();
   }, []);
   // Fungsi untuk menangani proses posting kostum
   const handlePostCostume = async () => {
-    if (!costumeName || !costumeDescription || !costumeCategory) {
+    if (!costumeName || !costumeDescription || !costumeCategory || !image) {
       setShowModal(true);
       return;
     }

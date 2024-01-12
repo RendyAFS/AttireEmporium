@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { HeaderKatalog } from '../components';
+import { HeaderKatalog } from '../components/Index';
 import {
   GluestackUIProvider,
   Pressable,
@@ -14,7 +14,7 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { Dimensions } from 'react-native';
-import MasonryList from '@react-native-seoul/masonry-list';
+// import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import datas from '../data/datas';
@@ -128,33 +128,49 @@ const Katalog = ({ route }) => {
   };
 
 
-
+  const MAX_NAME_LENGTH = 13;
   const Itemku = ({ costume }) => {
     const { costumeName, costumeDescription } = costume;
-
+    const truncatedName = costume.costumeName.length > MAX_NAME_LENGTH
+    ? `${costume.costumeName.substring(0, MAX_NAME_LENGTH)}...`
+    : costume.costumeName;
     const isMatch =
       costumeName.toLowerCase().includes(searchText.toLowerCase()) ||
       costumeDescription.toLowerCase().includes(searchText.toLowerCase());
 
     return isMatch ? (
       <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
-        <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
-          <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
+        <Box
+          backgroundColor="white"
+          rounded={10}
+          width="100%"
+          paddingVertical={10}
+          paddingHorizontal={20}
+          hardShadow={1}
+        >
+          <Image
+            role="img"
+            alt="gambar"
+            resizeMode="cover"
+            width="100%"
+            height={150}
+            source={{ uri: costume.imageUrl }}
+          />
           <Box p={5}>
-            <HStack >
-              <Box>
-                <Text flex={2} fontSize={13} marginLeft={8} >
-                  {costume.costumeName}
-                </Text>
-              </Box>
-              <Box position='absolute' right={8}>
-                <Text flex={1} fontSize={12} color='#777'>
-                  <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
-                </Text>
-              </Box>
+            <HStack>
+              <Text flex={4} fontSize={12}>
+                {truncatedName}
+              </Text>
+              <Text marginStart={90} position='absolute' fontSize={12} color="#777">
+                <FontAwesome name="star" size={10} color="#FFE81A" /> {costume.averageRating}
+              </Text>
             </HStack>
-            <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
-            <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
+            <Text fontSize={14} marginTop={5} marginBottom={5} fontWeight="bold">
+              Rp {costume.rentalPrice},- / Hari
+            </Text>
+            <Text fontSize={13} color="#777">
+              {costume.username}
+            </Text>
           </Box>
         </Box>
       </Pressable>
@@ -166,17 +182,20 @@ const Katalog = ({ route }) => {
     <Box>
       <ScrollView bgColor='#f5f5f5'>
         <HeaderKatalog searchText={searchText} setSearchText={setSearchText} />
-        <MasonryList
-          data={costume}
-          keyExtractor={item => item.costumeId}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <Itemku costume={item} />}
-          onRefresh={() => refetch({ first: ITEM_CNT })}
-          onEndReachedThreshold={0.1}
-          onEndReached={() => loadNext(ITEM_CNT)}
-          style={{ marginBottom: 100 }}
-        />
+        <Box justifyContent='center' p={10}>
+          <HStack
+            flexDirection="row"
+            flexWrap="wrap"
+            alignItems="center"
+            marginStart={15}
+            marginBottom={130}
+            space="2xl"
+          >
+            {costume.map((item) => (
+              <Itemku key={item.costumeId} costume={item} navigation={navigation} />
+            ))}
+          </HStack>
+        </Box>
       </ScrollView>
     </Box>
 

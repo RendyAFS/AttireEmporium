@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VStack, Text, Image, FlatList, Box, Pressable, ScrollView, HStack } from "@gluestack-ui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import MasonryList from '@react-native-seoul/masonry-list';
+// import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 import firebase from '../firebase'
@@ -133,39 +132,60 @@ const Toko = ({ route }) => {
 
 
     console.log('ini toko ', tokoData)
+    const MAX_NAME_LENGTH = 13;
 
-    const Itemku = ({ costume }) => (
-
-        <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })}   >
-            <Box backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1}>
-                <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
-                <Box p={5}>
-                    <HStack >
-                        <Box>
-                            <Text flex={2} fontSize={13} marginLeft={8} >
-                                {costume.costumeName}
+    const Itemku = ({ costume }) => {
+        const handlePress = () => {
+            navigation.navigate('DetailBarang', { item: costume });
+        };
+        const NamaDisingkat = costume.costumeName.length > MAX_NAME_LENGTH
+            ? `${costume.costumeName.substring(0, MAX_NAME_LENGTH)}...`
+            : costume.costumeName;
+        return (
+            <Pressable onPress={handlePress}>
+                <Box
+                    backgroundColor="white"
+                    rounded={10}
+                    width="100%"
+                    paddingVertical={10}
+                    paddingHorizontal={20}
+                    hardShadow={1}
+                >
+                    <Image
+                        role="img"
+                        alt="gambar"
+                        resizeMode="cover"
+                        width="100%"
+                        height={150}
+                        source={{ uri: costume.imageUrl }}
+                    />
+                    <Box p={5}>
+                        <HStack>
+                            <Text flex={4} fontSize={12}>
+                                {NamaDisingkat}
                             </Text>
-                        </Box>
-                        <Box position='absolute' right={8}>
-                            <Text flex={1} fontSize={12} color='#777'>
-                                <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
+                            <Text marginStart={90} position='absolute' fontSize={12} color="#777">
+                                <FontAwesome name="star" size={10} color="#FFE81A" /> {costume.averageRating}
                             </Text>
-                        </Box>
-                    </HStack>
-                    <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
-                    <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
+                        </HStack>
+                        <Text fontSize={14} marginTop={5} marginBottom={5} fontWeight="bold">
+                            Rp {costume.rentalPrice},- / Hari
+                        </Text>
+                        {costume.status === "Dipinjam" ? (<Text fontSize={13} color="red">
+                            {costume.status}
+                        </Text>) : (<Text fontSize={13} color="green">
+                            {costume.status}
+                        </Text>)}
+                    </Box>
                 </Box>
-            </Box>
-        </Pressable>
-    );
-
+            </Pressable>
+        );
+    };
     useEffect(() => {
         getUserData();
         getCostume();
         getTokoData();
     }, []);
-
-
     const getUserData = async () => {
         try {
             const userDataString = await AsyncStorage.getItem("user-data");
@@ -182,7 +202,6 @@ const Toko = ({ route }) => {
             console.error(error);
         }
     };
-
 
     return (
         <ScrollView backgroundColor='white'>
@@ -201,17 +220,21 @@ const Toko = ({ route }) => {
                     <Text fontSize={16} color='#333333'>{userData.email}</Text>
                 </VStack> */}
                 <Text fontSize={17} fontWeight='bold' marginBottom={8} marginTop={20} color='#021C35'>Katalog</Text>
-                <MasonryList
-                    data={costume}
-                    keyExtractor={item => item.costumeId}
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => <Itemku costume={item} />}
-                    onRefresh={() => refetch({ first: ITEM_CNT })}
-                    onEndReachedThreshold={0.1}
-                    onEndReached={() => loadNext(ITEM_CNT)}
-                />
-
+                <Box justifyContent='center'>
+                    <HStack
+                        flexDirection="row"
+                        flexWrap="wrap"
+                        p={10}
+                        marginBottom={50}
+                        space="xl"
+                        j
+                        alignItems="center"
+                    >
+                        {costume.map((item) => (
+                            <Itemku key={item.costumeId} costume={item} navigation={navigation} />
+                        ))}
+                    </HStack>
+                </Box>
 
             </VStack>
         </ScrollView>

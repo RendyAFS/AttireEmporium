@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  GluestackUIProvider,
   Image,
   Heading,
   Textarea,
@@ -13,6 +12,8 @@ import {
   ModalBackdrop,
   ModalContent,
   ModalHeader,
+  Input,
+  InputField,
   ModalFooter,
   Icon,
   CloseIcon,
@@ -20,66 +21,44 @@ import {
   Button,
   ButtonText,
   ModalCloseButton,
-  CalendarDaysIcon,
   HStack,
 } from "@gluestack-ui/themed";
-  import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+// // import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+// import DatePicker from 'react-native-date-picker'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Linking } from "react-native";
-import { config } from "@gluestack-ui/config";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "../firebase";
-
 
 const FormPenyewaan = ({ route }) => {
   console.log(route.params.data)
   const data = (route.params.data);
+
   const [showModal, setShowModal] = useState(false)
   const ref = React.useRef(null)
   const navigation = useNavigation();
   const [Deskripsi, setDeskripsi] = useState('')
-  const [pickupDate, setPickupDate] = useState(new Date()); // State untuk tanggal peminjaman
+  const [pickupDate, setPickupDate] = useState(new Date());// State untuk tanggal peminjaman
   const [returnDate, setReturnDate] = useState(new Date()); // State untuk tanggal pengembalian
-  const [showPickupDatePicker, setShowPickupDatePicker] = useState(false);
-  const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
+  const [open, setOpen] = useState(false)
   console.log(data.number)
+  console.log(open)
 
-  const getUserData = async () => {
-    try {
-      const userDataString = await AsyncStorage.getItem("user-data");
-      console.log("Data from AsyncStorage:", userDataString)
-      if (userDataString) {
-        const userData = JSON.parse(userDataString);
-        setUserData(userData);
-        const uid = userData.credential.user.uid;
-
-        // Menampilkan UID ke konsol
-        console.log("User UID from AsyncStorage:", uid);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDateChange = (isPickup, text) => {
+    const parts = text.split('/').map(part => parseInt(part, 10));
+    const parsedDate = new Date(parts[2], parts[1] - 1, parts[0]); 
+    isPickup ? setPickupDate(parsedDate) : setReturnDate(parsedDate);
   };
-  const handleGoBack = () => {
-    // Gunakan fungsi navigate untuk kembali ke layar sebelumnya
-    navigation.goBack();
+
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
 
-
-  const onPickupDateChange = (_, selected) => {
-    if (selected) {
-      setPickupDate(selected);
-      setShowPickupDatePicker(false);
-    }
-  };
-
-  const onReturnDateChange = (_, selected) => {
-    if (selected) {
-      setReturnDate(selected);
-      setShowReturnDatePicker(false);
-    }
-  };
   console.log(data.number)
   const handlePostCostume = async () => {
     try {
@@ -148,41 +127,8 @@ const FormPenyewaan = ({ route }) => {
     }
   };
 
-
-  // const confrimCostume = async () => {
-  //   // const nomor = data.number
-
-  //   try {
-  //     const userDataString = await AsyncStorage.getItem("user-data");
-  //     if (userDataString) {
-  //       const userData = JSON.parse(userDataString);
-  //       const uid = userData.credential.user.uid;
-  //       const username = userData.username;
-  //       const number = userData.number;
-  //       const costumeId = data.costumeId
-  //       const database = firebase.database();
-  //       const newCostumeRef = database.ref(`history/${uid}/${costumeId}`).push({
-  //         peeminjaman: pickupDate,
-  //         pengembalian: returnDate,
-
-  //       });
-  //       const nomor = data.number
-
-  //       const whatsappLink = `https://api.whatsapp.com/send/?phone=62${nomor}&text=Halo+kak%2C+saya+ingin+menyewa+kostum+*${data.costumeName}*+dengan\n*Tanggal+pengambilan :*\n${pickupDate.toDateString()}\n*Tanggal+pengembalian :*\n${returnDate.toDateString()}\n*Deskripsi :*\n${Deskripsi}`;
-  //       Linking.openURL(whatsappLink)
-  //         .catch((err) => console.error('Error opening WhatsApp:', err));
-  //       // Menambahkan UID pengguna ke data kostum
-
-  //       console.log('Posted costume with key:', newCostumeRef.key);
-  //       navigation.replace("Tabs");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
   return (
-    
+
     <Box flex={1} flexDirection="column" bgColor="#fff" paddingHorizontal={10}>
       <Box flex={2} bgColor="#fff" alignItems="center" marginTop={8}>
         <Box width={'90%'}>
@@ -206,33 +152,25 @@ const FormPenyewaan = ({ route }) => {
                   Tanggal Peminjaman:
                 </Text>
               </HStack>
-              <Pressable onPress={() => setShowPickupDatePicker(true)}>
-                <Text padding={8} borderWidth={1} borderRadius={5} marginBottom={20}
-                  borderBottomWidth={3}
-                  borderEndWidth={3}
-                  borderTopWidth={1}
-                  borderStartWidth={1}
-                  borderColor='#021C35'>
-                  {pickupDate.toDateString()}
-                </Text>
-              </Pressable>
-              {showPickupDatePicker && (
-                <DateTimePicker
-                  value={pickupDate}
-                  mode="date"
-                  display="calendar"
-                  onChange={onPickupDateChange}
-                  style={{
-                    borderBottomWidth: 3,
-                    borderEndWidth: 3,
-                    borderTopWidth: 1,
-                    borderStartWidth: 1,
-                    borderColor: '#021C35',
-                    // Tambahkan properti gaya lainnya di sini sesuai kebutuhan
-                  }}
+              <Input
+                variant="outline"
+                size="md"
+                isDisabled={false}
+                isInvalid={false}
+                isReadOnly={false}
+                borderColor='#021C35'
+                borderBottomWidth={3}
+                borderEndWidth={3}
+                marginBottom={10}
+                rounded={7}
+              >
+                <InputField
+                  placeholder="DD/MM/YYYY"
+                  value={pickupDate ? formatDate(pickupDate) : ""}
+                  onChangeText={(text) => handleDateChange(true, text)}
+                  keyboardType="numeric"
                 />
-
-              )}
+              </Input>
             </Box>
 
             <Box width="100%">
@@ -241,24 +179,24 @@ const FormPenyewaan = ({ route }) => {
                   Tanggal Pengembalian:
                 </Text>
               </HStack>
-              <Pressable onPress={() => setShowReturnDatePicker(true)} >
-                <Text padding={8} borderWidth={1} borderRadius={5} marginBottom={20}
-                  borderBottomWidth={3}
-                  borderEndWidth={3}
-                  borderTopWidth={1}
-                  borderStartWidth={1}
-                  borderColor='#021C35'>
-                  {returnDate.toDateString()}
-                </Text>
-              </Pressable>
-              {showReturnDatePicker && (
-                <DateTimePicker
-                  value={returnDate}
-                  mode="date"
-                  display="calendar"
-                  onChange={onReturnDateChange}
+              <Input
+                variant="outline"
+                size="md"
+                isDisabled={false}
+                isInvalid={false}
+                marginBottom={10}
+                borderColor='#021C35'
+                borderBottomWidth={3}
+                borderEndWidth={3}
+                isReadOnly={false}
+              >
+                <InputField
+                  placeholder="DD/MM/YYYY"
+                  value={returnDate ? formatDate(returnDate) : ""}
+                  onChangeText={(text) => handleDateChange(false, text)}
+                  keyboardType="numeric"
                 />
-              )}
+              </Input>
             </Box>
           </Box>
 
@@ -284,15 +222,16 @@ const FormPenyewaan = ({ route }) => {
           <Center flex={1} flexDirection="row">
             <Text onPress={() => setShowModal(true)} ref={ref}
               backgroundColor="#021C35"
-              paddingHorizontal={125}
+              paddingHorizontal={140}
               paddingVertical={10}
               borderRadius={10}
               color="white"
               fontWeight="bold"
               marginTop={0}
-              fontSize={16}
+
+              fontSize={13}
             >
-              Konfirmasi & Hubungi
+              Konfirmasi
             </Text>
 
 
@@ -347,6 +286,7 @@ const FormPenyewaan = ({ route }) => {
                 </ModalContent>
               </Center>
             </Modal>
+
           </Center>
         </Box>
       </Box>

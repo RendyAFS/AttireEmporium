@@ -21,6 +21,7 @@ import {
 } from '@gluestack-ui/themed'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firebase from "../firebase";
+// import 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 const Register = () => {
 
@@ -117,7 +118,7 @@ const Register = () => {
                             marginBottom={5}
                             borderColor='#021C35'
                         >
-                            <InputField placeholder="Username" type='text' onChangeText={(username) => setUsername(username)} />
+                            <InputField placeholder="Username" type='text' onChangeText={(username) => setUsername(username)} placeholderTextColor={"grey"}/>
                         </Input>
                         <Input
                             variant="outline"
@@ -133,7 +134,7 @@ const Register = () => {
                             rounded={7}
                             borderColor='#021C35'
                         >
-                            <InputField placeholder="Email@example.com" type='email' onChangeText={(email) => setEmail(email)} />
+                            <InputField placeholder="Email@example.com" type='email' onChangeText={(email) => setEmail(email)} placeholderTextColor={"grey"}/>
                         </Input>
                         <Input
                             variant="outline"
@@ -149,7 +150,7 @@ const Register = () => {
                             marginBottom={5}
                             borderColor='#021C35'
                         >
-                            <InputField placeholder="Nomor WhatsApp" keyboardType="numeric" onChangeText={(nomor) => setNumber(nomor)} />
+                            <InputField placeholder="Nomor WhatsApp" keyboardType="numeric" onChangeText={(nomor) => setNumber(nomor)} placeholderTextColor={"grey"}/>
                         </Input>
                         <Input
                             variant="outline"
@@ -165,7 +166,7 @@ const Register = () => {
                             marginBottom={10}
                             borderColor='#021C35'
                         >
-                            <InputField placeholder="Password" type={showPassword ? "Text" : "password"} onChangeText={(password) => setPassword(password)} />
+                            <InputField placeholder="Password" type={showPassword ? "Text" : "password"} onChangeText={(password) => setPassword(password)} placeholderTextColor={"grey"}/>
                             <InputSlot pr="$3" onPress={handleTogglePassword}>
                                 <InputIcon
                                     as={showPassword ? EyeIcon : EyeOffIcon}

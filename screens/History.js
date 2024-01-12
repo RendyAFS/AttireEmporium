@@ -128,7 +128,7 @@ const History = () => {
         (<FlatList
           style={{ marginBottom: 105 }}
           data={filteredData}
-          keyExtractor={(item) => item.costumeId}
+          keyExtractor={(item, index) => item.costumeId + index}
           renderItem={({ item }) => (
             <Pressable onPress={() => {
               navigation.navigate('FormPengembalian', { item: item })

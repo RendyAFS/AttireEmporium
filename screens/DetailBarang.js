@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Image, Button, Heading, Text, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
-import { Pressable, Alert } from 'react-native';
+import { Box, Image, Text, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
+import { Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import firebase from "../firebase";
@@ -98,7 +98,6 @@ const DetailBarang = ({ route }) => {
 
       const favoriteRef = database.ref(`favoriteCostume/${uid}/${costumeId}`);
       const snapshot = await favoriteRef.once("value");
-
       if (snapshot.exists()) {
         // If the costumeId exists, delete it
         favoriteRef.remove();
@@ -116,32 +115,13 @@ const DetailBarang = ({ route }) => {
           username,
           averageRating,
         };
-
         // Pengecekan untuk memastikan komentar tidak undefined
         if (komentar !== undefined) {
           favoriteData.komentar = komentar;
         }
-
         database.ref(`favoriteCostume/${uid}/${costumeId}`).set(favoriteData);
       }
-
       navigation.replace("Tabs");
-      // Alert.alert(
-      //   'Tersimpan di Favorite!',
-      //   'Barang telah ditambahkan ke daftar Favorite',
-      //   [
-      //     {
-      //       text: 'OK',
-      //       onPress: () => console.log('Favorite Popup Closed'),
-      //     },
-      //     {
-      //       text: 'Cek Favorite mu',
-      //       style: 'color = "#02E107"',
-      //       onPress: () => navigation.navigate('Favorite'),
-      //     },
-      //   ],
-      //   { cancelable: false }
-      // );
     } catch (error) {
       console.error('Error processing favorite:', error);
     }
@@ -151,7 +131,6 @@ const DetailBarang = ({ route }) => {
   };
 
   return (
-
     <Box flex={1} backgroundColor='white' >
       <ScrollView>
         <Image role='img' resizeMode='contain' source={{ uri: data.imageUrl }} alt='gambar barang' width={"100%"} height={300} />
@@ -190,9 +169,11 @@ const DetailBarang = ({ route }) => {
               <FontAwesome5 name="store" size={13} color="#596A7A" />  {data.username}
             </Text>
           </Pressable>
-          <Text fontSize={18} color="#02E107" marginTop={2}>
+          {data.status === "Dipinjam" ? (<Text fontSize={18} color="red" marginTop={2}>
             {data.status}
-          </Text>
+          </Text>) : (<Text fontSize={18} color="green" marginTop={2}>
+            {data.status}
+          </Text>)}
           <Text fontSize={18} marginTop={40} fontWeight="bold">Deskripsi Barang : </Text>
           <Text fontSize={16} marginTop={10}>
             {data.costumeDescription}
@@ -230,12 +211,17 @@ const DetailBarang = ({ route }) => {
           </Box>
         </Box>
       </ScrollView>
+
       <Box width={"100%"} alignItems='center' backgroundColor='transparent' paddingBottom={20} paddingTop={10}>
-        <Pressable onPress={() => navigation.navigate('FormPenyewaan', { data: data })} >
-          <Text marginTop={10} backgroundColor='#021C35' paddingVertical={10} paddingHorizontal={100} color='white' fontWeight='bold' borderRadius={10}>
+        {data.status === "Dipinjam" ? (<Pressable  >
+          <Text marginTop={10} backgroundColor='grey' paddingVertical={10} paddingHorizontal={130} color='white' fontWeight='bold' borderRadius={10} >
+           Dipinjam
+          </Text>
+        </Pressable>) : ( <Pressable onPress={() => navigation.navigate('FormPenyewaan', { data: data })} >
+          <Text marginTop={10} backgroundColor='#021C35' paddingVertical={10} paddingHorizontal={100} color='white' fontWeight='bold' borderRadius={10} >
             Pesan Sekarang!
           </Text>
-        </Pressable>
+        </Pressable>)}
       </Box>
     </Box >
   );
