@@ -28,7 +28,7 @@ import {
   Pressable,
   HStack
 } from "@gluestack-ui/themed";
-import MasonryList from '@react-native-seoul/masonry-list';
+// import MasonryList from '@react-native-seoul/masonry-list';
 import { useNavigation } from "@react-navigation/native";
 import datas from '../data/datas';
 import { Entypo, FontAwesome } from "@expo/vector-icons";
@@ -115,29 +115,52 @@ const Favorite = (props) => {
     }
   };
 
-
-  const Itemku = ({ costume }) => (
-
-    <Pressable onPress={() => navigation.navigate('DetailBarang', { item: costume })} backgroundColor='white' rounded={10} width={'90%'} margin={10} p={0} hardShadow={1} >
-      <Image role='img' alt='gambar' resizeMode='cover' width={'100%'} height={150} source={{ uri: costume.imageUrl }} />
-      <Box p={5}>
-        <HStack >
-          <Box>
-            <Text flex={2} fontSize={13} marginLeft={8} >
-              {costume.costumeName}
+  const MAX_NAME_LENGTH = 13;
+  const Itemku = ({ costume }) => {
+    const handlePress = () => {
+      navigation.navigate('DetailBarang', { item: costume });
+    };
+    const truncatedName = costume.costumeName.length > MAX_NAME_LENGTH
+      ? `${costume.costumeName.substring(0, MAX_NAME_LENGTH)}...`
+      : costume.costumeName;
+    return (
+      <Pressable onPress={handlePress}>
+        <Box
+          backgroundColor="white"
+          rounded={10}
+          width="100%"
+          paddingVertical={10}
+          paddingHorizontal={20}
+          hardShadow={1}
+        >
+          <Image
+            role="img"
+            alt="gambar"
+            resizeMode="cover"
+            width="100%"
+            height={150}
+            source={{ uri: costume.imageUrl }}
+          />
+          <Box p={5}>
+            <HStack>
+              <Text flex={4} fontSize={12}>
+                {truncatedName}
+              </Text>
+              <Text marginStart={90} position='absolute' fontSize={12} color="#777">
+                <FontAwesome name="star" size={10} color="#FFE81A" /> {costume.averageRating}
+              </Text>
+            </HStack>
+            <Text fontSize={14} marginTop={5} marginBottom={5} fontWeight="bold">
+              Rp {costume.rentalPrice},- / Hari
+            </Text>
+            <Text fontSize={13} color="#777">
+              {costume.username}
             </Text>
           </Box>
-          <Box position='absolute' right={8}>
-            <Text flex={1} fontSize={12} color='#777'>
-              <FontAwesome name="star" size={12} color="#FFE81A" /> {costume.averageRating}
-            </Text>
-          </Box>
-        </HStack>
-        <Text marginLeft={8} fontSize={14} marginTop={5} marginBottom={5} fontWeight='bold'>Rp {costume.rentalPrice},- / Hari</Text>
-        <Text fontSize={13} color={'#777'} paddingHorizontal={8} marginBottom={5}>{costume.username}</Text>
-      </Box>
-    </Pressable>
-  );
+        </Box>
+      </Pressable>
+    );
+  };
   const [showModal, setShowModal] = useState(false)
 
   return (
@@ -148,25 +171,27 @@ const Favorite = (props) => {
           <Heading flex={1} marginStart={30} color={'#021C35'}>FAVORITE</Heading>
         </Box>
 
-        <Box alignItems='center' padding={10}>
+        <Box justifyContent='center' p={10}>
+          {costume.length > 0 ? (
+            <HStack
+              flexDirection="row"
+              flexWrap="wrap"
+              marginStart={15}
+              marginBottom={130}
+              space="2xl"
+            >
+              {costume.map((item) => (
+                <Itemku key={item.costumeId} costume={item} navigation={navigation} />
+              ))}
+            </HStack>
+          ) : (
+            <Box marginTop={250} justifyContent='center' alignItems='center'>
+              <Text fontSize={13}>Tambahkan Favorite pada kostum yang kamu suka</Text>
+            </Box>
+          )}
         </Box>
-        {costume.length > 0 ? (
-          <MasonryList
-            data={costume}
-            keyExtractor={(item) => item.costumeId}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <Itemku costume={item} />}
-            onRefresh={() => refetch({ first: ITEM_CNT })}
-            onEndReachedThreshold={0.1}
-            onEndReached={() => loadNext(ITEM_CNT)}
-            style={{ marginBottom: 100 }}
-          />
-        ) : (
-          <Box marginTop={250} justifyContent='center' alignItems='center'>
-            <Text fontSize={13}>Tambahkan Favorite pada kostum yang kamu suka</Text>
-          </Box>
-        )}
+
+
 
 
       </ScrollView>

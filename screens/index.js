@@ -12,9 +12,9 @@ import GetInto2 from "./GetInto2";
 import DetailBarang from "./DetailBarang";
 import EditProfile from "./EditProfile";
 import CreateItem from "./Create";
-import EditItem from "./Edit";
+import EditItem from "./EditItem";
 import ProfileRenter from "./ProfileRenter";
-import Test from "./test";
+
 import Detail from "./Detail";
 import Toko from "./Toko";
 import SplashScreens from "./SplashScreens";
@@ -38,7 +38,6 @@ export {
   CreateItem,
   EditItem,
   ProfileRenter,
-  Test,
   Detail,
   Toko,
   SplashScreens,
